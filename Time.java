@@ -8,10 +8,10 @@ public class Time {
     private long offset;
 
     public Time() {
-        this.pausedStart = 0;
-        this.start = 0;
-        this.end = 0;
-        this.offset = 0;
+        this.pausedStart    = 0;
+        this.start          = 0;
+        this.end            = 0;
+        this.offset         = 0;
     }
 
     /**
@@ -105,18 +105,39 @@ public class Time {
             return (end - start);
     }
 
-    //new time format
+    /**
+     * Returns total time as a double of seconds since timer was started.
+     *
+     * @return Double value of elapsed time since chronoTimer was powered on.
+     */
     public double getTime() {
         long enlapsed = elapsed();
-        // TODO FIX THIS METHOD TO RETURN ELAPSED SECONDS -- DONE
         return Double.parseDouble((String.format("%05d.%d", (enlapsed/ 1000000000) ,(enlapsed % 1000000000)/10000000)));
     }
 
+    /**
+     * Takes a double of seconds and returns a String formatted in hh:mm:ss.ms
+     *
+     * @return String representation of arg seconds as hh:mm:ss.ms
+     */
+    public String timeConversion(double exactSeconds) {
+        double modSeconds = exactSeconds % 60;
+        int intSec = (int) exactSeconds;
+        int mins = (intSec/60)%60;
+        int hours = (mins/60) %24;
+        return hours + ":" + mins + ":" + modSeconds;
+    }
+
     public String toString() {
-        long enlapsed = elapsed();
+        long enlapsed = elapsed() + offset;
         return (String.format("%05d.%d", (enlapsed/ 1000000000) % 60,(enlapsed % 1000000000)/10000000)) + " seconds";
     }
-    // 11:02:22.54
+
+    /**
+     * Takes a String in hh:mm:ss and sets the current system time to that.
+     *
+     * @return long of given string in nanoseconds.
+     */
     public long setTime(String time){
         final long MULT_H = 3600000000000L;
         final long MULT_M = 60000000000L;
@@ -133,7 +154,11 @@ public class Time {
         return offset;
     }
 
-    // returns time + set time in hh:mm:ss.ss
+    /**
+     * String elapsed time (system time) + the set time in hh:mm:ss.ms
+     *
+     * @return String elapsed time + setTime() in hh:mm:ss.ms
+     */
     public String timeStamp() {
         long time = elapsed() + offset;
         long n = time/1000000000;
