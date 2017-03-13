@@ -34,17 +34,16 @@ public class ChronoTimer{
     }
 
     private boolean running = false;
-    private int runNum = 0;
-    private Time theTimer;
-    private Mode mode = Mode.IND;   // default to IND mode
+    private int     runNum = 0;
+    private Time    theTimer;
+    private Mode    mode = Mode.IND;   // default to IND mode
 
     private int[]               lastTrig        = new int[2];
     private boolean[]           channels        = new boolean[8];       // tracks whether channels are enabled
     private Queue<Racer> 		waitingQueue 	= new LinkedList<Racer>();
     private Queue<Racer> 		racingQueue     = new LinkedList<Racer>();
     private ArrayList<Racer> 	finishedList    = new ArrayList<Racer>();
-
-
+    
 
     public ChronoTimer(){
         theTimer = new Time();
@@ -96,18 +95,10 @@ public class ChronoTimer{
                 triggerChannel(arg);
                 break;
             case START:
-                if (this.mode.name().equals("PARIND")) {
-                    parIndStart();
-                }
-                else
-                    triggerChannel("1");
+                if (this.mode.name().equals("PARIND")) { parIndStart();} else {triggerChannel("1"); }
                 break;
             case FINISH:
-                if (this.mode.name().equals("PARIND")) {
-                    parIndEnd();
-                }
-                else
-                    triggerChannel("2");
+                if (this.mode.name().equals("PARIND")) { parIndEnd();} else {triggerChannel("2"); }
                 break;
             case PRINT:
                 print();
@@ -260,7 +251,7 @@ public class ChronoTimer{
         ++runNum;
         Gson g = new Gson();
         String out = g.toJson(finishedList);
-
+        
         Path file = Paths.get(("RUN00" + runNum + ".txt"));
         try {
             Files.write(file, out.getBytes("UTF-8"));
@@ -269,9 +260,9 @@ public class ChronoTimer{
         }
 
         // ends the run, clearing memory n stuff
-        waitingQueue = new LinkedList<Racer>();
-        racingQueue = new LinkedList<Racer>();
-        finishedList = new ArrayList<Racer>();
+        waitingQueue    = new LinkedList<Racer>();
+        racingQueue     = new LinkedList<Racer>();
+        finishedList    = new ArrayList<Racer>();
     }
 
     private void finishRacer(){
@@ -305,22 +296,14 @@ public class ChronoTimer{
         private double raceTime;
         private String startStamp;
         private String endStamp;
-        public String timeStamp;
         private int id;
+
         private Racer(int idNum) {
             id = idNum;
         }
 
-        private String timeConversion(double exactSeconds) {
-            double modSeconds = exactSeconds % 60;
-            int intSec = (int) exactSeconds;
-            int mins = (intSec/60)%60;
-            int hours = (mins/60) %24;
-            return hours + ":" + mins + ":" + modSeconds;
-        }
-
         public String toString(){
-            return ("Racer " + id + ":\n  Start: " + startStamp + "\n  End:   " + endStamp + ("\n  Time of Race: " + timeConversion(raceTime)));
+            return ("Racer " + id + ":\n  Start: " + startStamp + "\n  End:   " + endStamp + ("\n  Time of Race: " + theTimer.timeConversion(raceTime)));
         }
     }
 }
