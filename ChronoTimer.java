@@ -1,7 +1,7 @@
 /*
   CS361
   ChronoTimer
-  Sprint 1
+  Sprint 2
   Team U+FFFD:
   * AJ
   * Emmett
@@ -10,32 +10,40 @@
   * Owen
 */
 
+import com.google.gson.Gson;
+
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Queue;
 
 public class ChronoTimer{
-
+    /*
+     enum defines the event commands
+    */
     public enum Mode{
         IND,
         PARIND,
         GRP,
         PARGRP
     }
-    // enum defines the event commands
-    private boolean running = false;
-    private Time theTimer;
-    // default to IND mode
-    private Mode mode = Mode.IND;
-    // tracks whether channels are enabled
-    private boolean[] channels = new boolean[8];
 
-    private Queue<Racer> 		waitingQueue 	 = new LinkedList<Racer>();
-    private Queue<Racer> 		racingQueue = new LinkedList<Racer>();
-    private ArrayList<Racer> 	finishedList = new ArrayList<Racer>();
-    private int[]               lastTrig = new int[2];
+    private boolean running = false;
+    private int runNum = 0;
+    private Time theTimer;
+    private Mode mode = Mode.IND;   // default to IND mode
+
+    private int[]               lastTrig        = new int[2];
+    private boolean[]           channels        = new boolean[8];       // tracks whether channels are enabled
+    private Queue<Racer> 		waitingQueue 	= new LinkedList<Racer>();
+    private Queue<Racer> 		racingQueue     = new LinkedList<Racer>();
+    private ArrayList<Racer> 	finishedList    = new ArrayList<Racer>();
+
 
 
     public ChronoTimer(){
@@ -45,17 +53,20 @@ public class ChronoTimer{
     // Used by simulator to pass in events
     public void sendEvent(Event e, String arg)
     {
-        // TODO: Check here if the Event needs an arg?
         handleEvent(e, arg);
     }
 
     private void handleEvent(Event e, String arg){
         switch (e){
+            case FILE:
+                break;
             case EVENT:
                 setMode(arg);
                 break;
             case POWER:
                 power();
+                break;
+            case EXIT:
                 break;
             case RESET:
                 reset();
@@ -170,14 +181,14 @@ public class ChronoTimer{
         }
     }
 
-    public void setTime(String hms) {
+    private void setTime(String hms) {
         theTimer.stop();
         // may need to check form!!
         theTimer.setTime(hms);
         theTimer.start();
     }
 
-    public void addRacer(int id) {
+    private void addRacer(int id) {
         waitingQueue.add(new Racer(id));
     }
 
@@ -222,7 +233,7 @@ public class ChronoTimer{
         }
     }
 
-    public void dnfRacer() {
+    private void dnfRacer() {
         // remove top racer from queue
         if(!racingQueue.isEmpty()) {
             Racer dnfRacer = racingQueue.remove();
@@ -245,6 +256,18 @@ public class ChronoTimer{
     }
 
     private void endRun(){
+        // SAVE HERE
+        ++runNum;
+        Gson g = new Gson();
+        String out = g.toJson(finishedList);
+
+        Path file = Paths.get(("RUN00" + runNum + ".txt"));
+        try {
+            Files.write(file, out.getBytes("UTF-8"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
         // ends the run, clearing memory n stuff
         waitingQueue = new LinkedList<Racer>();
         racingQueue = new LinkedList<Racer>();
@@ -272,24 +295,19 @@ public class ChronoTimer{
     }
 
     public void print(){
-        for (Racer r : finishedList){
-            System.out.println(r.toString());
-        }
+        for (Racer r : finishedList) System.out.println(r.toString());
     }
 
     // inner class for encapsulating a racer's data
     private class Racer{
-        public double startTime;
-        public String startStamp;
-        public String endStamp;
-        public double endTime;
-        public double raceTime;
+        private double startTime;
+        private double endTime;
+        private double raceTime;
+        private String startStamp;
+        private String endStamp;
         public String timeStamp;
-        public int id;
-
-        // TODO create state of racer.
-
-        public Racer(int idNum) {
+        private int id;
+        private Racer(int idNum) {
             id = idNum;
         }
 
@@ -298,12 +316,11 @@ public class ChronoTimer{
             int intSec = (int) exactSeconds;
             int mins = (intSec/60)%60;
             int hours = (mins/60) %24;
-
             return hours + ":" + mins + ":" + modSeconds;
         }
 
         public String toString(){
-            return ("Racer " + id + ":\n  Start: " + startStamp + "\n " + "\n  End:   " + endStamp + "\n" + ("\n  Time of Race: " + timeConversion(raceTime)));
+            return ("Racer " + id + ":\n  Start: " + startStamp + "\n  End:   " + endStamp + ("\n  Time of Race: " + timeConversion(raceTime)));
         }
     }
 }
