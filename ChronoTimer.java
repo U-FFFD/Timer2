@@ -128,6 +128,13 @@ public class ChronoTimer{
             triggerChannel("2");//start 1
         }
     }
+  
+  private void groupStart(){
+    	int x = waitingQueue.size();
+    	for(int i = 0; i < x; i++){
+    		startRacer();
+    	}
+    }
 
     private void power() {
         if (!running){
@@ -200,7 +207,8 @@ public class ChronoTimer{
             //starts a racer if the channel is odd
             if (channel%2 == 1){
                 if(waitingQueue.isEmpty()){return;}
-                startRacer();
+                 if(mode == Mode.GRP && channel == 1){ groupStart();}
+                else{startRacer();}
                 lastTrig[0] = channel;
                 System.out.println("STARTED ON CHANNEL: " + channel);
             }
