@@ -256,8 +256,8 @@ public class Main extends Application {
 
 
     public static void main(String[] args) {
-        //Simulator sim = new Simulator();
-        //sim.listen();
-        launch(args);
+        Simulator sim = new Simulator();
+        sim.listen();
+        //launch(args);
     }
 }
