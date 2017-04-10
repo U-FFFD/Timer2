@@ -137,8 +137,8 @@ public class Simulator{
         return 3600 * times[0] + 60 * times[1] + times[2];
     }
 
-    public static void main(String[] args){
-        Simulator sim = new Simulator();
-        sim.listen();
-    }
+   // public static void main(String[] args){
+   //     Simulator sim = new Simulator();
+   //    sim.listen();
+   // }
 }
