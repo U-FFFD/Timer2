@@ -120,7 +120,7 @@ public class Time {
      *
      * @return String representation of arg seconds as hh:mm:ss.ms
      */
-    public String timeConversion(double exactSeconds) {
+    public static String timeConversion(double exactSeconds) {
         double modSeconds = exactSeconds % 60;
         int intSec = (int) exactSeconds;
         int mins = (intSec/60)%60;

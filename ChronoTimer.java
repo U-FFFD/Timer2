@@ -23,30 +23,21 @@ import java.util.LinkedList;
 import java.util.Queue;
 
 public class ChronoTimer{
-    /*
-     enum defines the event commands
-    */
-    public enum Mode{
-        IND,
-        PARIND,
-        GRP,
-        PARGRP
-    }
 
     private boolean running = false;
     private int     runNum = 0;
-    private Time    theTimer;
-    private Mode    mode = Mode.IND;   // default to IND mode
+    private static Time    theTimer = new Time();
+    private RaceMode mode = new IndMode(theTimer);
 
     private int[]               lastTrig        = new int[2];
     private boolean[]           channels        = new boolean[8];       // tracks whether channels are enabled
     private Queue<Racer> 		waitingQueue 	= new LinkedList<Racer>();
     private Queue<Racer> 		racingQueue     = new LinkedList<Racer>();
     private ArrayList<Racer> 	finishedList    = new ArrayList<Racer>();
-    
+
 
     public ChronoTimer(){
-        theTimer = new Time();
+
     }
 
     // Used by simulator to pass in events
@@ -95,10 +86,10 @@ public class ChronoTimer{
                 triggerChannel(arg);
                 break;
             case START:
-                if (this.mode.name().equals("PARIND")) { parIndStart();} else {triggerChannel("1"); }
+                start();
                 break;
             case FINISH:
-                if (this.mode.name().equals("PARIND")) { parIndEnd();} else {triggerChannel("2"); }
+                finish();
                 break;
             case PRINT:
                 print();
@@ -143,7 +134,7 @@ public class ChronoTimer{
     private void reset() {
         running = false;
         theTimer = new Time();
-        mode = Mode.IND;
+        mode = new IndMode(theTimer);
         channels = new boolean[8];
         waitingQueue = new LinkedList<Racer>();
         racingQueue = new LinkedList<Racer>();
@@ -161,14 +152,21 @@ public class ChronoTimer{
         racingQueue = new LinkedList<Racer>();
     }
 
-    private void setMode(String mode){
-        if (mode != null){
-            for (Mode m : Mode.values()){
-                if (m.name().equals(mode)){
-                    System.out.println("Event: " + m.name());
-                    this.mode = m;
-                }
-            }
+    private void setMode(String inmode){
+        if (inmode != null){
+          switch (inmode){
+            case "IND":
+              mode = new IndMode(theTimer);
+              break;
+            case "PARIND":
+              //mode = new ParIndMode();
+              break;
+            case "GRP":
+              //mode = new GrpMode();
+              break;
+            case "PARGRP":
+              //mode = new ParGrpMode();
+          }
         }
     }
 
@@ -180,7 +178,7 @@ public class ChronoTimer{
     }
 
     private void addRacer(int id) {
-        waitingQueue.add(new Racer(id));
+      mode.addRacer(id);
     }
 
     private void toggleChannel(String ch){
@@ -191,119 +189,35 @@ public class ChronoTimer{
     }
 
     private void triggerChannel(String ch){
-        // parse string to int, converts range 1-8 to 0-7
-        int channel = Integer.parseInt(ch) - 1;
+        int channel = Integer.parseInt(ch);
 
-        // checks if the channel is active
-        if (channels[channel]) {
-            channel = channel+1; // must add one back for %2 to work
-            //starts a racer if the channel is odd
-            if (channel%2 == 1){
-                if(waitingQueue.isEmpty()){return;}
-                startRacer();
-                lastTrig[0] = channel;
-                System.out.println("STARTED ON CHANNEL: " + channel);
-            }
-            //ends a racer if the channel is even
-            else{
-                if(racingQueue.isEmpty()){return;}
-                finishRacer();
-                lastTrig[1] = channel;
-                System.out.println("FINISHED ON CHANNEL: " + channel);
-            }
+        // if channel is active, trigger it in mode
+        if (channels[channel - 1]) {
+          mode.triggerChannel(channel);
         }
     }
 
-    private void startRacer(){
-        // moves racer from waitingQueue to the currently racing queue and sets their start time.
-        if (!waitingQueue.isEmpty()) {
-            Racer tempRacer = waitingQueue.remove();
-            tempRacer.startTime = theTimer.getTime();
-            tempRacer.startStamp = theTimer.timeStamp();
-            racingQueue.add(tempRacer);
-        }
+    private void start(){
+      mode.start();
     }
 
     private void dnfRacer() {
-        // remove top racer from queue
-        if(!racingQueue.isEmpty()) {
-            Racer dnfRacer = racingQueue.remove();
-
-            // set end time and race time to negative values
-            dnfRacer.endTime = 0;
-            dnfRacer.endStamp = "DNF (Did Not Finish)";
-            dnfRacer.raceTime = 0;
-
-            // add DNF racer to finished list
-            finishedList.add(dnfRacer);
-        }
+      mode.dnf();
     }
 
     private void newRun(){
-        // set up a new run with empty queues
-        waitingQueue = new LinkedList<Racer>();
-        racingQueue = new LinkedList<Racer>();
-        finishedList = new ArrayList<Racer>();
+      mode.newRun();
     }
 
     private void endRun(){
-        // SAVE HERE
-        ++runNum;
-        Gson g = new Gson();
-        String out = g.toJson(finishedList);
-        
-        Path file = Paths.get(("RUN00" + runNum + ".txt"));
-        try {
-            Files.write(file, out.getBytes("UTF-8"));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        // ends the run, clearing memory n stuff
-        waitingQueue    = new LinkedList<Racer>();
-        racingQueue     = new LinkedList<Racer>();
-        finishedList    = new ArrayList<Racer>();
+      mode.endRun();
     }
 
-    private void finishRacer(){
-        // remove top racer from queue
-        if(!racingQueue.isEmpty()) {
-            Racer finishedRacer = racingQueue.remove();
-
-            // set their finish time
-            finishedRacer.endTime = theTimer.getTime();
-            finishedRacer.endStamp = theTimer.timeStamp();
-            finishedRacer.raceTime = finishedRacer.endTime - finishedRacer.startTime;
-
-            // Round to 2 decimal places. (Hundredths of second)
-            BigDecimal bd = new BigDecimal(finishedRacer.raceTime);
-            bd = bd.setScale(2, RoundingMode.HALF_UP);
-            finishedRacer.raceTime = bd.doubleValue();
-
-            //store finished racer in finished list
-            finishedList.add(finishedRacer);
-        }
+    private void finish(){
+      mode.finish();
     }
 
     public void print(){
-        for (Racer r : finishedList) System.out.println(r.toString());
-    }
-
-    // inner class for encapsulating a racer's data
-    private class Racer{
-        private double startTime;
-        private double endTime;
-        private double raceTime;
-        private String startStamp;
-        private String endStamp;
-        private int id;
-
-        private Racer(int idNum) {
-            id = idNum;
-        }
-
-        public String toString(){
-            return ("Racer " + id + ":\n  Start: " + startStamp + "\n  End:   " + endStamp + ("\n  Time of Race: " + theTimer.timeConversion(raceTime)));
-        }
+      mode.print();
     }
 }
