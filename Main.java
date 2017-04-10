@@ -6,21 +6,34 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 public class Main extends Application {
-
     @Override
     public void start(Stage primaryStage) throws Exception{
         StackPane root = new StackPane();
         root.getStylesheets().addAll(this.getClass().getResource("style.css").toExternalForm());
         primaryStage.setTitle("ChronoTimer 3.00");
 
+        // Title
+        Text sceneTitle = new Text("Chrono Timer");
+        sceneTitle.setId("fancytext");
+        sceneTitle.setTranslateX(0);
+        sceneTitle.setTranslateY(-260);
+
+        // Display Label
+        Label displayLabel = new Label();
+        displayLabel.setText("Queue   /   Running   /   Final Time");
+        displayLabel.setTranslateX(0);
+        displayLabel.setTranslateY(240);
+
+        // Power Button
         Button pwrButton = new Button();
         pwrButton.setText("POWER");
-        pwrButton.setTranslateX(-350);
-        pwrButton.setTranslateY(-250);
+        pwrButton.setTranslateX(-316);
+        pwrButton.setTranslateY(-254);
         pwrButton.setOnAction(new EventHandler<ActionEvent>() {
 
             @Override
@@ -29,10 +42,11 @@ public class Main extends Application {
             }
         });
 
+        // Function Button
         Button fnButton = new Button();
         fnButton.setText("FUNCTION");
-        fnButton.setTranslateX(-350);
-        fnButton.setTranslateY(0);
+        fnButton.setTranslateX(-314);
+        fnButton.setTranslateY(100);
         fnButton.setOnAction(new EventHandler<ActionEvent>() {
 
             @Override
@@ -41,10 +55,11 @@ public class Main extends Application {
             }
         });
 
+        // Swap Button
         Button swapButton = new Button();
         swapButton.setText("SWAP");
-        swapButton.setTranslateX(-350);
-        swapButton.setTranslateY(250);
+        swapButton.setTranslateX(-314);
+        swapButton.setTranslateY(200);
         swapButton.setOnAction(new EventHandler<ActionEvent>() {
 
             @Override
@@ -53,17 +68,24 @@ public class Main extends Application {
             }
         });
 
+        // Printer Power Button
         Button printerButton = new Button();
-        printerButton.setText("Printer Pwr");
-        printerButton.setTranslateX(300);
-        printerButton.setTranslateY(-280);
+        printerButton.setText("PRINTER");
+        printerButton.setTranslateX(310);
+        printerButton.setTranslateY(-254);
 
+
+        /*/////////////////////////////////////////////////
+                    BEGIN BUTTON GRID
+         */////////////////////////////////////////////////
         GridPane grid = new GridPane();
         grid.setAlignment(Pos.CENTER);
         grid.setHgap(4);
         grid.setVgap(4);
-        grid.setTranslateY(100);
-        grid.setTranslateX(200);
+        grid.setTranslateY(120);
+        grid.setTranslateX(300);
+        grid.setMaxSize(220,200);
+        grid.setId("display");
 
         Button key1 = new Button();
         Button key2 = new Button();
@@ -77,6 +99,10 @@ public class Main extends Application {
         Button key0 = new Button();
         Button keyStar = new Button();
         Button keyPound = new Button();
+        Button leftArrow = new Button();
+        Button rightArrow = new Button();
+        Button upArrow = new Button();
+        Button downArrow = new Button();
 
         key1.setOnAction(new EventHandler<ActionEvent>() {
             @Override
@@ -164,6 +190,21 @@ public class Main extends Application {
         keyStar.setText("*");
         keyPound.setText("#");
 
+        upArrow.setId("up-arrow");
+        downArrow.setId("down-arrow");
+        leftArrow.setId("left-arrow");
+        rightArrow.setId("right-arrow");
+
+        upArrow.setTranslateX(-314);
+        downArrow.setTranslateX(-314);
+        leftArrow.setTranslateX(-400);
+        rightArrow.setTranslateX(-228);
+
+        upArrow.setTranslateY(58);
+        downArrow.setTranslateY(142);
+        leftArrow.setTranslateY(100);
+        rightArrow.setTranslateY(101);
+
         grid.add(key1,0,0);
         grid.add(key2,1,0);
         grid.add(key3,2,0);
@@ -176,29 +217,19 @@ public class Main extends Application {
         grid.add(key0,1,3);
         grid.add(keyStar,0,3);
         grid.add(keyPound,2,3);
+        //////////////////// END BUTTON GRID ////////////////////
 
-        grid.setMaxSize(50,50);
-
-        // Begin Trigger controller grid
+        /*////////////////////////////////////////////////////////
+                        CHANNEL GRID
+         *///////////////////////////////////////////////////////
         GridPane channelGrid = new GridPane();
         channelGrid.setAlignment(Pos.CENTER);
-        channelGrid.setHgap(10);
-        channelGrid.setVgap(18);
-        channelGrid.setTranslateY(40);
-        channelGrid.setTranslateX(-60);
-
-        final ToggleGroup group = new ToggleGroup();
-
-        Label enableText = new Label("Enable/Disable");
-        Label enableText2 = new Label("Enable/Disable");
-        Label lCh1 = new Label("1");
-        Label lCh2 = new Label("2");
-        Label lCh3 = new Label("3");
-        Label lCh4 = new Label("4");
-        Label lCh5 = new Label("5");
-        Label lCh6 = new Label("6");
-        Label lCh7 = new Label("7");
-        Label lCh8 = new Label("8");
+        channelGrid.setHgap(12);
+        channelGrid.setVgap(8);
+        channelGrid.setMaxSize(300,200);
+        channelGrid.setTranslateX(0);
+        channelGrid.setTranslateY(-128);
+        channelGrid.setStyle("-fx-background-color: #3c7cc4;");
 
         ToggleButton ch1 = new ToggleButton();
         ToggleButton ch2 = new ToggleButton();
@@ -209,55 +240,139 @@ public class Main extends Application {
         ToggleButton ch7 = new ToggleButton();
         ToggleButton ch8 = new ToggleButton();
 
+        RadioButton rb1 = new RadioButton();
+        RadioButton rb2 = new RadioButton();
+        RadioButton rb3 = new RadioButton();
+        RadioButton rb4 = new RadioButton();
+        RadioButton rb5 = new RadioButton();
+        RadioButton rb6 = new RadioButton();
+        RadioButton rb7 = new RadioButton();
+        RadioButton rb8 = new RadioButton();
+
+        Label armLabel = new Label("Enable/Disable");
+        Label armLabel2 = new Label("Enable/Disable");
+        Label startText = new Label("Start");
+        Label finishText = new Label("Finish");
+        Label lCh1 = new Label("1");
+        Label lCh2 = new Label("2");
+        Label lCh3 = new Label("3");
+        Label lCh4 = new Label("4");
+        Label lCh5 = new Label("5");
+        Label lCh6 = new Label("6");
+        Label lCh7 = new Label("7");
+        Label lCh8 = new Label("8");
+
+        lCh1.setId("label-bright");
+        lCh2.setId("label-bright");
+        lCh3.setId("label-bright");
+        lCh4.setId("label-bright");
+        lCh5.setId("label-bright");
+        lCh6.setId("label-bright");
+        lCh7.setId("label-bright");
+        lCh8.setId("label-bright");
+
+        ch1.setId("start-toggle-button");
+        ch3.setId("start-toggle-button");
+        ch5.setId("start-toggle-button");
+        ch7.setId("start-toggle-button");
+        ch2.setId("finish-toggle-button");
+        ch4.setId("finish-toggle-button");
+        ch6.setId("finish-toggle-button");
+        ch8.setId("finish-toggle-button");
+
         channelGrid.add(lCh1,1,0);
         channelGrid.add(lCh3,2,0);
         channelGrid.add(lCh5,3,0);
         channelGrid.add(lCh7,4,0);
 
-        channelGrid.add(enableText,0,1);
-
+        channelGrid.add(startText,0,1);
         channelGrid.add(ch1, 1,1);
         channelGrid.add(ch3, 2, 1);
         channelGrid.add(ch5, 3, 1);
         channelGrid.add(ch7,4,1);
 
-        channelGrid.add(lCh2,1,2);
-        channelGrid.add(lCh4,2,2);
-        channelGrid.add(lCh6,3,2);
-        channelGrid.add(lCh8,4,2);
+        channelGrid.add(armLabel,0,2);
+        channelGrid.add(rb1,1,2);
+        channelGrid.add(rb3,2,2);
+        channelGrid.add(rb5,3,2);
+        channelGrid.add(rb7,4,2);
 
-        channelGrid.add(enableText2,0,3);
+        channelGrid.add(lCh2,1,3);
+        channelGrid.add(lCh4,2,3);
+        channelGrid.add(lCh6,3,3);
+        channelGrid.add(lCh8,4,3);
 
-        channelGrid.add(ch2, 1 ,3 );
-        channelGrid.add(ch4, 2,3);
-        channelGrid.add(ch6,3,3);
-        channelGrid.add(ch8,4,3);
+        channelGrid.add(finishText,0,4);
+        channelGrid.add(ch2, 1 ,4 );
+        channelGrid.add(ch4, 2,4);
+        channelGrid.add(ch6,3,4);
+        channelGrid.add(ch8,4,4);
 
-        channelGrid.setMaxSize(260,150);
+        channelGrid.add(armLabel2,0,5);
+        channelGrid.add(rb2,1,5);
+        channelGrid.add(rb4,2,5);
+        channelGrid.add(rb6,3,5);
+        channelGrid.add(rb8,4,5);
+        ////////    END CHANNEL GRID ///////////////////
 
+        //////////////  SHAPES /////////////////////////////
+        Rectangle display = new Rectangle(300,260);
+        display.setId("display");
+        display.setTranslateX(0);
+        display.setTranslateY(130);
 
-        Text sceneTitle = new Text("Chrono Timer");
-        sceneTitle.setId("fancytext");
-        sceneTitle.setTranslateX(0);
-        sceneTitle.setTranslateY(-240);
+        Rectangle innerDisplay = new Rectangle(266,216);
+        innerDisplay.setStyle("-fx-fill: #79a6d8");
+        innerDisplay.setTranslateX(0);
+        innerDisplay.setTranslateY(120);
 
+        Rectangle printerShape1 = new Rectangle(180,100);
+        printerShape1.setId("printer-wider");
+        printerShape1.setTranslateX(300);
+        printerShape1.setTranslateY(-90);
+
+        Rectangle printerShape2 = new Rectangle(120,140);
+        printerShape2.setId("printer-narrow");
+        printerShape2.setTranslateX(310);
+        printerShape2.setTranslateY(-120);
+
+        Rectangle printerShadow = new Rectangle(192,100);
+        printerShadow.setStyle("-fx-fill: #5e7da5");
+        printerShadow.setTranslateX(307);
+        printerShadow.setTranslateY(-80);
+
+        Rectangle fnPanelShadow  = new Rectangle(244,210);
+        fnPanelShadow.setId("display");
+        fnPanelShadow.setTranslateX(-314);
+        fnPanelShadow.setTranslateY(126);
+        /////////////// END SHAPES  ////////////////////////////
+
+        root.getChildren().add(display);
+        root.getChildren().add(innerDisplay);
+        root.getChildren().add(fnPanelShadow);
+        root.getChildren().add(printerShadow);
+        root.getChildren().add(printerShape1);
+        root.getChildren().add(printerShape2);
+        root.getChildren().add(upArrow);
+        root.getChildren().add(downArrow);
+        root.getChildren().add(leftArrow);
+        root.getChildren().add(rightArrow);
         root.getChildren().add(sceneTitle);
         root.getChildren().add(channelGrid);
         root.getChildren().add(grid);
         root.getChildren().add(printerButton);
         root.getChildren().add(pwrButton);
         root.getChildren().add(fnButton);
+        root.getChildren().add(displayLabel);
         root.getChildren().add(swapButton);
 
-        //channelGrid.setStyle("-fx-background-color: green;");
         primaryStage.setScene(new Scene(root, 900, 600));
         primaryStage.show();
     }
 
-
     public static void main(String[] args) {
-        Simulator sim = new Simulator();
-        sim.listen();
-        //launch(args);
+        //Simulator sim = new Simulator();
+        //sim.listen();
+        launch(args);
     }
 }
