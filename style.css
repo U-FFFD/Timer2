@@ -1,15 +1,11 @@
 .root {
-    -fx-background-color:#39626d;
-
-
+    -fx-background-color:#1565C0;
 }
-
 #fancytext {
        -fx-font-size: 50pt;
        -fx-font-family: "Segoe UI Light";
        -fx-fill: white;
 }
-
 #bodytext {
     -fx-fill: white;
 }
@@ -17,11 +13,17 @@
     -fx-font-size: 14pt;
     -fx-font-family: "Segoe UI";
     -fx-text-fill: white;
-    -fx-opacity: 0.8;
+    -fx-opacity: 0.9;
 }
-
 .label-bright {
     -fx-font-size: 11pt;
+    -fx-font-family: "Segoe UI Semibold";
+    -fx-text-fill: white;
+    -fx-opacity: 1;
+}
+
+#label-bright {
+    -fx-font-size: 16pt;
     -fx-font-family: "Segoe UI Semibold";
     -fx-text-fill: white;
     -fx-opacity: 1;
@@ -96,21 +98,14 @@
     -fx-font-family: "Segoe UI Semibold";
 }
 
-
-
-/*
- * Metro style Push Button
- * Author: Pedro Duque Vieira
- * http://pixelduke.wordpress.com/2012/10/23/jmetro-windows-8-controls-on-java/
- */
 .button {
-    -fx-padding: 5 22 5 22;
+    -fx-padding: 5 18 5 18;
     -fx-border-color: #e2e2e2;
     -fx-border-width: 2;
     -fx-background-radius: 0;
-    -fx-background-color: #1d1d1d;
+    -fx-background-color: #3d3d3d;
     -fx-font-family: "Segoe UI", Helvetica, Arial, sans-serif;
-    -fx-font-size: 11pt;
+    -fx-font-size: 14pt;
     -fx-text-fill: #d8d8d8;
     -fx-background-insets: 0 0 0 0, 0, 1, 2;
 }
@@ -145,4 +140,72 @@
 
 .button:default:hover {
     -fx-background-color: derive(-fx-focus-color,30%);
+}
+
+.radio-button .radio {
+    -fx-selected-color: #616161;
+    -fx-unselected-color: #EEEEEE;
+    -fx-border-width: 0px;
+    -fx-background-color:  #EEEEEE;
+    -fx-background-image: null;
+    -fx-padding: 4px;
+    -fx-background-insets: 0;
+    /*-fx-mark-highlight-color: #303030 ; */
+    -fx-mark-color: #f6b239 ;
+    -fx-background-radius: 20px;
+    -fx-padding: 4px;
+}
+
+.radio-button .dot {
+    -fx-background-radius: 12px;
+    -fx-padding: 8px;
+    -fx-background-insets: 0;
+}
+
+.toggle-button {
+    -fx-background-insets: 0;
+    -fx-background-color: #EEEEEE;
+    -fx-border-radius: 0px;
+    -fx-border-color: #EEEEEE;
+    -fx-border-width: 3;
+    -fx-background-radius: 0px;
+}
+#start-toggle-button:selected {
+    -fx-background-color: #009d60;
+    -fx-border-radius: 0px;
+    -fx-border-color: #EEEEEE;
+    -fx-border-width: 2;
+    -fx-background-radius: 0px;
+}
+#finish-toggle-button:selected {
+    -fx-background-color: #df3f3b;
+    -fx-border-radius: 0px;
+    -fx-border-color: #EEEEEE;
+    -fx-border-width: 2;
+    -fx-background-radius: 0px;
+}
+#right-arrow {
+    -fx-shape: "M 0,0 L 1,.5 0,1  Z"
+}
+#down-arrow {
+    -fx-shape: "M 0,0 L 1,0 .5,1  Z";
+}
+#up-arrow {
+    -fx-shape: "M 0,1 L 1,1 .5,0 Z";
+}
+#left-arrow {
+    -fx-shape: "M 0,1  L 1,2  1,0  Z"
+}
+#display {
+    -fx-background-color: #3c7cc4;
+    -fx-fill: #3c7cc4;
+}
+#printer-wider {
+    -fx-fill: #7faae2;
+}
+#printer-narrow {
+    -fx-fill: #f2ead7;
+}
+#printer-shadow {
+    -fx-fill: #5e7da5;
 }
