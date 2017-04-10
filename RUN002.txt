@@ -1,1 +1,0 @@
-[{"startTime":85.88,"endTime":95.23,"raceTime":9.35,"startStamp":"00:01:25.88","endStamp":"00:01:35.23","id":444},{"startTime":89.8,"endTime":99.3,"raceTime":9.5,"startStamp":"00:01:29.8","endStamp":"00:01:39.3","id":333},{"startTime":91.58,"endTime":101.83,"raceTime":10.25,"startStamp":"00:01:31.58","endStamp":"00:01:41.83","id":555}]
