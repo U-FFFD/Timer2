@@ -222,6 +222,7 @@ public class Main extends Application {
         /*////////////////////////////////////////////////////////
                         CHANNEL GRID
          *///////////////////////////////////////////////////////
+        final boolean[] isArmed = new boolean[8];
         GridPane channelGrid = new GridPane();
         channelGrid.setAlignment(Pos.CENTER);
         channelGrid.setHgap(12);
@@ -231,23 +232,23 @@ public class Main extends Application {
         channelGrid.setTranslateY(-128);
         channelGrid.setStyle("-fx-background-color: #3c7cc4;");
 
-        ToggleButton ch1 = new ToggleButton();
-        ToggleButton ch2 = new ToggleButton();
-        ToggleButton ch3 = new ToggleButton();
-        ToggleButton ch4 = new ToggleButton();
-        ToggleButton ch5 = new ToggleButton();
-        ToggleButton ch6 = new ToggleButton();
-        ToggleButton ch7 = new ToggleButton();
-        ToggleButton ch8 = new ToggleButton();
+        final ToggleButton ch1 = new ToggleButton();
+        final ToggleButton ch2 = new ToggleButton();
+        final ToggleButton ch3 = new ToggleButton();
+        final ToggleButton ch4 = new ToggleButton();
+        final ToggleButton ch5 = new ToggleButton();
+        final ToggleButton ch6 = new ToggleButton();
+        final ToggleButton ch7 = new ToggleButton();
+        final ToggleButton ch8 = new ToggleButton();
 
-        RadioButton rb1 = new RadioButton();
-        RadioButton rb2 = new RadioButton();
-        RadioButton rb3 = new RadioButton();
-        RadioButton rb4 = new RadioButton();
-        RadioButton rb5 = new RadioButton();
-        RadioButton rb6 = new RadioButton();
-        RadioButton rb7 = new RadioButton();
-        RadioButton rb8 = new RadioButton();
+        final RadioButton rb1 = new RadioButton();
+        final RadioButton rb2 = new RadioButton();
+        final RadioButton rb3 = new RadioButton();
+        final RadioButton rb4 = new RadioButton();
+        final RadioButton rb5 = new RadioButton();
+        final RadioButton rb6 = new RadioButton();
+        final RadioButton rb7 = new RadioButton();
+        final RadioButton rb8 = new RadioButton();
 
         Label armLabel = new Label("Enable/Disable");
         Label armLabel2 = new Label("Enable/Disable");
@@ -313,6 +314,185 @@ public class Main extends Application {
         channelGrid.add(rb4,2,5);
         channelGrid.add(rb6,3,5);
         channelGrid.add(rb8,4,5);
+
+        /////////////////     LISTENERS     ////////////////////////
+        rb1.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                if(rb1.isSelected())
+                    isArmed[0] = true;
+                else
+                    isArmed[0] = false;
+            }
+        });
+        rb2.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                if(rb2.isSelected())
+                    isArmed[1] = true;
+                else
+                    isArmed[1] = false;
+            }
+        });
+        rb3.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                if(rb3.isSelected())
+                    isArmed[2] = true;
+                else
+                    isArmed[2] = false;
+            }
+        });
+        rb4.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                if(rb4.isSelected())
+                    isArmed[3] = true;
+                else
+                    isArmed[3] = false;
+            }
+        });
+        rb5.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                if(rb5.isSelected())
+                    isArmed[4] = true;
+                else
+                    isArmed[4] = false;
+            }
+        });
+        rb6.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                if(rb6.isSelected())
+                    isArmed[5] = true;
+                else
+                    isArmed[5] = false;
+            }
+        });
+        rb7.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                if(rb7.isSelected())
+                    isArmed[6] = true;
+                else
+                    isArmed[6] = false;
+            }
+        });
+        rb8.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                if(rb8.isSelected())
+                    isArmed[7] = true;
+                else
+                    isArmed[7] = false;
+            }
+        });
+
+        ch1.setOnAction(new EventHandler<ActionEvent>() { //WORKS
+            @Override
+            public void handle(ActionEvent event) {
+                if (isArmed[0]) {
+                    if (ch1.isSelected())
+                        ch1.setSelected(true);
+                    else
+                        ch1.setSelected(false);
+                }
+                else
+                    ch1.setSelected(false);
+            }
+        });
+        ch2.setOnAction(new EventHandler<ActionEvent>() { //WORKS
+            @Override
+            public void handle(ActionEvent event) {
+                if (isArmed[1]) {
+                    if (ch2.isSelected())
+                        ch2.setSelected(true);
+                    else
+                        ch2.setSelected(false);
+                }
+                else
+                    ch2.setSelected(false);
+            }
+        });
+        ch3.setOnAction(new EventHandler<ActionEvent>() { //WORKS
+            @Override
+            public void handle(ActionEvent event) {
+                if (isArmed[2]) {
+                    if (ch3.isSelected())
+                        ch3.setSelected(true);
+                    else
+                        ch3.setSelected(false);
+                }
+                else
+                    ch3.setSelected(false);
+            }
+        });
+        ch4.setOnAction(new EventHandler<ActionEvent>() { //WORKS
+            @Override
+            public void handle(ActionEvent event) {
+                if (isArmed[3]) {
+                    if (ch4.isSelected())
+                        ch4.setSelected(true);
+                    else
+                        ch4.setSelected(false);
+                }
+                else
+                    ch4.setSelected(false);
+            }
+        });
+        ch5.setOnAction(new EventHandler<ActionEvent>() { //WORKS
+            @Override
+            public void handle(ActionEvent event) {
+                if (isArmed[4]) {
+                    if (ch5.isSelected())
+                        ch5.setSelected(true);
+                    else
+                        ch5.setSelected(false);
+                }
+                else
+                    ch5.setSelected(false);
+            }
+        });
+        ch6.setOnAction(new EventHandler<ActionEvent>() { //WORKS
+            @Override
+            public void handle(ActionEvent event) {
+                if (isArmed[5]) {
+                    if (ch6.isSelected())
+                        ch6.setSelected(true);
+                    else
+                        ch6.setSelected(false);
+                }
+                else
+                    ch6.setSelected(false);
+            }
+        });
+        ch7.setOnAction(new EventHandler<ActionEvent>() { //WORKS
+            @Override
+            public void handle(ActionEvent event) {
+                if (isArmed[6]) {
+                    if (ch7.isSelected())
+                        ch7.setSelected(true);
+                    else
+                        ch7.setSelected(false);
+                }
+                else
+                    ch7.setSelected(false);
+            }
+        });
+        ch8.setOnAction(new EventHandler<ActionEvent>() { //WORKS
+            @Override
+            public void handle(ActionEvent event) {
+                if (isArmed[7]) {
+                    if (ch8.isSelected())
+                        ch8.setSelected(true);
+                    else
+                        ch8.setSelected(false);
+                }
+                else
+                    ch8.setSelected(false);
+            }
+        });
         ////////    END CHANNEL GRID ///////////////////
 
         //////////////  SHAPES /////////////////////////////
