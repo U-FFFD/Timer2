@@ -3,7 +3,10 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.RadioButton;
+import javafx.scene.control.ToggleButton;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.shape.Rectangle;
@@ -42,19 +45,6 @@ public class Main extends Application {
             }
         });
 
-        // Function Button
-        Button fnButton = new Button();
-        fnButton.setText("FUNCTION");
-        fnButton.setTranslateX(-314);
-        fnButton.setTranslateY(100);
-        fnButton.setOnAction(new EventHandler<ActionEvent>() {
-
-            @Override
-            public void handle(ActionEvent event) {
-                System.out.println("Function Click");
-            }
-        });
-
         // Swap Button
         Button swapButton = new Button();
         swapButton.setText("SWAP");
@@ -80,6 +70,64 @@ public class Main extends Application {
             }
         });
 
+        //////////////      FUNCTION PANEL      //////////////////////////
+        Button fnButton = new Button();
+        fnButton.setText("FUNCTION");
+        fnButton.setTranslateX(-314);
+        fnButton.setTranslateY(100);
+
+        Button leftArrow = new Button();
+        Button rightArrow = new Button();
+        Button upArrow = new Button();
+        Button downArrow = new Button();
+
+        upArrow.setId("up-arrow");
+        downArrow.setId("down-arrow");
+        leftArrow.setId("left-arrow");
+        rightArrow.setId("right-arrow");
+
+        upArrow.setTranslateX(-314);
+        downArrow.setTranslateX(-314);
+        leftArrow.setTranslateX(-400);
+        rightArrow.setTranslateX(-228);
+
+        upArrow.setTranslateY(58);
+        downArrow.setTranslateY(142);
+        leftArrow.setTranslateY(100);
+        rightArrow.setTranslateY(101);
+
+        // Listeners
+        fnButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                System.out.println("Function Click");
+            }
+        });
+        upArrow.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                System.out.println("Up Arrow");
+            }
+        });
+        downArrow.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                System.out.println("Down Arrow");
+            }
+        });
+        leftArrow.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                System.out.println("Left Arrow");
+            }
+        });
+        rightArrow.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                System.out.println("Right Arrow");
+            }
+        });
+        //// END FUNCTION PANEL  ///////////////////////////
 
         /*/////////////////////////////////////////////////
                     BEGIN BUTTON GRID
@@ -105,10 +153,6 @@ public class Main extends Application {
         Button key0 = new Button();
         Button keyStar = new Button();
         Button keyPound = new Button();
-        Button leftArrow = new Button();
-        Button rightArrow = new Button();
-        Button upArrow = new Button();
-        Button downArrow = new Button();
 
         key1.setOnAction(new EventHandler<ActionEvent>() {
             @Override
@@ -196,21 +240,6 @@ public class Main extends Application {
         keyStar.setText("*");
         keyPound.setText("#");
 
-        upArrow.setId("up-arrow");
-        downArrow.setId("down-arrow");
-        leftArrow.setId("left-arrow");
-        rightArrow.setId("right-arrow");
-
-        upArrow.setTranslateX(-314);
-        downArrow.setTranslateX(-314);
-        leftArrow.setTranslateX(-400);
-        rightArrow.setTranslateX(-228);
-
-        upArrow.setTranslateY(58);
-        downArrow.setTranslateY(142);
-        leftArrow.setTranslateY(100);
-        rightArrow.setTranslateY(101);
-
         grid.add(key1,0,0);
         grid.add(key2,1,0);
         grid.add(key3,2,0);
@@ -232,7 +261,7 @@ public class Main extends Application {
         GridPane channelGrid = new GridPane();
         channelGrid.setAlignment(Pos.CENTER);
         channelGrid.setHgap(12);
-        channelGrid.setVgap(8);
+        channelGrid.setVgap(6);
         channelGrid.setMaxSize(300,206);
         channelGrid.setTranslateX(0);
         channelGrid.setTranslateY(-124);
@@ -260,14 +289,14 @@ public class Main extends Application {
         Label armLabel2 = new Label("Enable/Disable");
         Label startText = new Label("Start");
         Label finishText = new Label("Finish");
-        Label lCh1 = new Label("1");
-        Label lCh2 = new Label("2");
-        Label lCh3 = new Label("3");
-        Label lCh4 = new Label("4");
-        Label lCh5 = new Label("5");
-        Label lCh6 = new Label("6");
-        Label lCh7 = new Label("7");
-        Label lCh8 = new Label("8");
+        Label lCh1 = new Label("  1");
+        Label lCh2 = new Label("  2");
+        Label lCh3 = new Label("  3");
+        Label lCh4 = new Label("  4");
+        Label lCh5 = new Label("  5");
+        Label lCh6 = new Label("  6");
+        Label lCh7 = new Label("  7");
+        Label lCh8 = new Label("  8");
 
         lCh1.setId("label-bright");
         lCh2.setId("label-bright");
