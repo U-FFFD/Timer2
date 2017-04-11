@@ -38,7 +38,7 @@ public class Main extends Application {
 
             @Override
             public void handle(ActionEvent event) {
-                System.out.println("Button 1 output");
+                System.out.println("Power Click");
             }
         });
 
@@ -51,7 +51,7 @@ public class Main extends Application {
 
             @Override
             public void handle(ActionEvent event) {
-                System.out.println("Button 2 output");
+                System.out.println("Function Click");
             }
         });
 
@@ -64,7 +64,7 @@ public class Main extends Application {
 
             @Override
             public void handle(ActionEvent event) {
-                System.out.println("Button 3 output");
+                System.out.println("Swap Click");
             }
         });
 
@@ -73,6 +73,12 @@ public class Main extends Application {
         printerButton.setText("PRINTER");
         printerButton.setTranslateX(310);
         printerButton.setTranslateY(-254);
+        printerButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                System.out.println("Printer Pwr Click");
+            }
+        });
 
 
         /*/////////////////////////////////////////////////
@@ -227,9 +233,9 @@ public class Main extends Application {
         channelGrid.setAlignment(Pos.CENTER);
         channelGrid.setHgap(12);
         channelGrid.setVgap(8);
-        channelGrid.setMaxSize(300,200);
+        channelGrid.setMaxSize(300,206);
         channelGrid.setTranslateX(0);
-        channelGrid.setTranslateY(-128);
+        channelGrid.setTranslateY(-124);
         channelGrid.setStyle("-fx-background-color: #3c7cc4;");
 
         final ToggleButton ch1 = new ToggleButton();
