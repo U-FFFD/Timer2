@@ -1,3 +1,6 @@
+import javafx.animation.FadeTransition;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -12,16 +15,17 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception{
-        StackPane root = new StackPane();
+        final StackPane root = new StackPane();
         root.getStylesheets().addAll(this.getClass().getResource("style.css").toExternalForm());
         primaryStage.setTitle("ChronoTimer 3.00");
 
         // Title
-        Text sceneTitle = new Text("Chrono Timer");
+        final Text sceneTitle = new Text("Chrono Timer");
         sceneTitle.setId("fancytext");
         sceneTitle.setTranslateX(0);
         sceneTitle.setTranslateY(-260);
@@ -32,18 +36,12 @@ public class Main extends Application {
         displayLabel.setTranslateX(0);
         displayLabel.setTranslateY(240);
 
-        // Power Button
-        Button pwrButton = new Button();
-        pwrButton.setText("POWER");
-        pwrButton.setTranslateX(-316);
-        pwrButton.setTranslateY(-254);
-        pwrButton.setOnAction(new EventHandler<ActionEvent>() {
-
-            @Override
-            public void handle(ActionEvent event) {
-                System.out.println("Power Click");
-            }
-        });
+        // Display text field
+        final Label screen = new Label();
+        screen.setId("screen-text");
+        screen.setTranslateX(-100);
+        screen.setTranslateY(36);
+        screen.setText("Hello");
 
         // Swap Button
         Button swapButton = new Button();
@@ -97,6 +95,7 @@ public class Main extends Application {
         rightArrow.setTranslateY(101);
 
         // Listeners
+        final CmdList theList = new CmdList();
         fnButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
@@ -118,13 +117,12 @@ public class Main extends Application {
         leftArrow.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
-                System.out.println("Left Arrow");
+                screen.setText(theList.left());
             }
         });
         rightArrow.setOnAction(new EventHandler<ActionEvent>() {
             @Override
-            public void handle(ActionEvent actionEvent) {
-                System.out.println("Right Arrow");
+            public void handle(ActionEvent actionEvent) {  screen.setText(theList.right());
             }
         });
         //// END FUNCTION PANEL  ///////////////////////////
@@ -537,7 +535,7 @@ public class Main extends Application {
         display.setTranslateY(130);
 
         Rectangle innerDisplay = new Rectangle(266,216);
-        innerDisplay.setStyle("-fx-fill: #79a6d8");
+        innerDisplay.setStyle("-fx-fill: #6a9bd1");
         innerDisplay.setTranslateX(0);
         innerDisplay.setTranslateY(120);
 
@@ -560,7 +558,16 @@ public class Main extends Application {
         fnPanelShadow.setId("display");
         fnPanelShadow.setTranslateX(-314);
         fnPanelShadow.setTranslateY(126);
+
+        final Rectangle cover  = new Rectangle(1000,700);
+        cover.setStyle("-fx-fill: #051930");
         /////////////// END SHAPES  ////////////////////////////
+        // Power Button
+        final Button pwrButton = new Button();
+        pwrButton.setId("waiting-button");
+        pwrButton.setText("POWER");
+        pwrButton.setTranslateX(-316);
+        pwrButton.setTranslateY(-254);
 
         root.getChildren().add(display);
         root.getChildren().add(innerDisplay);
@@ -572,14 +579,48 @@ public class Main extends Application {
         root.getChildren().add(downArrow);
         root.getChildren().add(leftArrow);
         root.getChildren().add(rightArrow);
-        root.getChildren().add(sceneTitle);
         root.getChildren().add(channelGrid);
         root.getChildren().add(grid);
         root.getChildren().add(printerButton);
-        root.getChildren().add(pwrButton);
         root.getChildren().add(fnButton);
         root.getChildren().add(displayLabel);
         root.getChildren().add(swapButton);
+        root.getChildren().add(screen);
+        root.getChildren().add(cover);
+        root.getChildren().add(pwrButton);
+        root.getChildren().add(sceneTitle);
+
+        final FadeTransition rt = new FadeTransition(Duration.millis(3000), cover);
+        final boolean[] isOn = {false};
+        pwrButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                if(!isOn[0]) {
+                    pwrButton.setId("");
+                    rt.setFromValue(1.0);
+                    rt.setToValue(0.0);
+                    rt.play();
+                    Timeline timeline = new Timeline();
+                    timeline.getKeyFrames().add(new KeyFrame(Duration.seconds(3),
+                            new EventHandler<ActionEvent>() {
+                                @Override
+                                public void handle(ActionEvent event) {
+                                    root.getChildren().remove(cover);
+                                }
+                            }));
+                    timeline.play();
+                    isOn[0] = true;
+                }
+                else {
+                    pwrButton.setId("waiting-button");
+                    root.getChildren().add(17,cover);
+                    rt.setToValue(1.0);
+                    rt.setFromValue(0.0);
+                    rt.play();
+                    isOn[0] = false;
+                }
+            }
+        });
 
         primaryStage.setScene(new Scene(root, 900, 600));
         primaryStage.show();
