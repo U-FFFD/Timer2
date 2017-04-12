@@ -24,16 +24,16 @@ import java.util.Queue;
 
 public class ChronoTimer{
 
-    private boolean running = false;
-    private int     runNum = 0;
-    private static Time    theTimer = new Time();
-    private RaceMode mode = new IndMode(theTimer);
+    protected boolean running = false;
+    protected int     runNum = 0;
+    protected static Time    theTimer = new Time();
+    protected RaceMode mode = new IndMode(theTimer);
 
-    private int[]               lastTrig        = new int[2];
-    private boolean[]           channels        = new boolean[8];       // tracks whether channels are enabled
-    private Queue<Racer> 		waitingQueue 	= new LinkedList<Racer>();
-    private Queue<Racer> 		racingQueue     = new LinkedList<Racer>();
-    private ArrayList<Racer> 	finishedList    = new ArrayList<Racer>();
+    protected int[]               lastTrig        = new int[2];
+    protected boolean[]           channels        = new boolean[8];       // tracks whether channels are enabled
+    protected Queue<Racer> 		waitingQueue 	= new LinkedList<Racer>();
+    protected Queue<Racer> 		racingQueue     = new LinkedList<Racer>();
+    protected ArrayList<Racer> 	finishedList    = new ArrayList<Racer>();
 
 
     public ChronoTimer(){
@@ -46,7 +46,7 @@ public class ChronoTimer{
         handleEvent(e, arg);
     }
 
-    private void handleEvent(Event e, String arg){
+    protected void handleEvent(Event e, String arg){
         switch (e){
             case FILE:
                 break;
@@ -100,7 +100,7 @@ public class ChronoTimer{
         }
     }
 
-    private void parIndStart() {
+    protected void parIndStart() {
         if(lastTrig[0] == 0)
             triggerChannel("1");//start 1
         else if(lastTrig[0] == 1)
@@ -110,7 +110,7 @@ public class ChronoTimer{
         }
     }
 
-    private void parIndEnd() {
+    protected void parIndEnd() {
         if(lastTrig[1] == 0)
             triggerChannel("2");//start 1
         else if(lastTrig[1] == 2)
@@ -120,14 +120,14 @@ public class ChronoTimer{
         }
     }
 
-  private void groupStart(){
-    	int x = waitingQueue.size();
-    	for(int i = 0; i < x; i++){
-    		startRacer();
-    	}
-    }
+//  protected void groupStart(){
+//    	int x = waitingQueue.size();
+//    	for(int i = 0; i < x; i++){
+//    		startRacer();
+//    	}
+//    }
 
-    private void power() {
+    protected void power() {
         if (!running){
             running = true;
             reset();
@@ -138,7 +138,7 @@ public class ChronoTimer{
         }
     }
 
-    private void reset() {
+    protected void reset() {
         running = false;
         theTimer = new Time();
         mode = new IndMode(theTimer);
@@ -148,7 +148,7 @@ public class ChronoTimer{
 
     }
 
-    private void cancel() {
+    protected void cancel() {
         while (!waitingQueue.isEmpty()) {
             racingQueue.add(waitingQueue.remove());
         }
@@ -156,7 +156,7 @@ public class ChronoTimer{
         racingQueue = new LinkedList<Racer>();
     }
 
-    private void setMode(String inmode){
+    protected void setMode(String inmode){
         if (inmode != null){
           switch (inmode){
             case "IND":
@@ -174,49 +174,64 @@ public class ChronoTimer{
         }
     }
 
-    private void setTime(String hms) {
+    protected void setTime(String hms) {
         theTimer.stop();
         // may need to check form!!
         theTimer.setTime(hms);
         theTimer.start();
     }
 
-    private void addRacer(int id) {
+    protected void addRacer(int id) {
       mode.addRacer(id);
     }
 
-    private void toggleChannel(String ch){
+    protected void toggleChannel(String ch){
         // parse string to int, converts range 1-8 to 0-7
         int channel = Integer.parseInt(ch) - 1;
         // toggles that channel
         channels[channel] = !channels[channel];
     }
 
-    private void triggerChannel(String ch){
+    protected void triggerChannel(String ch){
         int channel = Integer.parseInt(ch);
         // if channel is active, trigger it in mode
         if (channels[channel - 1]) {
           mode.triggerChannel(channel);
         }
     }
+    
+    protected void export(){
+        // SAVE HERE
+        ++runNum;
+        Gson g = new Gson();
+        String out = g.toJson(finishedList);
 
-    private void start(){
+        Path file = Paths.get(("RUN00" + runNum + ".txt"));
+        try {
+            Files.write(file, out.getBytes("UTF-8"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    protected void start(){
       mode.start();
     }
 
-    private void dnfRacer() {
+    protected void dnfRacer() {
       mode.dnf();
     }
 
-    private void newRun(){
+    protected void newRun(){
       mode.newRun();
     }
 
-    private void endRun(){
+    protected void endRun(){
       mode.endRun();
     }
 
-    private void finish(){
+    protected void finish(){
       mode.finish();
     }
 
