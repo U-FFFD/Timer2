@@ -6,6 +6,12 @@
        -fx-font-family: "Segoe UI Light";
        -fx-fill: white;
 }
+#screen-text {
+    -fx-font-family: "Segoe UI", Helvetica, Arial, sans-serif;
+    -fx-font-size: 20pt;
+    -fx-text-fill: #3d3d3d;
+
+}
 #bodytext {
     -fx-fill: white;
 }
@@ -100,7 +106,7 @@
 
 .button {
     -fx-padding: 5 18 5 18;
-    -fx-border-color: #e2e2e2;
+    -fx-border-color: #85b1ea;
     -fx-border-width: 2;
     -fx-background-radius: 0;
     -fx-background-color: #3d3d3d;
@@ -109,18 +115,22 @@
     -fx-text-fill: #d8d8d8;
     -fx-background-insets: 0 0 0 0, 0, 1, 2;
 }
+#waiting-button {
+    -fx-border-color: #ffffff;
+    -fx-background-color: #d84141;
+}
 
 .button:hover {
-    -fx-background-color: #3a3a3a;
+    -fx-background-color: #4c4b4b;
 }
 
 .button:pressed, .button:default:hover:pressed {
-  -fx-background-color: white;
+  -fx-background-color: #EEEEEE;
   -fx-text-fill: #1d1d1d;
 }
 
 .button:focused {
-    -fx-border-color: white, white;
+    -fx-border-color: #8ebdf9, white;
     -fx-border-width: 1, 1;
     -fx-border-style: solid, segments(1, 1);
     -fx-border-radius: 0, 0;
@@ -150,7 +160,6 @@
     -fx-background-image: null;
     -fx-padding: 4px;
     -fx-background-insets: 0;
-    /*-fx-mark-highlight-color: #303030 ; */
     -fx-mark-color: #f6b239 ;
     -fx-background-radius: 20px;
     -fx-padding: 4px;
@@ -166,21 +175,21 @@
     -fx-background-insets: 0;
     -fx-background-color: #EEEEEE;
     -fx-border-radius: 0px;
-    -fx-border-color: #EEEEEE;
+    -fx-border-color: #c4c4c4;
     -fx-border-width: 3;
     -fx-background-radius: 0px;
 }
-#start-toggle-button:selected {
+#start-toggle-button:pressed {
     -fx-background-color: #009d60;
     -fx-border-radius: 0px;
-    -fx-border-color: #EEEEEE;
+    -fx-border-color: #c4c4c4;
     -fx-border-width: 2;
     -fx-background-radius: 0px;
 }
-#finish-toggle-button:selected {
+#finish-toggle-button:pressed {
     -fx-background-color: #df3f3b;
     -fx-border-radius: 0px;
-    -fx-border-color: #EEEEEE;
+    -fx-border-color: #c4c4c4;
     -fx-border-width: 2;
     -fx-background-radius: 0px;
 }
@@ -194,7 +203,7 @@
     -fx-shape: "M 0,1 L 1,1 .5,0 Z";
 }
 #left-arrow {
-    -fx-shape: "M 0,1  L 1,2  1,0  Z"
+    -fx-shape: "M 0,1 L 1,2  1,0  Z"
 }
 #display {
     -fx-background-color: #3c7cc4;
