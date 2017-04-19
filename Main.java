@@ -66,7 +66,7 @@ public class Main extends Application {
         Label displayLabel = new Label();
         displayLabel.setText("Queue   /   Running   /   Final Time");
         displayLabel.setTranslateX(-120);
-        displayLabel.setTranslateY(310);
+        displayLabel.setTranslateY(320);
 
         // Display text field
         final Text screen = new Text();
@@ -146,7 +146,7 @@ public class Main extends Application {
                 //String enteredCmd = screen.getText().substring(0,screen.getText().length());
                 String enteredCmd = theList.getCmd();
                 switch (enteredCmd) {
-                    case "MODE":
+                    case "EVENT":
                         theList.setMode("RACE_TYPE");
                         screen.setText(screen.getText() + "\n" + "Choose Mode:");
                         theList.isCmd = false;
@@ -174,7 +174,7 @@ public class Main extends Application {
                         screen.setText(screen.getText() + "\n" + "Use num pad to input bib numbers \n('*' to enter id, '#' to finish adding)\n#");
                         theList.isCmd = false;
                         break;
-                    case "TIME":
+                    case "SET TIME":
                         state[0] = "TIME_SET";
                         screen.setText(screen.getText() + "\n" + "Use num pad to enter time as hh:mm:ss \n('*' to set)");
                         theList.isCmd = false;
@@ -204,13 +204,13 @@ public class Main extends Application {
         upArrow.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
-                System.out.println("Up Arrow");
+                scroll.setVvalue(scroll.getVvalue() - 0.1);
             }
         });
         downArrow.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
-                System.out.println("Down Arrow");
+                scroll.setVvalue(scroll.getVvalue() + 0.1);
             }
         });
         leftArrow.setOnAction(new EventHandler<ActionEvent>() {
@@ -747,10 +747,10 @@ public class Main extends Application {
         root.getChildren().add(grid);
         root.getChildren().add(printerButton);
         root.getChildren().add(fnButton);
-        root.getChildren().add(displayLabel);
         root.getChildren().add(swapButton);
-        root.getChildren().add(scroll);
         root.getChildren().add(printScroll);
+        root.getChildren().add(scroll);
+        root.getChildren().add(displayLabel);
         root.getChildren().add(cover);
         root.getChildren().add(pwrButton);
         root.getChildren().add(sceneTitle);
