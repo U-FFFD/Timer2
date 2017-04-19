@@ -8,6 +8,7 @@ interface RaceMode{
   public void start();
   public void finish();
   public void dnf();
+   public void swap();
 
   /** run control methods */
   public void newRun();
