@@ -95,7 +95,23 @@ class IndMode implements RaceMode{
         finishedList.add(finishedRacer);
     }
   }
-
+  
+   public void swap(){
+	  if(racingQueue.size() >= 2){
+	  Queue<Racer> tempRacingQueue = new LinkedList<Racer>();
+	  
+	  Racer nextToFinish = racingQueue.remove();
+	  Racer secondToFinish = racingQueue.remove();
+	  
+	  //second racer to finish moves to first
+	  tempRacingQueue.add(secondToFinish);     
+	  tempRacingQueue.add(nextToFinish);
+	  
+	  for (Racer r : racingQueue) tempRacingQueue.add(r);
+	  
+	  racingQueue = tempRacingQueue;
+	  }
+  }
   public String print(){
       String s = "";
         for (Racer r : finishedList)  {
