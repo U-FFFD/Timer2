@@ -190,18 +190,8 @@ public class ChronoTimer{
         }
     }
   
-    protected void export(){
-        // SAVE HERE
-        Gson g = new Gson();
-        String out = g.toJson(finishedList);
-
-        Path file = Paths.get(("RUN00" + runNum + ".txt"));
-        try {
-            Files.write(file, out.getBytes("UTF-8"));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
+     protected void export(){
+       mode.export();
     }
   
     protected void swap(){
