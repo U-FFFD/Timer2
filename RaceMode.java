@@ -14,4 +14,5 @@ interface RaceMode{
   public void newRun();
   public void endRun();
   public String print();
+  public void export();
 }
