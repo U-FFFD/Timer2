@@ -11,14 +11,14 @@ public class CmdList {
     public CmdList() {
         state = "BASE";
         this.i = -1;
-        cmds.add("MODE");
+        cmds.add("EVENT");
         cmds.add("NEW RUN");
         cmds.add("END RUN");
         cmds.add("ADD RACERS");
         cmds.add("PRINT");
         cmds.add("FILE");
         cmds.add("RESET");
-        cmds.add("TIME");
+        cmds.add("SET TIME");
         cmds.add("DNF");
         cmds.add("CANCEL");
     }
@@ -51,19 +51,19 @@ public class CmdList {
         cmds.removeAll(cmds);
         if(s.equals("RACE_TYPE")) {
             state = "MODE";
+            cmds.add("GROUP");
             cmds.add("IND");
             cmds.add("PAR IND");
-            cmds.add("GROUP");
         } else if(s.equals("BASE")) {
             state = "BASE";
-            cmds.add("MODE");
+            cmds.add("EVENT");
             cmds.add("ADD RACERS");
             cmds.add("NEW RUN");
             cmds.add("END RUN");
             cmds.add("PRINT");
             cmds.add("FILE");
             cmds.add("RESET");
-            cmds.add("TIME");
+            cmds.add("SET TIME");
             cmds.add("DNF");
             cmds.add("CANCEL");
         } else{}
