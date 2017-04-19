@@ -18,7 +18,7 @@ class IndMode implements RaceMode{
 
   private Time theTimer = new Time();
 
-  private int runNum = 0;
+  private int runNum = 1;
 
   private Queue<Racer> waitingQueue = new LinkedList<Racer>();
   private Queue<Racer> racingQueue = new LinkedList<Racer>();
@@ -112,6 +112,8 @@ class IndMode implements RaceMode{
 	  racingQueue = tempRacingQueue;
 	  }
   }
+	
+  
   public String print(){
       String s = "";
         for (Racer r : finishedList)  {
@@ -128,24 +130,29 @@ class IndMode implements RaceMode{
   }
 
   public void endRun(){
-    // SAVE HERE
-    ++runNum;
-    Gson g = new Gson();
-    String out = g.toJson(finishedList);
-
-    Path file = Paths.get(("RUN00" + runNum + ".txt"));
-    try {
-        Files.write(file, out.getBytes("UTF-8"));
-    } catch (IOException e) {
-        e.printStackTrace();
-    }
-
+    export();
+     ++runNum;
     // ends the run, clearing memory n stuff
     waitingQueue    = new LinkedList<Racer>();
     racingQueue     = new LinkedList<Racer>();
     finishedList    = new ArrayList<Racer>();
+	  
+   
   }
+   
+  public void export(){
+      // SAVE HERE
+      Gson g = new Gson();
+      String out = g.toJson(finishedList);
 
+      Path file = Paths.get(("RUN00" + runNum + ".txt"));
+      try {
+          Files.write(file, out.getBytes("UTF-8"));
+      } catch (IOException e) {
+          e.printStackTrace();
+      }
+  }
+	
   public void dnf(){
     if(!racingQueue.isEmpty()) {
         Racer dnfRacer = racingQueue.remove();
