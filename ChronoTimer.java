@@ -203,6 +203,10 @@ public class ChronoTimer{
         }
 
     }
+  
+    protected void swap(){
+      mode.swap();
+    }
 
     protected void start(){
       mode.start();
