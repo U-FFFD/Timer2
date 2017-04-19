@@ -14,6 +14,7 @@ public class CmdList {
         cmds.add("EVENT");
         cmds.add("NEW RUN");
         cmds.add("END RUN");
+        cmds.add("EXPORT");
         cmds.add("ADD RACERS");
         cmds.add("PRINT");
         cmds.add("FILE");
@@ -60,6 +61,7 @@ public class CmdList {
             cmds.add("ADD RACERS");
             cmds.add("NEW RUN");
             cmds.add("END RUN");
+            cmds.add("EXPORT");
             cmds.add("PRINT");
             cmds.add("FILE");
             cmds.add("RESET");
