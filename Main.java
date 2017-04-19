@@ -18,15 +18,137 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 
 public class Main extends Application {
-
-
     @Override
     public void start(Stage primaryStage) throws Exception {
+        final StackPane rearPanel = new StackPane();
+        Scene scene2 = new Scene(rearPanel, 900, 200);
+        final Stage stage = new Stage();
+        stage.setTitle("New Rear View");
+        stage.setScene(scene2);
+        rearPanel.getStylesheets().addAll(this.getClass().getResource("style.css").toExternalForm());
+        rearPanel.setStyle("-fx-background-color:#1565C0");
+
+        final Rectangle cover2 = new Rectangle(1000, 700);
+        cover2.setStyle("-fx-fill: #051930");
+    /*////////////////////////////////////////////////////////
+                        CHANNEL GRID
+     *///////////////////////////////////////////////////////
+        GridPane connectionGrid = new GridPane();
+        connectionGrid.setAlignment(Pos.CENTER);
+        connectionGrid.setHgap(12);
+        connectionGrid.setVgap(6);
+        connectionGrid.setMaxSize(300, 206);
+        connectionGrid.setTranslateX(-190);
+        connectionGrid.setTranslateY(0);
+        connectionGrid.setStyle("-fx-background-color: #3c7cc4;");
+
+        final RadioButton cn1 = new RadioButton();
+        final RadioButton cn2 = new RadioButton();
+        final RadioButton cn3 = new RadioButton();
+        final RadioButton cn4 = new RadioButton();
+        final RadioButton cn5 = new RadioButton();
+        final RadioButton cn6 = new RadioButton();
+        final RadioButton cn7 = new RadioButton();
+        final RadioButton cn8 = new RadioButton();
+
+        Label channelLabel = new Label("Channel");
+        Label channelLabel2 = new Label("Channel");
+        Label cnL1 = new Label("  1");
+        Label cnL2 = new Label("  2");
+        Label cnL3 = new Label("  3");
+        Label cnL4 = new Label("  4");
+        Label cnL5 = new Label("  5");
+        Label cnL6 = new Label("  6");
+        Label cnL7 = new Label("  7");
+        Label cnL8 = new Label("  8");
+
+        cnL1.setId("label-bright");
+        cnL2.setId("label-bright");
+        cnL3.setId("label-bright");
+        cnL4.setId("label-bright");
+        cnL5.setId("label-bright");
+        cnL6.setId("label-bright");
+        cnL7.setId("label-bright");
+        cnL8.setId("label-bright");
+
+        connectionGrid.add(channelLabel, 0, 0);
+        connectionGrid.add(cnL1, 1, 0);
+        connectionGrid.add(cnL3, 2, 0);
+        connectionGrid.add(cnL5, 3, 0);
+        connectionGrid.add(cnL7, 4, 0);
+
+        connectionGrid.add(cn1, 1, 1);
+        connectionGrid.add(cn3, 2, 1);
+        connectionGrid.add(cn5, 3, 1);
+        connectionGrid.add(cn7, 4, 1);
+
+        connectionGrid.add(cnL2, 1, 2);
+        connectionGrid.add(cnL4, 2, 2);
+        connectionGrid.add(cnL6, 3, 2);
+        connectionGrid.add(cnL8, 4, 2);
+
+        connectionGrid.add(channelLabel2, 0, 3);
+        connectionGrid.add(cn2, 1, 3);
+        connectionGrid.add(cn4, 2, 3);
+        connectionGrid.add(cn6, 3, 3);
+        connectionGrid.add(cn8, 4, 3);
+
+        /////////////////     LISTENERS     ////////////////////////
+
+        Rectangle usbShape1 = new Rectangle(54, 20);
+        usbShape1.setStyle("-fx-fill: #383838");
+        usbShape1.setTranslateX(200);
+        usbShape1.setTranslateY(-40);
+
+        Rectangle usbShape2 = new Rectangle(40, 5);
+        usbShape2.setStyle("-fx-fill: #a8a8a8");
+        usbShape2.setTranslateX(201);
+        usbShape2.setTranslateY(-42);
+
+        Rectangle usbBackground = new Rectangle(130, 50);
+        usbBackground.setId("display");
+        usbBackground.setTranslateX(178);
+        usbBackground.setTranslateY(-40);
+
+        Label usbLabel = new Label();
+        usbLabel.setText("USB");
+        usbLabel.setId("screen-text");
+        usbLabel.setTranslateX(142);
+        usbLabel.setTranslateY(-40);
+
+        rearPanel.getChildren().add(usbBackground);
+        rearPanel.getChildren().add(usbLabel);
+        rearPanel.getChildren().add(usbShape1);
+        rearPanel.getChildren().add(usbShape2);
+        rearPanel.getChildren().add(connectionGrid);
+        rearPanel.getChildren().add(cover2);
+        stage.setY(740.0);
+        stage.setX(500.0);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         final StackPane root = new StackPane();
         root.getStylesheets().addAll(this.getClass().getResource("style.css").toExternalForm());
         primaryStage.setTitle("ChronoTimer 3.00");
         final ChronoTimer timer = new ChronoTimer();
-
         final String[] state = new String[1];
         state[0] = "BASE";
         final int[] lastCmdLength = {0};
@@ -46,7 +168,6 @@ public class Main extends Application {
 
             @Override
             public void handle(ActionEvent event) {
-                System.out.println("Swap Click");
                 timer.swap();
             }
         });
@@ -66,8 +187,8 @@ public class Main extends Application {
         // Display Label
         Label displayLabel = new Label();
         displayLabel.setText("Queue   /   Running   /   Final Time");
-        displayLabel.setTranslateX(-120);
-        displayLabel.setTranslateY(320);
+        displayLabel.setTranslateX(0);
+        displayLabel.setTranslateY(242);
 
         // Display text field
         final Text screen = new Text();
@@ -772,18 +893,21 @@ public class Main extends Application {
                             new EventHandler<ActionEvent>() {
                                 @Override
                                 public void handle(ActionEvent event) {
+                                    rearPanel.getChildren().remove(cover2);
                                     root.getChildren().remove(cover);
                                 }
                             }));
                     timeline.play();
+                    stage.show();
                     isOn[0] = true;
                 } else {
                     pwrButton.setId("waiting-button");
-                    root.getChildren().add(17, cover);
+                    root.getChildren().add(18, cover);
                     rt.setToValue(1.0);
                     rt.setFromValue(0.0);
                     rt.play();
                     isOn[0] = false;
+                    stage.hide();
                 }
             }
         });
