@@ -12,6 +12,5 @@ interface RaceMode{
   /** run control methods */
   public void newRun();
   public void endRun();
-
-  public void print();
+  public String print();
 }

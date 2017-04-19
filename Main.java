@@ -2,46 +2,40 @@ import javafx.animation.FadeTransition;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Application;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.RadioButton;
-import javafx.scene.control.ToggleButton;
+import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
 public class Main extends Application {
+
+
     @Override
-    public void start(Stage primaryStage) throws Exception{
+    public void start(Stage primaryStage) throws Exception {
         final StackPane root = new StackPane();
         root.getStylesheets().addAll(this.getClass().getResource("style.css").toExternalForm());
         primaryStage.setTitle("ChronoTimer 3.00");
+        final ChronoTimer timer = new ChronoTimer();
+
+        final String[] state = new String[1];
+        state[0] = "BASE";
+        final int[] lastCmdLength = {0};
 
         // Title
         final Text sceneTitle = new Text("Chrono Timer");
         sceneTitle.setId("fancytext");
         sceneTitle.setTranslateX(0);
         sceneTitle.setTranslateY(-260);
-
-        // Display Label
-        Label displayLabel = new Label();
-        displayLabel.setText("Queue   /   Running   /   Final Time");
-        displayLabel.setTranslateX(0);
-        displayLabel.setTranslateY(240);
-
-        // Display text field
-        final Label screen = new Label();
-        screen.setId("screen-text");
-        screen.setTranslateX(-100);
-        screen.setTranslateY(36);
-        screen.setText("Hello");
 
         // Swap Button
         Button swapButton = new Button();
@@ -68,7 +62,57 @@ public class Main extends Application {
             }
         });
 
+        // Display Label
+        Label displayLabel = new Label();
+        displayLabel.setText("Queue   /   Running   /   Final Time");
+        displayLabel.setTranslateX(-120);
+        displayLabel.setTranslateY(310);
+
+        // Display text field
+        final Text screen = new Text();
+        screen.setId("screen-text");
+        VBox vBox = new VBox();
+        vBox.getChildren().add(screen);
+        final ScrollPane scroll = new ScrollPane();
+        scroll.setTranslateX(0);
+        scroll.setMaxSize(260, 212);
+        Scene scene = new Scene(scroll, 252, 212);
+        scroll.setTranslateY(120);
+        scroll.setStyle("-fx-background-color: #598abf");
+        screen.wrappingWidthProperty().bind(scene.widthProperty());
+        scroll.setFitToWidth(true);
+        scroll.setContent(vBox);
+        vBox.heightProperty().addListener(new ChangeListener() {
+            @Override
+            public void changed(ObservableValue observable, Object oldvalue, Object newValue) {
+                scroll.setVvalue((Double) newValue);
+            }
+        });
+
+        // Printer
+        final Text printerOut = new Text();
+        printerOut.setId("printer-text");
+        VBox printBox = new VBox();
+        printBox.getChildren().add(printerOut);
+        final ScrollPane printScroll = new ScrollPane();
+        printScroll.setTranslateX(312);
+        printScroll.setTranslateY(-120);
+        printScroll.setMaxSize(130, 140);
+        printScroll.setStyle("-fx-background-color: #f2ead7");
+        Scene printerScene = new Scene(printScroll, 120, 140);
+        printerOut.wrappingWidthProperty().bind(printerScene.widthProperty());
+        printScroll.setFitToWidth(true);
+        printScroll.setContent(printBox);
+        printBox.heightProperty().addListener(new ChangeListener() {
+            @Override
+            public void changed(ObservableValue observable, Object oldvalue, Object newValue) {
+                printScroll.setVvalue((Double) newValue);
+            }
+        });
+
+
         //////////////      FUNCTION PANEL      //////////////////////////
+
         Button fnButton = new Button();
         fnButton.setText("FUNCTION");
         fnButton.setTranslateX(-314);
@@ -99,9 +143,64 @@ public class Main extends Application {
         fnButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                System.out.println("Function Click");
+                //String enteredCmd = screen.getText().substring(0,screen.getText().length());
+                String enteredCmd = theList.getCmd();
+                switch (enteredCmd) {
+                    case "MODE":
+                        theList.setMode("RACE_TYPE");
+                        screen.setText(screen.getText() + "\n" + "Choose Mode:");
+                        theList.isCmd = false;
+                        break;
+                    case "IND":
+                        timer.setMode("IND");
+                        screen.setText(screen.getText() + "\n" + "Mode set to IND");
+                        theList.isCmd = false;
+                        theList.setMode("BASE");
+                        break;
+                    case "PAR IND":
+                        timer.setMode("PARIND");
+                        screen.setText(screen.getText() + "\n" + "Mode set to PARIND");
+                        theList.isCmd = false;
+                        theList.setMode("BASE");
+                        break;
+                    case "GROUP":
+                        timer.setMode("GRP");
+                        screen.setText(screen.getText() + "\n" + "Mode set to GRP");
+                        theList.isCmd = false;
+                        theList.setMode("BASE");
+                        break;
+                    case "ADD RACERS":
+                        state[0] = "ADD";
+                        screen.setText(screen.getText() + "\n" + "Use num pad to input bib numbers \n('*' to enter id, '#' to finish adding)\n#");
+                        theList.isCmd = false;
+                        break;
+                    case "TIME":
+                        state[0] = "TIME_SET";
+                        screen.setText(screen.getText() + "\n" + "Use num pad to enter time as hh:mm:ss \n('*' to set)");
+                        theList.isCmd = false;
+                        break;
+                    case "NEW RUN":
+                        timer.newRun();
+                        break;
+                    case "END RUN":
+                        timer.endRun();
+                        break;
+                    case "EXPORT" :
+                        //timer.export();
+                        break;
+                    case "PRINT":
+                        timer.print();
+                        printerOut.setText(timer.print());
+                        break;
+                    case "RESET" :
+                        timer.reset();
+                        break;
+                    default:
+                        break;
+                }
             }
         });
+
         upArrow.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
@@ -117,12 +216,25 @@ public class Main extends Application {
         leftArrow.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
-                screen.setText(theList.left());
+                if (theList.isCmd() == false) {
+                    screen.setText(screen.getText() + "\n" + theList.right());
+                    theList.isCmd = true;
+                } else {
+                    int offset = theList.getCmd().length();
+                    screen.setText(screen.getText().substring(0, screen.getText().length() - offset) + theList.left());
+                }
             }
         });
         rightArrow.setOnAction(new EventHandler<ActionEvent>() {
             @Override
-            public void handle(ActionEvent actionEvent) {  screen.setText(theList.right());
+            public void handle(ActionEvent actionEvent) {
+                if (theList.isCmd() == false) {
+                    screen.setText(screen.getText() + "\n" + theList.right());
+                    theList.isCmd = true;
+                } else {
+                    int offset = theList.getCmd().length();
+                    screen.setText(screen.getText().substring(0, screen.getText().length() - offset) + theList.right());
+                }
             }
         });
         //// END FUNCTION PANEL  ///////////////////////////
@@ -136,7 +248,7 @@ public class Main extends Application {
         grid.setVgap(4);
         grid.setTranslateY(120);
         grid.setTranslateX(300);
-        grid.setMaxSize(220,200);
+        grid.setMaxSize(220, 200);
         grid.setId("display");
 
         Button key1 = new Button();
@@ -152,76 +264,208 @@ public class Main extends Application {
         Button keyStar = new Button();
         Button keyPound = new Button();
 
+        final String[] racer = {""};
+        final String[] time = new String[1];
+        time[0] = "";
         key1.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                System.out.println("NUM 1");
+                if (state[0].equals("ADD")) {
+                    racer[0] = racer[0] + "1";
+                    screen.setText(screen.getText() + "1");
+                } else if (state[0].equals("TIME_SET")) {
+                    if (time[0].length() < 8) {
+                        time[0] = (time[0] + 1);
+                        screen.setText(screen.getText() + 1);
+                        if ((time[0].length() == 2) || (time[0].length() == 5)) {
+                            time[0] = time[0] + ":";
+                            screen.setText(screen.getText() + ":");
+                        }
+                    }
+                }
             }
         });
         key2.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                System.out.println("NUM 2");
+                if (state[0].equals("ADD")) {
+                    racer[0] = racer[0] + "2";
+                    screen.setText(screen.getText() + "2");
+                } else if (state[0].equals("TIME_SET")) {
+                    if (time[0].length() < 8) {
+                        time[0] = (time[0] + 2);
+                        screen.setText(screen.getText() + 2);
+                        if ((time[0].length() == 2) || (time[0].length() == 5)) {
+                            time[0] = time[0] + ":";
+                            screen.setText(screen.getText() + ":");
+                        }
+                    }
+                }
             }
         });
         key3.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                System.out.println("NUM 3");
+                if (state[0].equals("ADD")) {
+                    racer[0] = racer[0] + "3";
+                    screen.setText(screen.getText() + "3");
+                } else if (state[0].equals("TIME_SET")) {
+                    if (time[0].length() < 8) {
+                        time[0] = (time[0] + 3);
+                        screen.setText(screen.getText() + 3);
+                        if ((time[0].length() == 2) || (time[0].length() == 5)) {
+                            time[0] = time[0] + ":";
+                            screen.setText(screen.getText() + ":");
+                        }
+                    }
+                }
             }
         });
         key4.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                System.out.println("NUM 4");
+                if (state[0].equals("ADD")) {
+                    racer[0] = racer[0] + "4";
+                    screen.setText(screen.getText() + "4");
+                } else if (state[0].equals("TIME_SET")) {
+                    if (time[0].length() < 8) {
+                        time[0] = (time[0] + 4);
+                        screen.setText(screen.getText() + 4);
+                        if ((time[0].length() == 2) || (time[0].length() == 5)) {
+                            time[0] = time[0] + ":";
+                            screen.setText(screen.getText() + ":");
+                        }
+                    }
+                }
             }
         });
         key5.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                System.out.println("NUM 5");
+                if (state[0].equals("ADD")) {
+                    racer[0] = racer[0] + "5";
+                    screen.setText(screen.getText() + "5");
+                } else if (state[0].equals("TIME_SET")) {
+                    if (time[0].length() < 8) {
+                        time[0] = (time[0] + 5);
+                        screen.setText(screen.getText() + 5);
+                        if ((time[0].length() == 2) || (time[0].length() == 5)) {
+                            time[0] = time[0] + ":";
+                            screen.setText(screen.getText() + ":");
+                        }
+                    }
+                }
             }
         });
         key6.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                System.out.println("NUM 6");
+                if (state[0].equals("ADD")) {
+                    racer[0] = racer[0] + "6";
+                    screen.setText(screen.getText() + "6");
+                } else if (state[0].equals("TIME_SET")) {
+                    if (time[0].length() < 8) {
+                        time[0] = (time[0] + 6);
+                        screen.setText(screen.getText() + 6);
+                        if ((time[0].length() == 2) || (time[0].length() == 5)) {
+                            time[0] = time[0] + ":";
+                            screen.setText(screen.getText() + ":");
+                        }
+                    }
+                }
             }
         });
         key7.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                System.out.println("NUM 7");
+                if (state[0].equals("ADD")) {
+                    racer[0] = racer[0] + "7";
+                    screen.setText(screen.getText() + "7");
+                } else if (state[0].equals("TIME_SET")) {
+                    if (time[0].length() < 8) {
+                        time[0] = (time[0] + 7);
+                        screen.setText(screen.getText() + 7);
+                        if ((time[0].length() == 2) || (time[0].length() == 5)) {
+                            time[0] = time[0] + ":";
+                            screen.setText(screen.getText() + ":");
+                        }
+                    }
+                }
             }
         });
         key8.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                System.out.println("NUM 8");
+                if (state[0].equals("ADD")) {
+                    racer[0] = racer[0] + "8";
+                    screen.setText(screen.getText() + "8");
+                } else if (state[0].equals("TIME_SET")) {
+                    if (time[0].length() < 8) {
+                        time[0] = (time[0] + 8);
+                        screen.setText(screen.getText() + 8);
+                        if ((time[0].length() == 2) || (time[0].length() == 5)) {
+                            time[0] = time[0] + ":";
+                            screen.setText(screen.getText() + ":");
+                        }
+                    }
+                }
             }
         });
         key9.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                System.out.println("NUM 9");
+                if (state[0].equals("ADD")) {
+                    racer[0] = racer[0] + "9";
+                    screen.setText(screen.getText() + "9");
+                } else if (state[0].equals("TIME_SET")) {
+                    if (time[0].length() < 8) {
+                        time[0] = (time[0] + 9);
+                        screen.setText(screen.getText() + 9);
+                        if ((time[0].length() == 2) || (time[0].length() == 5)) {
+                            time[0] = time[0] + ":";
+                            screen.setText(screen.getText() + ":");
+                        }
+                    }
+                }
             }
         });
         key0.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                System.out.println("NUM 0");
+                if (state[0].equals("ADD")) {
+                    racer[0] = racer[0] + "0";
+                    screen.setText(screen.getText() + "0");
+                } else if (state[0].equals("TIME_SET")) {
+                    if (time[0].length() < 8) {
+                        time[0] = (time[0] + 0);
+                        screen.setText(screen.getText() + 0);
+                        if ((time[0].length() == 2) || (time[0].length() == 5)) {
+                            time[0] = time[0] + ":";
+                            screen.setText(screen.getText() + ":");
+                        }
+                    }
+                }
             }
         });
         keyStar.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                System.out.println("*");
+                if (state[0].equals("ADD")) {
+                    if ((!racer[0].contains("^[0-9]+$")) && !racer[0].equals("")) {
+                        int i = Integer.parseInt(racer[0]);
+                        timer.addRacer(i);
+                    }
+                    racer[0] = "";
+                    screen.setText(screen.getText() + "\n#");
+                } else if (state[0].equals("TIME_SET")) {
+                    timer.setTime(time[0]);
+                }
             }
         });
         keyPound.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                System.out.println("#");
+                state[0] = "BASE";
             }
         });
 
@@ -238,18 +482,18 @@ public class Main extends Application {
         keyStar.setText("*");
         keyPound.setText("#");
 
-        grid.add(key1,0,0);
-        grid.add(key2,1,0);
-        grid.add(key3,2,0);
-        grid.add(key4,0,1);
-        grid.add(key5,1,1);
-        grid.add(key6,2,1);
-        grid.add(key7,0,2);
-        grid.add(key8,1,2);
-        grid.add(key9,2,2);
-        grid.add(key0,1,3);
-        grid.add(keyStar,0,3);
-        grid.add(keyPound,2,3);
+        grid.add(key1, 0, 0);
+        grid.add(key2, 1, 0);
+        grid.add(key3, 2, 0);
+        grid.add(key4, 0, 1);
+        grid.add(key5, 1, 1);
+        grid.add(key6, 2, 1);
+        grid.add(key7, 0, 2);
+        grid.add(key8, 1, 2);
+        grid.add(key9, 2, 2);
+        grid.add(key0, 1, 3);
+        grid.add(keyStar, 0, 3);
+        grid.add(keyPound, 2, 3);
         //////////////////// END BUTTON GRID ////////////////////
 
         /*////////////////////////////////////////////////////////
@@ -260,7 +504,7 @@ public class Main extends Application {
         channelGrid.setAlignment(Pos.CENTER);
         channelGrid.setHgap(12);
         channelGrid.setVgap(6);
-        channelGrid.setMaxSize(300,206);
+        channelGrid.setMaxSize(300, 206);
         channelGrid.setTranslateX(0);
         channelGrid.setTranslateY(-124);
         channelGrid.setStyle("-fx-background-color: #3c7cc4;");
@@ -314,252 +558,172 @@ public class Main extends Application {
         ch6.setId("finish-toggle-button");
         ch8.setId("finish-toggle-button");
 
-        channelGrid.add(lCh1,1,0);
-        channelGrid.add(lCh3,2,0);
-        channelGrid.add(lCh5,3,0);
-        channelGrid.add(lCh7,4,0);
+        channelGrid.add(lCh1, 1, 0);
+        channelGrid.add(lCh3, 2, 0);
+        channelGrid.add(lCh5, 3, 0);
+        channelGrid.add(lCh7, 4, 0);
 
-        channelGrid.add(startText,0,1);
-        channelGrid.add(ch1, 1,1);
+        channelGrid.add(startText, 0, 1);
+        channelGrid.add(ch1, 1, 1);
         channelGrid.add(ch3, 2, 1);
         channelGrid.add(ch5, 3, 1);
-        channelGrid.add(ch7,4,1);
+        channelGrid.add(ch7, 4, 1);
 
-        channelGrid.add(armLabel,0,2);
-        channelGrid.add(rb1,1,2);
-        channelGrid.add(rb3,2,2);
-        channelGrid.add(rb5,3,2);
-        channelGrid.add(rb7,4,2);
+        channelGrid.add(armLabel, 0, 2);
+        channelGrid.add(rb1, 1, 2);
+        channelGrid.add(rb3, 2, 2);
+        channelGrid.add(rb5, 3, 2);
+        channelGrid.add(rb7, 4, 2);
 
-        channelGrid.add(lCh2,1,3);
-        channelGrid.add(lCh4,2,3);
-        channelGrid.add(lCh6,3,3);
-        channelGrid.add(lCh8,4,3);
+        channelGrid.add(lCh2, 1, 3);
+        channelGrid.add(lCh4, 2, 3);
+        channelGrid.add(lCh6, 3, 3);
+        channelGrid.add(lCh8, 4, 3);
 
-        channelGrid.add(finishText,0,4);
-        channelGrid.add(ch2, 1 ,4 );
-        channelGrid.add(ch4, 2,4);
-        channelGrid.add(ch6,3,4);
-        channelGrid.add(ch8,4,4);
+        channelGrid.add(finishText, 0, 4);
+        channelGrid.add(ch2, 1, 4);
+        channelGrid.add(ch4, 2, 4);
+        channelGrid.add(ch6, 3, 4);
+        channelGrid.add(ch8, 4, 4);
 
-        channelGrid.add(armLabel2,0,5);
-        channelGrid.add(rb2,1,5);
-        channelGrid.add(rb4,2,5);
-        channelGrid.add(rb6,3,5);
-        channelGrid.add(rb8,4,5);
+        channelGrid.add(armLabel2, 0, 5);
+        channelGrid.add(rb2, 1, 5);
+        channelGrid.add(rb4, 2, 5);
+        channelGrid.add(rb6, 3, 5);
+        channelGrid.add(rb8, 4, 5);
 
         /////////////////     LISTENERS     ////////////////////////
         rb1.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                if(rb1.isSelected())
-                    isArmed[0] = true;
-                else
-                    isArmed[0] = false;
+                timer.toggleChannel("1");
             }
         });
         rb2.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                if(rb2.isSelected())
-                    isArmed[1] = true;
-                else
-                    isArmed[1] = false;
+                timer.toggleChannel("2");
             }
         });
         rb3.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                if(rb3.isSelected())
-                    isArmed[2] = true;
-                else
-                    isArmed[2] = false;
+                timer.toggleChannel("3");
             }
         });
         rb4.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                if(rb4.isSelected())
-                    isArmed[3] = true;
-                else
-                    isArmed[3] = false;
+                timer.toggleChannel("4");
             }
         });
         rb5.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                if(rb5.isSelected())
-                    isArmed[4] = true;
-                else
-                    isArmed[4] = false;
+                timer.toggleChannel("5");
             }
         });
         rb6.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                if(rb6.isSelected())
-                    isArmed[5] = true;
-                else
-                    isArmed[5] = false;
+                timer.toggleChannel("6");
             }
         });
         rb7.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                if(rb7.isSelected())
-                    isArmed[6] = true;
-                else
-                    isArmed[6] = false;
+                timer.toggleChannel("7");
             }
         });
         rb8.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                if(rb8.isSelected())
-                    isArmed[7] = true;
-                else
-                    isArmed[7] = false;
+                timer.toggleChannel("8");
             }
         });
 
         ch1.setOnAction(new EventHandler<ActionEvent>() { //WORKS
             @Override
             public void handle(ActionEvent event) {
-                if (isArmed[0]) {
-                    if (ch1.isSelected())
-                        ch1.setSelected(true);
-                    else
-                        ch1.setSelected(false);
-                }
-                else
-                    ch1.setSelected(false);
+                timer.triggerChannel("1");
             }
         });
         ch2.setOnAction(new EventHandler<ActionEvent>() { //WORKS
             @Override
             public void handle(ActionEvent event) {
-                if (isArmed[1]) {
-                    if (ch2.isSelected())
-                        ch2.setSelected(true);
-                    else
-                        ch2.setSelected(false);
-                }
-                else
-                    ch2.setSelected(false);
+                timer.triggerChannel("2");
             }
         });
         ch3.setOnAction(new EventHandler<ActionEvent>() { //WORKS
             @Override
             public void handle(ActionEvent event) {
-                if (isArmed[2]) {
-                    if (ch3.isSelected())
-                        ch3.setSelected(true);
-                    else
-                        ch3.setSelected(false);
-                }
-                else
-                    ch3.setSelected(false);
+                timer.triggerChannel("3");
             }
         });
         ch4.setOnAction(new EventHandler<ActionEvent>() { //WORKS
             @Override
             public void handle(ActionEvent event) {
-                if (isArmed[3]) {
-                    if (ch4.isSelected())
-                        ch4.setSelected(true);
-                    else
-                        ch4.setSelected(false);
-                }
-                else
-                    ch4.setSelected(false);
+                timer.triggerChannel("4");
             }
         });
         ch5.setOnAction(new EventHandler<ActionEvent>() { //WORKS
             @Override
             public void handle(ActionEvent event) {
-                if (isArmed[4]) {
-                    if (ch5.isSelected())
-                        ch5.setSelected(true);
-                    else
-                        ch5.setSelected(false);
-                }
-                else
-                    ch5.setSelected(false);
+                timer.triggerChannel("5");
             }
         });
         ch6.setOnAction(new EventHandler<ActionEvent>() { //WORKS
             @Override
             public void handle(ActionEvent event) {
-                if (isArmed[5]) {
-                    if (ch6.isSelected())
-                        ch6.setSelected(true);
-                    else
-                        ch6.setSelected(false);
-                }
-                else
-                    ch6.setSelected(false);
+                timer.triggerChannel("6");
             }
         });
         ch7.setOnAction(new EventHandler<ActionEvent>() { //WORKS
             @Override
             public void handle(ActionEvent event) {
-                if (isArmed[6]) {
-                    if (ch7.isSelected())
-                        ch7.setSelected(true);
-                    else
-                        ch7.setSelected(false);
-                }
-                else
-                    ch7.setSelected(false);
+                timer.triggerChannel("7");
             }
         });
         ch8.setOnAction(new EventHandler<ActionEvent>() { //WORKS
             @Override
             public void handle(ActionEvent event) {
-                if (isArmed[7]) {
-                    if (ch8.isSelected())
-                        ch8.setSelected(true);
-                    else
-                        ch8.setSelected(false);
-                }
-                else
-                    ch8.setSelected(false);
+                timer.triggerChannel("8");
             }
         });
         ////////    END CHANNEL GRID ///////////////////
 
         //////////////  SHAPES /////////////////////////////
-        Rectangle display = new Rectangle(300,260);
+        Rectangle display = new Rectangle(300, 260);
         display.setId("display");
         display.setTranslateX(0);
         display.setTranslateY(130);
 
-        Rectangle innerDisplay = new Rectangle(266,216);
-        innerDisplay.setStyle("-fx-fill: #6a9bd1");
+        Rectangle innerDisplay = new Rectangle(266, 216);
+        innerDisplay.setStyle("-fx-fill: #598abf");
         innerDisplay.setTranslateX(0);
         innerDisplay.setTranslateY(120);
 
-        Rectangle printerShape1 = new Rectangle(180,100);
+        Rectangle printerShape1 = new Rectangle(180, 100);
         printerShape1.setId("printer-wider");
         printerShape1.setTranslateX(300);
         printerShape1.setTranslateY(-90);
 
-        Rectangle printerShape2 = new Rectangle(120,140);
+        Rectangle printerShape2 = new Rectangle(120, 140);
         printerShape2.setId("printer-narrow");
         printerShape2.setTranslateX(310);
         printerShape2.setTranslateY(-120);
 
-        Rectangle printerShadow = new Rectangle(192,100);
+        Rectangle printerShadow = new Rectangle(192, 100);
         printerShadow.setStyle("-fx-fill: #5e7da5");
         printerShadow.setTranslateX(307);
         printerShadow.setTranslateY(-80);
 
-        Rectangle fnPanelShadow  = new Rectangle(244,210);
+        Rectangle fnPanelShadow = new Rectangle(244, 210);
         fnPanelShadow.setId("display");
         fnPanelShadow.setTranslateX(-314);
         fnPanelShadow.setTranslateY(126);
 
-        final Rectangle cover  = new Rectangle(1000,700);
+        final Rectangle cover = new Rectangle(1000, 700);
         cover.setStyle("-fx-fill: #051930");
         /////////////// END SHAPES  ////////////////////////////
         // Power Button
@@ -585,7 +749,8 @@ public class Main extends Application {
         root.getChildren().add(fnButton);
         root.getChildren().add(displayLabel);
         root.getChildren().add(swapButton);
-        root.getChildren().add(screen);
+        root.getChildren().add(scroll);
+        root.getChildren().add(printScroll);
         root.getChildren().add(cover);
         root.getChildren().add(pwrButton);
         root.getChildren().add(sceneTitle);
@@ -595,7 +760,8 @@ public class Main extends Application {
         pwrButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                if(!isOn[0]) {
+                if (!isOn[0]) {
+                    timer.power();
                     pwrButton.setId("");
                     rt.setFromValue(1.0);
                     rt.setToValue(0.0);
@@ -610,10 +776,9 @@ public class Main extends Application {
                             }));
                     timeline.play();
                     isOn[0] = true;
-                }
-                else {
+                } else {
                     pwrButton.setId("waiting-button");
-                    root.getChildren().add(17,cover);
+                    root.getChildren().add(17, cover);
                     rt.setToValue(1.0);
                     rt.setFromValue(0.0);
                     rt.play();

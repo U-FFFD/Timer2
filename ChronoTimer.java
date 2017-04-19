@@ -10,14 +10,6 @@
   * Owen
 */
 
-import com.google.gson.Gson;
-
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.math.RoundingMode;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Queue;
@@ -120,13 +112,6 @@ public class ChronoTimer{
         }
     }
 
-//  protected void groupStart(){
-//    	int x = waitingQueue.size();
-//    	for(int i = 0; i < x; i++){
-//    		startRacer();
-//    	}
-//    }
-
     protected void power() {
         if (!running){
             running = true;
@@ -143,6 +128,9 @@ public class ChronoTimer{
         theTimer = new Time();
         mode = new IndMode(theTimer);
         channels = new boolean[8];
+        waitingQueue = new LinkedList<Racer>();
+        racingQueue = new LinkedList<Racer>();
+        finishedList = new ArrayList<Racer>();
         theTimer.stop();
         theTimer.start();
 
@@ -161,6 +149,7 @@ public class ChronoTimer{
           switch (inmode){
             case "IND":
               mode = new IndMode(theTimer);
+              //mode = new IndMode();
               break;
             case "PARIND":
               //mode = new ParIndMode();
@@ -194,25 +183,11 @@ public class ChronoTimer{
 
     protected void triggerChannel(String ch){
         int channel = Integer.parseInt(ch);
+
         // if channel is active, trigger it in mode
         if (channels[channel - 1]) {
           mode.triggerChannel(channel);
         }
-    }
-    
-    protected void export(){
-        // SAVE HERE
-        ++runNum;
-        Gson g = new Gson();
-        String out = g.toJson(finishedList);
-
-        Path file = Paths.get(("RUN00" + runNum + ".txt"));
-        try {
-            Files.write(file, out.getBytes("UTF-8"));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
     }
 
     protected void start(){
@@ -235,7 +210,7 @@ public class ChronoTimer{
       mode.finish();
     }
 
-    public void print(){
-      mode.print();
+    public String print(){
+      return mode.print();
     }
 }

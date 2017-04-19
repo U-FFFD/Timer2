@@ -2,21 +2,21 @@
   * Owen Monsma
   */
 
+import com.google.gson.Gson;
+
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Queue;
 
-import com.google.gson.Gson;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.math.BigDecimal;
-import java.math.RoundingMode;
-
 class IndMode implements RaceMode{
 
-  private Time theTimer;
+  private Time theTimer = new Time();
 
   private int runNum = 0;
 
@@ -28,14 +28,20 @@ class IndMode implements RaceMode{
     theTimer = t;
   }
 
+    public IndMode(){
+
+    }
+
   /** Add a racer to the waiting queue */
   public void addRacer(int id){
-    waitingQueue.add(new Racer(id));
+
+      System.out.println("Adding" + id );waitingQueue.add(new Racer(id));
   }
   /** Handles a sensor trigger on a channel
     * @param ch  int from 1-8 for which channel is triggered
   */
   public void triggerChannel(int ch){
+      System.out.println("Triggering" + ch );
     switch (ch){
       // starts on ch1
       case 1:
@@ -90,8 +96,12 @@ class IndMode implements RaceMode{
     }
   }
 
-  public void print(){
-    for (Racer r : finishedList) System.out.println(r.toString());
+  public String print(){
+      String s = "";
+        for (Racer r : finishedList)  {
+            s =  s + "\n" + r.toString();
+        }
+    return s;
   }
 
   public void newRun(){
