@@ -1,5 +1,5 @@
 /** GrpMode
-  * Owen Monsma
+  *
   */
 
 import com.google.gson.Gson;
@@ -89,7 +89,7 @@ class GrpMode implements RaceMode{
       // Round to 2 decimal places
       BigDecimal bd = new BigDecimal(finished.raceTime);
       bd = bd.setScale(2, RoundingMode.HALF_UP);
-      finished.raceTime = bd.doubleValue;
+      finished.raceTime = bd.doubleValue();
 
       // temporarily assigns racer ID to their place.
       // this can get overwritten when bib# assigned
@@ -134,7 +134,7 @@ class GrpMode implements RaceMode{
     String s = "";
     // Prints all racers, whether they have assigned num or not
     // First merge numbered and un-numbered
-    Queue<Racer> merged;
+    Queue<Racer> merged = new LinkedList<Racer>();
     for (Racer r : finishedNumbered){
       merged.add(r);
     }
@@ -149,7 +149,7 @@ class GrpMode implements RaceMode{
 
   public void export(){
     // merge all together
-    Queue<Racer> merged;
+    Queue<Racer> merged = new LinkedList<Racer>();
     for (Racer r : finishedNumbered){
       merged.add(r);
     }

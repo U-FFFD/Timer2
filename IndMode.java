@@ -1,5 +1,5 @@
 /** IndMode
-  * Owen Monsma
+  * 
   */
 
 import com.google.gson.Gson;
@@ -95,25 +95,25 @@ class IndMode implements RaceMode{
         finishedList.add(finishedRacer);
     }
   }
-  
+
    public void swap(){
 	  if(racingQueue.size() >= 2){
 	  Queue<Racer> tempRacingQueue = new LinkedList<Racer>();
-	  
+
 	  Racer nextToFinish = racingQueue.remove();
 	  Racer secondToFinish = racingQueue.remove();
-	  
+
 	  //second racer to finish moves to first
-	  tempRacingQueue.add(secondToFinish);     
+	  tempRacingQueue.add(secondToFinish);
 	  tempRacingQueue.add(nextToFinish);
-	  
+
 	  for (Racer r : racingQueue) tempRacingQueue.add(r);
-	  
+
 	  racingQueue = tempRacingQueue;
 	  }
   }
-	
-  
+
+
   public String print(){
       String s = "";
         for (Racer r : finishedList)  {
@@ -136,10 +136,10 @@ class IndMode implements RaceMode{
     waitingQueue    = new LinkedList<Racer>();
     racingQueue     = new LinkedList<Racer>();
     finishedList    = new ArrayList<Racer>();
-	  
-   
+
+
   }
-   
+
   public void export(){
       // SAVE HERE
       Gson g = new Gson();
@@ -152,7 +152,7 @@ class IndMode implements RaceMode{
           e.printStackTrace();
       }
   }
-	
+
   public void dnf(){
     if(!racingQueue.isEmpty()) {
         Racer dnfRacer = racingQueue.remove();

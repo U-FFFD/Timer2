@@ -189,15 +189,17 @@ public class ChronoTimer{
           mode.triggerChannel(channel);
         }
     }
-  
+
      protected void export(){
        mode.export();
     }
-  
+
+    /*
     protected void swap(){
       mode.swap();
     }
-
+    */
+    
     protected void start(){
       mode.start();
     }
