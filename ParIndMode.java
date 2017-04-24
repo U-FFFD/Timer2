@@ -160,7 +160,7 @@ class ParIndMode implements RaceMode{
       List<Racer> tmpList = (List) waitingQueue;
       if (!tmpList.isEmpty()){
         s += "  " + (tmpList.get(0)).id + "\n";
-        s += "  " + (tmpList.get(1)).id + "\n\n";
+          if (tmpList.size() >= 2){s += "  " + (tmpList.get(1)).id + "\n\n";}
       }
 
       if (!racingQueue1.isEmpty()){
