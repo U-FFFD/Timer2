@@ -115,14 +115,6 @@ public class ChronoTimer{
 
     }
 
-    protected void cancel() {
-        while (!waitingQueue.isEmpty()) {
-            racingQueue.add(waitingQueue.remove());
-        }
-        waitingQueue = racingQueue;
-        racingQueue = new LinkedList<Racer>();
-    }
-
     protected void setMode(String inmode){
         if (inmode != null){
             switch (inmode){
@@ -199,6 +191,11 @@ public class ChronoTimer{
     protected void endRun(){
         mode.endRun();
     }
+  
+   protected void cancel() {
+        mode.cancel();
+    }
+
 
     protected void finish(){
         mode.finish();
