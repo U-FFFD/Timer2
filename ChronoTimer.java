@@ -194,12 +194,14 @@ public class ChronoTimer{
        mode.export();
     }
 
-    /*
+
     protected void swap(){
-      mode.swap();
+      if (mode instanceof IndMode){
+        ((IndMode)mode).swap();
+      }
     }
-    */
-    
+
+
     protected void start(){
       mode.start();
     }

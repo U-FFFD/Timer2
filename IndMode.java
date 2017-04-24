@@ -1,5 +1,5 @@
 /** IndMode
-  * 
+  *
   */
 
 import com.google.gson.Gson;
@@ -23,6 +23,9 @@ class IndMode implements RaceMode{
   private Queue<Racer> waitingQueue = new LinkedList<Racer>();
   private Queue<Racer> racingQueue = new LinkedList<Racer>();
   private ArrayList<Racer> finishedList = new ArrayList<Racer>();
+
+  private boolean toSwap = false;
+  private Racer swapHold = null;
 
   public IndMode(Time t){
     theTimer = t;
@@ -79,38 +82,35 @@ class IndMode implements RaceMode{
   public void finish(){
     // remove top racer from queue
     if(!racingQueue.isEmpty()) {
-        Racer finishedRacer = racingQueue.remove();
+      Racer finishedRacer = racingQueue.remove();
 
-        // set their finish time
-        finishedRacer.endTime = theTimer.getTime();
-        finishedRacer.endStamp = theTimer.timeStamp();
-        finishedRacer.raceTime = finishedRacer.endTime - finishedRacer.startTime;
+      // set their finish time
+      finishedRacer.endTime = theTimer.getTime();
+      finishedRacer.endStamp = theTimer.timeStamp();
+      finishedRacer.raceTime = finishedRacer.endTime - finishedRacer.startTime;
 
-        // Round to 2 decimal places. (Hundredths of second)
-        BigDecimal bd = new BigDecimal(finishedRacer.raceTime);
-        bd = bd.setScale(2, RoundingMode.HALF_UP);
-        finishedRacer.raceTime = bd.doubleValue();
+      // Round to 2 decimal places. (Hundredths of second)
+      BigDecimal bd = new BigDecimal(finishedRacer.raceTime);
+      bd = bd.setScale(2, RoundingMode.HALF_UP);
+      finishedRacer.raceTime = bd.doubleValue();
 
-        //store finished racer in finished list
+      //store finished racer in finished list (or hold if swapping)
+      if (toSwap){
+        swapHold = finishedRacer;
+      } else {
         finishedList.add(finishedRacer);
+        toSwap = false;
+      }
+      if (swapHold != null){
+        finishedList.add(swapHold);
+        swapHold = null;
+      }
     }
   }
 
+  /** Swap the next two racers to finish */
    public void swap(){
-	  if(racingQueue.size() >= 2){
-	  Queue<Racer> tempRacingQueue = new LinkedList<Racer>();
-
-	  Racer nextToFinish = racingQueue.remove();
-	  Racer secondToFinish = racingQueue.remove();
-
-	  //second racer to finish moves to first
-	  tempRacingQueue.add(secondToFinish);
-	  tempRacingQueue.add(nextToFinish);
-
-	  for (Racer r : racingQueue) tempRacingQueue.add(r);
-
-	  racingQueue = tempRacingQueue;
-	  }
+	  toSwap = true;
   }
 
 
