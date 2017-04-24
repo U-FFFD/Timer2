@@ -12,6 +12,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.LinkedList;
 import java.util.Queue;
+import java.util.Deque;
 
 class GrpMode implements RaceMode{
 
@@ -24,7 +25,7 @@ class GrpMode implements RaceMode{
   private Queue<Racer> waitingQueue = new LinkedList<Racer>();
   private Queue<Racer> racingQueue = new LinkedList<Racer>();
   // keeps the finishes racers in queues to preserve finished order
-  private Queue<Racer> finishedList = new LinkedList<Racer>();
+  private Deque<Racer> finishedList = new LinkedList<Racer>();
   private Queue<Racer> finishedNumbered = new LinkedList<Racer>();
 
   public GrpMode(Time t){
@@ -162,8 +163,8 @@ class GrpMode implements RaceMode{
     }
     // prints last finished.
     if (!finishedList.isEmpty()){
-      s += "\n" + finishedList.get(finishedList.size() - 1).id;
-      s += " " + Time.timeConversion((finishedList.size() - 1).raceTime) + " F\n";
+      s += "\n" + finishedList.peekLast().id;
+      s += " " + Time.timeConversion(finishedList.peekLast().raceTime) + " F\n";
     }
     return s;
   }
