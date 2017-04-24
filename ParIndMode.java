@@ -151,7 +151,7 @@ class ParIndMode implements RaceMode{
     }
 
     public String format() {
-      String s = "";
+      String s = "\n\n-------------------\n";
 
       List<Racer> tmpList = (List) waitingQueue;
       if (!tmpList.isEmpty()){
@@ -224,10 +224,21 @@ class ParIndMode implements RaceMode{
         finishedList    = new ArrayList<Racer>();
     }
 
-    /** Which queue should I DNF from? */
+    /** Which queue should I DNF from? both.*/
     public void dnf(){
         if(!racingQueue1.isEmpty()) {
             Racer dnfRacer = racingQueue1.remove();
+
+            // set end time and race time to negative values
+            dnfRacer.endTime = 0;
+            dnfRacer.endStamp = "DNF (Did Not Finish)";
+            dnfRacer.raceTime = 0;
+
+            // add DNF racer to finished list
+            finishedList.add(dnfRacer);
+        }
+        if(!racingQueue2.isEmpty()) {
+            Racer dnfRacer = racingQueue2.remove();
 
             // set end time and race time to negative values
             dnfRacer.endTime = 0;
