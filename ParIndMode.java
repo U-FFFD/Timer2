@@ -161,12 +161,16 @@ class ParIndMode implements RaceMode{
 
       if (!racingQueue1.isEmpty()){
         Racer r1 = racingQueue1.peek();
-        s += r1.id + Time.timeConversion(theTimer.getTime() - r1.startTime) + " R\n";
+        BigDecimal bd = new BigDecimal(theTimer.getTime() - r1.startTime);
+        bd = bd.setScale(2, RoundingMode.HALF_UP);
+        s += r1.id + Time.timeConversion(bd.doubleValue()) + " R\n";
       }
 
       if (!racingQueue2.isEmpty()){
         Racer r2 = racingQueue2.peek();
-        s += r2.id + Time.timeConversion(theTimer.getTime() - r2.startTime) + " R\n\n";
+        BigDecimal bd = new BigDecimal(theTimer.getTime() - r2.startTime);
+        bd = bd.setScale(2, RoundingMode.HALF_UP);
+        s += r2.id + Time.timeConversion(bd.doubleValue()) + " R\n\n";
       }
 
       if(!finishedList.isEmpty()){

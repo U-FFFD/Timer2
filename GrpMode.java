@@ -158,7 +158,9 @@ class GrpMode implements RaceMode{
     // prints currently racing
     if (!racingQueue.isEmpty()){
       for (Racer r : racingQueue) {
-        s += r.id + " " + Time.timeConversion(theTimer.getTime() - r.startTime) + " R\n";
+        BigDecimal bd = new BigDecimal(theTimer.getTime() - r.startTime);
+        bd = bd.setScale(2, RoundingMode.HALF_UP);
+        s += r.id + " " + Time.timeConversion(bd.doubleValue()) + " R\n";
       }
     }
     // prints last finished.
