@@ -91,26 +91,6 @@ public class ChronoTimer{
         }
     }
 
-    protected void parIndStart() {
-        if(lastTrig[0] == 0)
-            triggerChannel("1");//start 1
-        else if(lastTrig[0] == 1)
-            triggerChannel("3");//start 3
-        else {
-            triggerChannel("1");//start 1
-        }
-    }
-
-    protected void parIndEnd() {
-        if(lastTrig[1] == 0)
-            triggerChannel("2");//start 1
-        else if(lastTrig[1] == 2)
-            triggerChannel("4");//start 3
-        else {
-            triggerChannel("2");//start 1
-        }
-    }
-
     protected void power() {
         if (!running){
             running = true;
@@ -148,13 +128,16 @@ public class ChronoTimer{
             switch (inmode){
                 case "IND":
                     mode = new IndMode(theTimer);
+                    System.out.println("mode set IND");
                     //mode = new IndMode();
                     break;
                 case "PARIND":
-                    //mode = new ParIndMode();
+                    mode = new ParIndMode(theTimer);
+                    System.out.println("mode set PARIND");
                     break;
                 case "GRP":
-                    //mode = new GrpMode();
+                    mode = new GrpMode(theTimer);
+                    System.out.println("mode set GRP");
                     break;
                 case "PARGRP":
                     //mode = new ParGrpMode();

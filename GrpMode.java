@@ -74,9 +74,9 @@ class GrpMode implements RaceMode{
       r.startTime = startTime;
       r.startStamp = startStamp;
       racingQueue.add(r);
-      waitingQueue.remove(r);
+      System.out.println("starting: " + r.toString());
     }
-
+    waitingQueue.clear();
   }
   /** Triggers a finish event */
   public void finish(){

@@ -9,7 +9,7 @@
 #screen-text {
     -fx-font-family: "Segoe UI", Helvetica, Arial, sans-serif;
     -fx-font-size: 14pt;
-    -fx-fill: #EEEEEE;
+    -fx-fill: black;
 }
 #bodytext {
     -fx-fill: white;
@@ -259,7 +259,7 @@
 }
 
 .scroll-bar .increment-arrow, .scroll-bar .decrement-arrow {
-	-fx-shape: " ";	
+	-fx-shape: " ";
 	-fx-padding:0;
 }
 /* The main scrollbar **thumb** CSS class which we drag every time (movable) */
