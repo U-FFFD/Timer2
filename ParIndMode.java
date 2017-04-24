@@ -153,7 +153,7 @@ class ParIndMode implements RaceMode{
     public String format() {
       String s = "";
 
-      List tmpList = (List) waitingQueue;
+      List<Racer> tmpList = (List) waitingQueue;
       if (!tmpList.isEmpty()){
         s += "  " + (tmpList.get(0)).id + "\n";
         s += "  " + (tmpList.get(1)).id + "\n\n";
@@ -171,9 +171,9 @@ class ParIndMode implements RaceMode{
 
       if(!finishedList.isEmpty()){
         s += finishedList.get(finishedList.size() - 1).id;
-        s += " " + Time.timeConversion((finishedList.size() - 1).raceTime) + " F\n";
+        s += " " + Time.timeConversion(finishedList.get(finishedList.size() - 1).raceTime) + " F\n";
         s += finishedList.get(finishedList.size() - 2).id;
-        s += " " + Time.timeConversion((finishedList.size() - 2).raceTime) + " F\n\n";
+        s += " " + Time.timeConversion(finishedList.get(finishedList.size() - 2).raceTime) + " F\n\n";
       }
 
       return s;
