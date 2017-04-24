@@ -93,24 +93,25 @@ class IndMode implements RaceMode{
             BigDecimal bd = new BigDecimal(finishedRacer.raceTime);
             bd = bd.setScale(2, RoundingMode.HALF_UP);
             finishedRacer.raceTime = bd.doubleValue();
-
-            //store finished racer in finished list (or hold if swapping)
-            if (toSwap){
-                swapHold = finishedRacer;
-            } else {
-                finishedList.add(finishedRacer);
-                toSwap = false;
-            }
-            if (swapHold != null){
-                finishedList.add(swapHold);
-                swapHold = null;
-            }
+            finishedList.add(finishedRacer);
         }
     }
 
-    /** Swap the next two racers to finish */
     public void swap(){
-        toSwap = true;
+        if(racingQueue.size() >= 2){
+            Queue<Racer> tempRacingQueue = new LinkedList<Racer>();
+
+            Racer nextToFinish = racingQueue.remove();
+            Racer secondToFinish = racingQueue.remove();
+
+            //second racer to finish moves to first
+            tempRacingQueue.add(secondToFinish);
+            tempRacingQueue.add(nextToFinish);
+
+            for (Racer r : racingQueue) tempRacingQueue.add(r);
+            racingQueue.removeAll(racingQueue);
+            racingQueue.addAll(tempRacingQueue);
+        }
     }
 
 
@@ -154,18 +155,40 @@ class IndMode implements RaceMode{
     }
 
     public String format() {
-        String output = "";
-        Object[] racers = waitingQueue.toArray();
-        if(racers.length >=3)
-            output = racers[racers.length-3] + "\n" + racers[racers.length-2] + "\n" + racers[racers.length-1];
-        else if (racers.length == 2) {
-            output = racers[racers.length-2] + "\n" + racers[racers.length-1];
+        String output = "Racers: ";
+        if (!waitingQueue.isEmpty()) {
+            Object[] objects = waitingQueue.toArray();
+            Racer[] racers = new Racer[objects.length];
+            for (int i = 0; i < objects.length; i++) {
+                racers[i] = (Racer) objects[i];
+            }
+            if (racers.length >= 3)
+                output = "\n" + racers[racers.length - 3].id + "            " + "00:00:00.00" + "\n" + racers[racers.length - 2].id + "             " + "00:00:00.00" + "\n" + racers[racers.length - 1].id + "             " + "00:00:00.00";
+            else if (racers.length == 2) {
+                output = "\n" + racers[racers.length - 2].id + "             " + "00:00:00.00" + "\n" + racers[racers.length - 1].id + "             " + "00:00:00.00";
+            } else
+                output = "\n" + racers[0].id + "         " + "00:00:00.00";
+            output += "\n";
         }
-        else
-            output = racers[0].toString();
         // That handles the queue.
         // Now current racers.
 
+        if(!racingQueue.isEmpty()) {
+            Object[] racingObjects = racingQueue.toArray();
+            Racer[] curRacers = new Racer[racingObjects.length];
+            for (int i = 0; i < racingObjects.length; i++) {
+                curRacers[i] = (Racer) racingObjects[i];
+            }
+            for (Racer r : curRacers) {
+                BigDecimal bd = new BigDecimal((theTimer.getTime() - r.startTime));
+                bd = bd.setScale(2, RoundingMode.HALF_UP);
+                output += "\n" + r.id + "               " + theTimer.timeConversion(bd.doubleValue()) + "    R";
+            }
+        }
+
+        // Now just the last racer to finish. "
+        if(!finishedList.isEmpty())
+            output += "\n\n" + finishedList.get(finishedList.size()-1) .id + "              " + finishedList.get(finishedList.size()-1).raceTime + "   F";
 
         return output;
     }

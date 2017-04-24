@@ -456,6 +456,7 @@ public class Main extends Application {
                     case "IND":
                         timer.setMode("IND");
                         screen.setText(screen.getText() + "\n" + "Mode set to IND");
+                        timer.setMode("IND");
                         theList.isCmd = false;
                         theList.setMode("BASE");
                         break;
@@ -473,7 +474,7 @@ public class Main extends Application {
                         break;
                     case "ADD RACERS":
                         state[0] = "ADD";
-                        screen.setText(screen.getText() + "\n" + "Use num pad to input bib numbers \n('*' to enter new id, press # to finish.)\n#");
+                        screen.setText(screen.getText() + "\n" + "Use num pad to input bib numbers \n('*' to add and continue, press # to finish.)\n#");
                         theList.isCmd = false;
                         break;
                     case "SET TIME":
@@ -770,6 +771,14 @@ public class Main extends Application {
         keyPound.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
+                if (state[0].equals("ADD")) {
+                    if ((!racer[0].contains("^[0-9]+$")) && !racer[0].equals("")) {
+                        int i = Integer.parseInt(racer[0]);
+                        timer.addRacer(i);
+                    }
+                    racer[0] = "";
+                    screen.setText(screen.getText() + "\n#");
+                }
                 state[0] = "BASE";
                 screen.setText(screen.getText() + " Done adding.");
                 screen.setText(screen.getText() + "\n" + timer.mode.format());
@@ -954,48 +963,56 @@ public class Main extends Application {
             @Override
             public void handle(ActionEvent event) {
                 timer.triggerChannel("1");
+                screen.setText(screen.getText() + timer.mode.format());
             }
         });
         ch2.setOnAction(new EventHandler<ActionEvent>() { //WORKS
             @Override
             public void handle(ActionEvent event) {
                 timer.triggerChannel("2");
+                screen.setText(screen.getText() + timer.mode.format());
             }
         });
         ch3.setOnAction(new EventHandler<ActionEvent>() { //WORKS
             @Override
             public void handle(ActionEvent event) {
                 timer.triggerChannel("3");
+                screen.setText(screen.getText() + timer.mode.format());
             }
         });
         ch4.setOnAction(new EventHandler<ActionEvent>() { //WORKS
             @Override
             public void handle(ActionEvent event) {
                 timer.triggerChannel("4");
+                screen.setText(screen.getText() + timer.mode.format());
             }
         });
         ch5.setOnAction(new EventHandler<ActionEvent>() { //WORKS
             @Override
             public void handle(ActionEvent event) {
                 timer.triggerChannel("5");
+                screen.setText(screen.getText() + timer.mode.format());
             }
         });
         ch6.setOnAction(new EventHandler<ActionEvent>() { //WORKS
             @Override
             public void handle(ActionEvent event) {
                 timer.triggerChannel("6");
+                screen.setText(screen.getText() + timer.mode.format());
             }
         });
         ch7.setOnAction(new EventHandler<ActionEvent>() { //WORKS
             @Override
             public void handle(ActionEvent event) {
                 timer.triggerChannel("7");
+                screen.setText(screen.getText() + timer.mode.format());
             }
         });
         ch8.setOnAction(new EventHandler<ActionEvent>() { //WORKS
             @Override
             public void handle(ActionEvent event) {
                 timer.triggerChannel("8");
+                screen.setText(screen.getText() + timer.mode.format());
             }
         });
         ////////    END CHANNEL GRID ///////////////////
