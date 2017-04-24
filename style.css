@@ -8,9 +8,8 @@
 }
 #screen-text {
     -fx-font-family: "Segoe UI", Helvetica, Arial, sans-serif;
-    -fx-font-size: 16pt;
+    -fx-font-size: 14pt;
     -fx-fill: #EEEEEE;
-
 }
 #bodytext {
     -fx-fill: white;
@@ -268,4 +267,10 @@
     -fx-background-color:#c4c4c4;
 	-fx-background-insets: 2, 0, 0;
 	-fx-background-radius: 0;
+}
+#usb-outer {
+    -fx-fill: #5b5b5b ;
+}
+#usb-inner {
+    -fx-fill: #a0a0a0;
 }

@@ -10,7 +10,6 @@ import java.math.RoundingMode;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Queue;
 
@@ -147,6 +146,15 @@ class GrpMode implements RaceMode{
     return s;
   }
 
+  public void swap() { }
+
+
+  public String format() {
+
+
+        return "";
+  }
+
   public void export(){
     // merge all together
     Queue<Racer> merged = new LinkedList<Racer>();
@@ -156,7 +164,6 @@ class GrpMode implements RaceMode{
     for (Racer r : finishedList){
       merged.add(r);
     }
-
     // SAVE HERE
     Gson g = new Gson();
     String out = g.toJson(merged);
