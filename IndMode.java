@@ -20,9 +20,9 @@ class IndMode implements RaceMode{
 
     private int runNum = 1;
 
-    private Queue<Racer> waitingQueue = new LinkedList<Racer>();
-    private Queue<Racer> racingQueue = new LinkedList<Racer>();
-    private ArrayList<Racer> finishedList = new ArrayList<Racer>();
+    protected Queue<Racer> waitingQueue = new LinkedList<Racer>();
+    protected Queue<Racer> racingQueue = new LinkedList<Racer>();
+    protected ArrayList<Racer> finishedList = new ArrayList<Racer>();
 
     private boolean toSwap = false;
     private Racer swapHold = null;
