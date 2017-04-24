@@ -22,11 +22,11 @@ class GrpMode implements RaceMode{
 
   private int finishedCount = 1;
 
-  private Queue<Racer> waitingQueue = new LinkedList<Racer>();
-  private Queue<Racer> racingQueue = new LinkedList<Racer>();
+  protected Queue<Racer> waitingQueue = new LinkedList<Racer>();
+  protected Queue<Racer> racingQueue = new LinkedList<Racer>();
   // keeps the finishes racers in queues to preserve finished order
-  private Deque<Racer> finishedList = new LinkedList<Racer>();
-  private Queue<Racer> finishedNumbered = new LinkedList<Racer>();
+  protected Deque<Racer> finishedList = new LinkedList<Racer>();
+  protected Queue<Racer> finishedNumbered = new LinkedList<Racer>();
 
   public GrpMode(Time t){
     theTimer = t;
