@@ -165,9 +165,9 @@ class ParIndMode implements RaceMode{
 
       s += "Last finished:\n";
       s += finishedList.get(finishedList.size() - 1).id;
-      s += ": " + Time.timeConversion((finishedList.size() - 1).raceTime) + " F\n";
+      s += " " + Time.timeConversion((finishedList.size() - 1).raceTime) + " F\n";
       s += finishedList.get(finishedList.size() - 2).id;
-      s += ": " + Time.timeConversion((finishedList.size() - 2).raceTime) + " F\n\n";
+      s += " " + Time.timeConversion((finishedList.size() - 2).raceTime) + " F\n\n";
 
       return s;
     }

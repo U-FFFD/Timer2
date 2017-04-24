@@ -13,4 +13,10 @@ class Racer{
     public String toString(){
         return ("Racer " + id + ":\n  Start: " + startStamp + "\n  End:   " + endStamp + ("\n  Time of Race: " + Time.timeConversion(raceTime)));
     }
+
+    public void calcRaceTime(){
+      if (startTime != null && endTime != null){
+        raceTime = endTime - startTime;
+      }
+    }
 }

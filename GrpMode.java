@@ -85,6 +85,8 @@ class GrpMode implements RaceMode{
       finished.endTime = theTimer.getTime();
       finished.endStamp = theTimer.timeStamp();
 
+      finished.calcRaceTime();
+
       // Round to 2 decimal places
       BigDecimal bd = new BigDecimal(finished.raceTime);
       bd = bd.setScale(2, RoundingMode.HALF_UP);
@@ -150,9 +152,16 @@ class GrpMode implements RaceMode{
 
 
   public String format() {
+    String s = "";
 
-
-        return "";
+    // prints currently racing
+    for (Racer r : racingQueue) {
+      s += r.id + " " + Time.timeConversion(theTimer.getTime() - r.startTime) + " R\n";
+    }
+    // prints last finished.
+    s += "\n" + finishedList.get(finishedList.size() - 1).id;
+    s += " " + Time.timeConversion((finishedList.size() - 1).raceTime) + " F\n";
+    return s;
   }
 
   public void export(){
