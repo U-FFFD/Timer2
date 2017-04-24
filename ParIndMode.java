@@ -30,10 +30,10 @@ class ParIndMode implements RaceMode{
     private Track finishedQueue;
 
 
-    private Queue<Racer> waitingQueue = new LinkedList<Racer>();
-    private Queue<Racer> racingQueue1 = new LinkedList<Racer>();
-    private Queue<Racer> racingQueue2 = new LinkedList<Racer>();
-    private ArrayList<Racer> finishedList = new ArrayList<Racer>();
+    protected Queue<Racer> waitingQueue = new LinkedList<Racer>();
+    protected Queue<Racer> racingQueue1 = new LinkedList<Racer>();
+    protected Queue<Racer> racingQueue2 = new LinkedList<Racer>();
+    protected ArrayList<Racer> finishedList = new ArrayList<Racer>();
 
     public ParIndMode(Time t){
         theTimer = t;
