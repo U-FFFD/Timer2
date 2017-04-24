@@ -155,12 +155,16 @@ class GrpMode implements RaceMode{
     String s = "";
 
     // prints currently racing
-    for (Racer r : racingQueue) {
-      s += r.id + " " + Time.timeConversion(theTimer.getTime() - r.startTime) + " R\n";
+    if (!racingQueue.isEmpty()){
+      for (Racer r : racingQueue) {
+        s += r.id + " " + Time.timeConversion(theTimer.getTime() - r.startTime) + " R\n";
+      }
     }
     // prints last finished.
-    s += "\n" + finishedList.get(finishedList.size() - 1).id;
-    s += " " + Time.timeConversion((finishedList.size() - 1).raceTime) + " F\n";
+    if (!finishedList.isEmpty()){
+      s += "\n" + finishedList.get(finishedList.size() - 1).id;
+      s += " " + Time.timeConversion((finishedList.size() - 1).raceTime) + " F\n";
+    }
     return s;
   }
 
