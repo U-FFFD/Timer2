@@ -5,7 +5,6 @@
   Team U+FFFD:
   * AJ
   * Emmett
-  * Kerstin
   * Kody
   * Owen
 */
