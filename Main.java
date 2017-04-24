@@ -11,6 +11,7 @@ import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
@@ -22,6 +23,7 @@ import javafx.util.Duration;
 public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
+
         final StackPane rearPanel = new StackPane();
         Scene scene2 = new Scene(rearPanel, 900, 200);
         final Stage stage = new Stage();
@@ -39,7 +41,7 @@ public class Main extends Application {
         connectionGrid.setAlignment(Pos.CENTER);
         connectionGrid.setHgap(12);
         connectionGrid.setVgap(6);
-        connectionGrid.setMaxSize(300, 206);
+        connectionGrid.setMaxSize(308, 206);
         connectionGrid.setTranslateX(-190);
         connectionGrid.setTranslateY(0);
         connectionGrid.setStyle("-fx-background-color: #3c7cc4;");
@@ -318,11 +320,14 @@ public class Main extends Application {
 
 
         final StackPane root = new StackPane();
+        Scene mainScene = new Scene(root, 900, 600);
+        primaryStage.setScene(mainScene);
         root.getStylesheets().addAll(this.getClass().getResource("style.css").toExternalForm());
         primaryStage.setTitle("ChronoTimer 3.00");
         final ChronoTimer timer = new ChronoTimer();
         final String[] state = new String[1];
         state[0] = "BASE";
+        final int[] place = {0};
         final boolean[] printerIsOn = {false};
         final int[] lastCmdLength = {0};
 
@@ -361,7 +366,7 @@ public class Main extends Application {
         scroll.setMaxSize(260, 212);
         Scene scene = new Scene(scroll, 252, 212);
         scroll.setTranslateY(120);
-        scroll.setStyle("-fx-background-color: #598abf");
+        scroll.setStyle("-fx-background-color: #7faae2");
         screen.wrappingWidthProperty().bind(scene.widthProperty());
         scroll.setFitToWidth(true);
         scroll.setContent(vBox);
@@ -394,7 +399,7 @@ public class Main extends Application {
         });
 
         // Printer Power
-        Button printerButton = new Button();
+        final Button printerButton = new Button();
         printerButton.setText("PRINTER");
         printerButton.setTranslateX(310);
         printerButton.setTranslateY(-254);
@@ -415,15 +420,15 @@ public class Main extends Application {
 
         //////////////      FUNCTION PANEL      //////////////////////////
 
-        Button fnButton = new Button();
+        final Button fnButton = new Button();
         fnButton.setText("FUNCTION");
         fnButton.setTranslateX(-314);
         fnButton.setTranslateY(100);
 
-        Button leftArrow = new Button();
-        Button rightArrow = new Button();
-        Button upArrow = new Button();
-        Button downArrow = new Button();
+        final Button leftArrow = new Button();
+        final Button rightArrow = new Button();
+        final Button upArrow = new Button();
+        final Button downArrow = new Button();
 
         upArrow.setId("up-arrow");
         downArrow.setId("down-arrow");
@@ -557,18 +562,18 @@ public class Main extends Application {
         grid.setMaxSize(220, 200);
         grid.setId("display");
 
-        Button key1 = new Button();
-        Button key2 = new Button();
-        Button key3 = new Button();
-        Button key4 = new Button();
-        Button key5 = new Button();
-        Button key6 = new Button();
-        Button key7 = new Button();
-        Button key8 = new Button();
-        Button key9 = new Button();
-        Button key0 = new Button();
-        Button keyStar = new Button();
-        Button keyPound = new Button();
+        final Button key1 = new Button();
+        final Button key2 = new Button();
+        final Button key3 = new Button();
+        final Button key4 = new Button();
+        final Button key5 = new Button();
+        final Button key6 = new Button();
+        final Button key7 = new Button();
+        final Button key8 = new Button();
+        final Button key9 = new Button();
+        final Button key0 = new Button();
+        final Button keyStar = new Button();
+        final Button keyPound = new Button();
 
         final String[] racer = {""};
         final String[] time = new String[1];
@@ -589,6 +594,10 @@ public class Main extends Application {
                         }
                     }
                 }
+                else if (state[0].equals("ASSIGN")) {
+                        racer[0] = racer[0] + "1";
+                        screen.setText(screen.getText() + "1");
+                }
             }
         });
         key2.setOnAction(new EventHandler<ActionEvent>() {
@@ -606,6 +615,10 @@ public class Main extends Application {
                             screen.setText(screen.getText() + ":");
                         }
                     }
+                }
+                else if (state[0].equals("ASSIGN")) {
+                    racer[0] = racer[0] + "2";
+                    screen.setText(screen.getText() + "2");
                 }
             }
         });
@@ -625,6 +638,10 @@ public class Main extends Application {
                         }
                     }
                 }
+                else if (state[0].equals("ASSIGN")) {
+                    racer[0] = racer[0] + "3";
+                    screen.setText(screen.getText() + "3");
+                }
             }
         });
         key4.setOnAction(new EventHandler<ActionEvent>() {
@@ -642,6 +659,10 @@ public class Main extends Application {
                             screen.setText(screen.getText() + ":");
                         }
                     }
+                }
+                else if (state[0].equals("ASSIGN")) {
+                    racer[0] = racer[0] + "4";
+                    screen.setText(screen.getText() + "4");
                 }
             }
         });
@@ -661,6 +682,10 @@ public class Main extends Application {
                         }
                     }
                 }
+                else if (state[0].equals("ASSIGN")) {
+                    racer[0] = racer[0] + "5";
+                    screen.setText(screen.getText() + "5");
+                }
             }
         });
         key6.setOnAction(new EventHandler<ActionEvent>() {
@@ -678,6 +703,10 @@ public class Main extends Application {
                             screen.setText(screen.getText() + ":");
                         }
                     }
+                }
+                else if (state[0].equals("ASSIGN")) {
+                    racer[0] = racer[0] + "6";
+                    screen.setText(screen.getText() + "6");
                 }
             }
         });
@@ -697,6 +726,10 @@ public class Main extends Application {
                         }
                     }
                 }
+                else if (state[0].equals("ASSIGN")) {
+                    racer[0] = racer[0] + "7";
+                    screen.setText(screen.getText() + "7");
+                }
             }
         });
         key8.setOnAction(new EventHandler<ActionEvent>() {
@@ -714,6 +747,10 @@ public class Main extends Application {
                             screen.setText(screen.getText() + ":");
                         }
                     }
+                }
+                else if (state[0].equals("ASSIGN")) {
+                    racer[0] = racer[0] + "8";
+                    screen.setText(screen.getText() + "8");
                 }
             }
         });
@@ -733,6 +770,10 @@ public class Main extends Application {
                         }
                     }
                 }
+                else if (state[0].equals("ASSIGN")) {
+                    racer[0] = racer[0] + "9";
+                    screen.setText(screen.getText() + "9");
+                }
             }
         });
         key0.setOnAction(new EventHandler<ActionEvent>() {
@@ -751,6 +792,10 @@ public class Main extends Application {
                         }
                     }
                 }
+                else if (state[0].equals("ASSIGN")) {
+                    racer[0] = racer[0] + "0";
+                    screen.setText(screen.getText() + "0");
+                }
             }
         });
         keyStar.setOnAction(new EventHandler<ActionEvent>() {
@@ -765,6 +810,23 @@ public class Main extends Application {
                     screen.setText(screen.getText() + "\n#");
                 } else if (state[0].equals("TIME_SET")) {
                     timer.setTime(time[0]);
+                }
+
+                else if (state[0].equals("ASSIGN")) {
+                    if ((!racer[0].contains("^[0-9]+$")) && !racer[0].equals("")) {
+                        int i = Integer.parseInt(racer[0]);
+                        ((GrpMode)timer.mode).assignNumToRacer(i);
+                        racer[0] = "";
+                    }
+
+                    if (((GrpMode)timer.mode).finishedIsEmpty()) {
+                        screen.setText(screen.getText() + "\nAll racers have been assigned.");
+                        state[0] = "BASE";
+                    }
+                    else {
+                        place[0] += 1;
+                        screen.setText(screen.getText() + "\nPosition " + place[0] + ":    #");
+                    }
                 }
             }
         });
@@ -971,6 +1033,13 @@ public class Main extends Application {
             public void handle(ActionEvent event) {
                 timer.triggerChannel("2");
                 screen.setText(screen.getText() + timer.mode.format());
+
+                if( (timer.mode instanceof GrpMode ) && ((GrpMode)timer.mode).allFinished() ) {
+                    screen.setText(screen.getText() + "All racers have finished. \nEnter the bib number for each racer\n Press * for next racer.");
+                    state[0] = "ASSIGN";
+                    place[0] = (place[0] + 1);
+                    screen.setText(screen.getText() + "\nPosition " + place[0] + ":    #");
+                }
             }
         });
         ch3.setOnAction(new EventHandler<ActionEvent>() { //WORKS
@@ -1018,13 +1087,13 @@ public class Main extends Application {
         ////////    END CHANNEL GRID ///////////////////
 
         //////////////  SHAPES /////////////////////////////
-        Rectangle display = new Rectangle(300, 260);
+        Rectangle display = new Rectangle(308, 260);
         display.setId("display");
         display.setTranslateX(0);
         display.setTranslateY(130);
 
-        Rectangle innerDisplay = new Rectangle(266, 216);
-        innerDisplay.setStyle("-fx-fill: #598abf");
+        Rectangle innerDisplay = new Rectangle(272, 216);
+        innerDisplay.setStyle("-fx-fill: #7faae2");
         innerDisplay.setTranslateX(0);
         innerDisplay.setTranslateY(120);
 
@@ -1087,6 +1156,7 @@ public class Main extends Application {
             public void handle(ActionEvent event) {
                 if (!isOn[0]) {
                     timer.power();
+                    printerButton.fire();
                     pwrButton.setId("");
                     rt.setFromValue(1.0);
                     rt.setToValue(0.0);
@@ -1115,7 +1185,41 @@ public class Main extends Application {
             }
         });
 
-        primaryStage.setScene(new Scene(root, 900, 600));
+        mainScene.addEventFilter(KeyEvent.KEY_PRESSED, new EventHandler<KeyEvent>() {
+            public void handle(KeyEvent ke) {
+                switch (ke.getCode()) {
+                    case UP :                            upArrow.fire();                     break;
+                    case DOWN :                          downArrow.fire();                   break;
+                    case LEFT:                           leftArrow.fire();                   break;
+                    case RIGHT:                          rightArrow.fire();                  break;
+                    case ENTER:                          fnButton.fire();                    break;
+                    case DIGIT0 :                        key0.fire();                        break;
+                    case DIGIT1 :                        key1.fire();                        break;
+                    case DIGIT2 :                        key2.fire();                        break;
+                    case DIGIT3 :                        key3.fire();                        break;
+                    case DIGIT4 :                        key4.fire();                        break;
+                    case DIGIT5 :                        key5.fire();                        break;
+                    case DIGIT6 :                        key6.fire();                        break;
+                    case DIGIT7 :                        key7.fire();                        break;
+                    case DIGIT8 :                        key8.fire();                        break;
+                    case DIGIT9 :                        key9.fire();                        break;
+                    case NUMPAD0 :                       key0.fire();                        break;
+                    case NUMPAD1:                        key1.fire();                        break;
+                    case NUMPAD2 :                       key2.fire();                        break;
+                    case NUMPAD3 :                       key3.fire();                        break;
+                    case NUMPAD4 :                       key4.fire();                        break;
+                    case NUMPAD5 :                       key5.fire();                        break;
+                    case NUMPAD6 :                       key6.fire();                        break;
+                    case NUMPAD7 :                       key7.fire();                        break;
+                    case NUMPAD8 :                       key8.fire();                        break;
+                    case NUMPAD9 :                       key9.fire();                        break;
+                    case STAR :                          keyStar.fire();                     break;
+                    case POUND :                         keyPound.fire();                    break;
+                }
+                ke.consume(); // <-- stops passing the event to next node
+            }
+        });
+
         primaryStage.show();
     }
 

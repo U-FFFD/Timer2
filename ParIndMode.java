@@ -97,13 +97,13 @@ class ParIndMode implements RaceMode{
             tempRacer.startStamp = theTimer.timeStamp();
             switch (startedQueue){
                 case TRACK_ONE:
-                  System.out.println("Adding " + tempRacer.id + " to track1");
-                  racingQueue1.add(tempRacer);
-                  break;
+                    System.out.println("Adding " + tempRacer.id + " to track1");
+                    racingQueue1.add(tempRacer);
+                    break;
                 case TRACK_TWO:
-                  System.out.println("Adding " + tempRacer.id + " to track2");
-                  racingQueue2.add(tempRacer);
-                  break;
+                    System.out.println("Adding " + tempRacer.id + " to track2");
+                    racingQueue2.add(tempRacer);
+                    break;
                 default:
                     break;
             }
@@ -155,43 +155,43 @@ class ParIndMode implements RaceMode{
     }
 
     public String format() {
-      String s = "\n\n-------------------\n";
+        String s = "\n\n-------------------\n";
 
-      List<Racer> tmpList = (List) waitingQueue;
-      if (!tmpList.isEmpty()){
-        s += "  " + (tmpList.get(0)).id + "\n";
-          if (tmpList.size() >= 2){s += "  " + (tmpList.get(1)).id + "\n\n";}
-      }
-
-      if (!racingQueue1.isEmpty()){
-        Racer r1 = racingQueue1.peek();
-        BigDecimal bd = new BigDecimal(theTimer.getTime() - r1.startTime);
-        bd = bd.setScale(2, RoundingMode.HALF_UP);
-        s += r1.id + "  " + Time.timeConversion(bd.doubleValue()) + " R\n";
-      }
-
-      if (!racingQueue2.isEmpty()){
-        Racer r2 = racingQueue2.peek();
-        BigDecimal bd = new BigDecimal(theTimer.getTime() - r2.startTime);
-        bd = bd.setScale(2, RoundingMode.HALF_UP);
-        s += r2.id + "  " + Time.timeConversion(bd.doubleValue()) + " R\n\n";
-      }
-
-      s += "\n";
-
-      if(!finishedList.isEmpty()){
-        if (finishedList.size() >= 1){
-          s += finishedList.get(finishedList.size() - 1).id;
-          s += " " + Time.timeConversion(finishedList.get(finishedList.size() - 1).raceTime) + " F\n";
-        }
-        if (finishedList.size() >= 2){
-          s += finishedList.get(finishedList.size() - 2).id;
-          s += " " + Time.timeConversion(finishedList.get(finishedList.size() - 2).raceTime) + " F\n\n";
+        List<Racer> tmpList = (List) waitingQueue;
+        if (!tmpList.isEmpty()){
+            s += "  " + (tmpList.get(0)).id + "\n";
+            if (tmpList.size() >= 2){s += "  " + (tmpList.get(1)).id + "\n\n";}
         }
 
-      }
-      s += "\n";
-      return s;
+        if (!racingQueue1.isEmpty()){
+            Racer r1 = racingQueue1.peek();
+            BigDecimal bd = new BigDecimal(theTimer.getTime() - r1.startTime);
+            bd = bd.setScale(2, RoundingMode.HALF_UP);
+            s += r1.id + "  " + Time.timeConversion(bd.doubleValue()) + " R\n";
+        }
+
+        if (!racingQueue2.isEmpty()){
+            Racer r2 = racingQueue2.peek();
+            BigDecimal bd = new BigDecimal(theTimer.getTime() - r2.startTime);
+            bd = bd.setScale(2, RoundingMode.HALF_UP);
+            s += r2.id + "  " + Time.timeConversion(bd.doubleValue()) + " R\n\n";
+        }
+
+        s += "\n";
+
+        if(!finishedList.isEmpty()){
+            if (finishedList.size() >= 1){
+                s += finishedList.get(finishedList.size() - 1).id;
+                s += " " + Time.timeConversion(finishedList.get(finishedList.size() - 1).raceTime) + " F\n";
+            }
+            if (finishedList.size() >= 2){
+                s += finishedList.get(finishedList.size() - 2).id;
+                s += " " + Time.timeConversion(finishedList.get(finishedList.size() - 2).raceTime) + " F\n\n";
+            }
+
+        }
+        s += "\n";
+        return s;
     }
 
     public void export(){

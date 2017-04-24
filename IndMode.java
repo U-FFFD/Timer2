@@ -24,9 +24,6 @@ class IndMode implements RaceMode{
     protected Queue<Racer> racingQueue = new LinkedList<Racer>();
     protected ArrayList<Racer> finishedList = new ArrayList<Racer>();
 
-    private boolean toSwap = false;
-    private Racer swapHold = null;
-
     public IndMode(Time t){
         theTimer = t;
     }
@@ -44,7 +41,6 @@ class IndMode implements RaceMode{
      * @param ch  int from 1-8 for which channel is triggered
      */
     public void triggerChannel(int ch){
-        System.out.println("Triggering" + ch );
         switch (ch){
             // starts on ch1
             case 1:
@@ -193,9 +189,9 @@ class IndMode implements RaceMode{
         return output;
     }
 
-  public void dnf(){
-    if(!racingQueue.isEmpty()) {
-        Racer dnfRacer = racingQueue.remove();
+    public void dnf(){
+        if(!racingQueue.isEmpty()) {
+            Racer dnfRacer = racingQueue.remove();
 
             // set end time and race time to negative values
             dnfRacer.endTime = 0;

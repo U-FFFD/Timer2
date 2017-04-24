@@ -9,10 +9,6 @@
   * Owen
 */
 
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.Queue;
-
 public class ChronoTimer{
 
     protected boolean running = false;
@@ -22,7 +18,7 @@ public class ChronoTimer{
 
     protected int[]               lastTrig        = new int[2];
     protected boolean[]           channels        = new boolean[8];       // tracks whether channels are enabled
- 
+
     public ChronoTimer(){
 
     }
@@ -184,8 +180,8 @@ public class ChronoTimer{
     protected void endRun(){
         mode.endRun();
     }
-  
-   protected void cancel() {
+
+    protected void cancel() {
         mode.cancel();
     }
 

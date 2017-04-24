@@ -15,8 +15,8 @@ class Racer{
     }
 
     public void calcRaceTime(){
-      if (startTime != 0 && endTime != 0){
-        raceTime = endTime - startTime;
-      }
+        if (startTime != 0 && endTime != 0){
+            raceTime = endTime - startTime;
+        }
     }
 }
