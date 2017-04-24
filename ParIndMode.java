@@ -13,6 +13,7 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Queue;
+import java.util.List;
 
 class ParIndMode implements RaceMode{
 
@@ -27,6 +28,7 @@ class ParIndMode implements RaceMode{
 
     private Track startedQueue;
     private Track finishedQueue;
+
 
     private Queue<Racer> waitingQueue = new LinkedList<Racer>();
     private Queue<Racer> racingQueue1 = new LinkedList<Racer>();
@@ -129,7 +131,7 @@ class ParIndMode implements RaceMode{
         // set their finish time
         finishedRacer.endTime = theTimer.getTime();
         finishedRacer.endStamp = theTimer.timeStamp();
-        finishedRacer.raceTime = finishedRacer.endTime - finishedRacer.startTime;
+        finishedRacer.calcRaceTime();
 
         // Round to 2 decimal places. (Hundredths of second)
         BigDecimal bd = new BigDecimal(finishedRacer.raceTime);
@@ -149,9 +151,25 @@ class ParIndMode implements RaceMode{
     }
 
     public String format() {
+      String s = "";
 
+      List tmpList = (List) waitingQueue;
 
-        return "";
+      s += "Next to start:\n";
+      s += "  " + (tmpList.get(0)).id + "\n";
+      s += "  " + (tmpList.get(1)).id + "\n\n";
+
+      s += "Running:\n:";
+      s += racingQueue1.peek().id + " R\n";
+      s += racingQueue2.peek().id + " R\n\n";
+
+      s += "Last finished:\n";
+      s += finishedList.get(finishedList.size() - 1).id;
+      s += ": " + Time.timeConversion((finishedList.size() - 1).raceTime) + " F\n";
+      s += finishedList.get(finishedList.size() - 2).id;
+      s += ": " + Time.timeConversion((finishedList.size() - 2).raceTime) + " F\n\n";
+
+      return s;
     }
 
     public void export(){
