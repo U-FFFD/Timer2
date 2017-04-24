@@ -20,7 +20,13 @@ class ParIndMode implements RaceMode{
 
   private int runNum = 1;
 
-  private int startedQueue;
+  private enum Track{
+    TRACK_ONE,
+    TRACK_TWO
+  }
+
+  private Track startedQueue;
+  private Track finishedQueue;
 
   private Queue<Racer> waitingQueue = new LinkedList<Racer>();
   private Queue<Racer> racingQueue1 = new LinkedList<Racer>();
@@ -42,18 +48,20 @@ class ParIndMode implements RaceMode{
     switch (ch){
       // starts on ch1 and 3
       case 1:
-        startedQueue = 1;
+        startedQueue = Track.TRACK_ONE;
         start();
         break;
       case 3:
-        startedQueue = 2;
+        startedQueue = Track.TRACK_TWO;
         start();
         break;
       // ends on ch2 and 4
       case 2:
+        finishedQueue = Track.TRACK_ONE;
         finish();
         break;
       case 4:
+        finishedQueue = Track.TRACK_TWO;
         finish();
         break;
       // other channels do nothing
@@ -64,13 +72,20 @@ class ParIndMode implements RaceMode{
   }
   /** Returns the current racer to the waiting queue */
   public void cancel(){
-    while (!waitingQueue.isEmpty()) {
-        racingQueue.add(waitingQueue.remove());
+    // cancels current racers in both tracks
+    // put all the people into the same racing queue
+    while (!racingQueue2.isEmpty()) {
+        racingQueue1.add(racingQueue2.remove());
     }
-    waitingQueue = racingQueue;
-    racingQueue = new LinkedList<Racer>();
+    while (!waitingQueue.isEmpty()) {
+        racingQueue1.add(waitingQueue.remove());
+    }
+    // convert that full racing queue to the waiting queue
+    waitingQueue = racingQueue1;
+    racingQueue1 = new LinkedList<Racer>();
+    racingQueue2 = new LinkedList<Racer>();
   }
-  
+
   /** Triggers a start event */
   public void start(){
     // moves racer from waitingQueue to the currently racing queue and sets their start time.
@@ -78,43 +93,79 @@ class ParIndMode implements RaceMode{
         Racer tempRacer = waitingQueue.remove();
         tempRacer.startTime = theTimer.getTime();
         tempRacer.startStamp = theTimer.timeStamp();
-        if (startedQueue == 1){
-          racingQueue1.add(tempRacer);
-        } else {
-          racingQueue2.add(tempRacer);
+        switch (startedQueue){
+          case TRACK_ONE:
+            racingQueue1.add(tempRacer);
+          case TRACK_TWO:
+            racingQueue2.add(tempRacer);
+          default:
+            break;
         }
-
     }
   }
+
   /** Triggers a finish event */
   public void finish(){
-    // remove top racer from queue
-    if(!racingQueue.isEmpty()) {
-        Racer finishedRacer = racingQueue.remove();
-
-        // set their finish time
-        finishedRacer.endTime = theTimer.getTime();
-        finishedRacer.endStamp = theTimer.timeStamp();
-        finishedRacer.raceTime = finishedRacer.endTime - finishedRacer.startTime;
-
-        // Round to 2 decimal places. (Hundredths of second)
-        BigDecimal bd = new BigDecimal(finishedRacer.raceTime);
-        bd = bd.setScale(2, RoundingMode.HALF_UP);
-        finishedRacer.raceTime = bd.doubleValue();
-
-        //store finished racer in finished list
-        finishedList.add(finishedRacer);
+    Racer finishedRacer;
+    // remove top racer from whatever queue finish was on
+    switch (finishedQueue) {
+      case TRACK_ONE:
+        if (!racingQueue1.isEmpty()){
+          finishedRacer = racingQueue1.remove();
+        } else {
+          return;
+        }
+        break;
+      case TRACK_TWO:
+        if (!racingQueue2.isEmpty()){
+          finishedRacer = racingQueue2.remove();
+        } else {
+          return;
+        }
+        break;
+      default:
+        return;
     }
+      // set their finish time
+      finishedRacer.endTime = theTimer.getTime();
+      finishedRacer.endStamp = theTimer.timeStamp();
+      finishedRacer.raceTime = finishedRacer.endTime - finishedRacer.startTime;
+
+      // Round to 2 decimal places. (Hundredths of second)
+      BigDecimal bd = new BigDecimal(finishedRacer.raceTime);
+      bd = bd.setScale(2, RoundingMode.HALF_UP);
+      finishedRacer.raceTime = bd.doubleValue();
+
+      //store finished racer in finished list
+      finishedList.add(finishedRacer);
   }
 
-  public void print(){
-    for (Racer r : finishedList) System.out.println(r.toString());
+  public String print(){
+    String s = "";
+    for (Racer r : finishedList){
+      s = s + "\n" + r.toString();
+    }
+    return s;
+  }
+
+  public void export(){
+      // SAVE HERE
+      Gson g = new Gson();
+      String out = g.toJson(finishedList);
+
+      Path file = Paths.get(("RUN00" + runNum + ".txt"));
+      try {
+          Files.write(file, out.getBytes("UTF-8"));
+      } catch (IOException e) {
+          e.printStackTrace();
+      }
   }
 
   public void newRun(){
     // set up a new run with empty queues
     waitingQueue = new LinkedList<Racer>();
-    racingQueue = new LinkedList<Racer>();
+    racingQueue1 = new LinkedList<Racer>();
+    racingQueue2 = new LinkedList<Racer>();
     finishedList = new ArrayList<Racer>();
   }
 
@@ -133,13 +184,15 @@ class ParIndMode implements RaceMode{
 
     // ends the run, clearing memory n stuff
     waitingQueue    = new LinkedList<Racer>();
-    racingQueue     = new LinkedList<Racer>();
+    racingQueue1    = new LinkedList<Racer>();
+    racingQueue2    = new LinkedList<Racer>();
     finishedList    = new ArrayList<Racer>();
   }
 
+  /** Which queue should I DNF from? */
   public void dnf(){
-    if(!racingQueue.isEmpty()) {
-        Racer dnfRacer = racingQueue.remove();
+    if(!racingQueue1.isEmpty()) {
+        Racer dnfRacer = racingQueue1.remove();
 
         // set end time and race time to negative values
         dnfRacer.endTime = 0;
