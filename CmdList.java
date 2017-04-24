@@ -12,15 +12,15 @@ public class CmdList {
         state = "BASE";
         this.i = -1;
         cmds.add("EVENT");
+        cmds.add("ADD RACERS");
+        cmds.add("SET TIME");
         cmds.add("NEW RUN");
         cmds.add("END RUN");
-        cmds.add("EXPORT");
-        cmds.add("ADD RACERS");
+        cmds.add("DNF");
         cmds.add("PRINT");
+        cmds.add("EXPORT");
         cmds.add("FILE");
         cmds.add("RESET");
-        cmds.add("SET TIME");
-        cmds.add("DNF");
         cmds.add("CANCEL");
     }
     public String left() {
@@ -59,14 +59,14 @@ public class CmdList {
             state = "BASE";
             cmds.add("EVENT");
             cmds.add("ADD RACERS");
+            cmds.add("SET TIME");
             cmds.add("NEW RUN");
             cmds.add("END RUN");
-            cmds.add("EXPORT");
+            cmds.add("DNF");
             cmds.add("PRINT");
+            cmds.add("EXPORT");
             cmds.add("FILE");
             cmds.add("RESET");
-            cmds.add("SET TIME");
-            cmds.add("DNF");
             cmds.add("CANCEL");
         } else{}
     }

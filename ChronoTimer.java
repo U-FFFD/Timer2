@@ -146,20 +146,20 @@ public class ChronoTimer{
 
     protected void setMode(String inmode){
         if (inmode != null){
-          switch (inmode){
-            case "IND":
-              mode = new IndMode(theTimer);
-              //mode = new IndMode();
-              break;
-            case "PARIND":
-              //mode = new ParIndMode();
-              break;
-            case "GRP":
-              //mode = new GrpMode();
-              break;
-            case "PARGRP":
-              //mode = new ParGrpMode();
-          }
+            switch (inmode){
+                case "IND":
+                    mode = new IndMode(theTimer);
+                    //mode = new IndMode();
+                    break;
+                case "PARIND":
+                    //mode = new ParIndMode();
+                    break;
+                case "GRP":
+                    //mode = new GrpMode();
+                    break;
+                case "PARGRP":
+                    //mode = new ParGrpMode();
+            }
         }
     }
 
@@ -171,7 +171,7 @@ public class ChronoTimer{
     }
 
     protected void addRacer(int id) {
-      mode.addRacer(id);
+        mode.addRacer(id);
     }
 
     protected void toggleChannel(String ch){
@@ -186,43 +186,43 @@ public class ChronoTimer{
 
         // if channel is active, trigger it in mode
         if (channels[channel - 1]) {
-          mode.triggerChannel(channel);
+            mode.triggerChannel(channel);
         }
     }
 
-     protected void export(){
-       mode.export();
+    protected void export(){
+        mode.export();
     }
 
 
     protected void swap(){
-      if (mode instanceof IndMode){
-        ((IndMode)mode).swap();
-      }
+        if (mode instanceof IndMode){
+            ((IndMode)mode).swap();
+        }
     }
 
 
     protected void start(){
-      mode.start();
+        mode.start();
     }
 
     protected void dnfRacer() {
-      mode.dnf();
+        mode.dnf();
     }
 
     protected void newRun(){
-      mode.newRun();
+        mode.newRun();
     }
 
     protected void endRun(){
-      mode.endRun();
+        mode.endRun();
     }
 
     protected void finish(){
-      mode.finish();
+        mode.finish();
     }
 
     public String print(){
-      return mode.print();
+        return mode.print();
     }
 }

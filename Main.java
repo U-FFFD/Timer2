@@ -4,6 +4,8 @@ import javafx.animation.Timeline;
 import javafx.application.Application;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
@@ -31,7 +33,7 @@ public class Main extends Application {
         final Rectangle cover2 = new Rectangle(1000, 700);
         cover2.setStyle("-fx-fill: #051930");
     /*////////////////////////////////////////////////////////
-                        CHANNEL GRID
+                        SENSOR CONNECTION GRID
      *///////////////////////////////////////////////////////
         GridPane connectionGrid = new GridPane();
         connectionGrid.setAlignment(Pos.CENTER);
@@ -97,24 +99,193 @@ public class Main extends Application {
 
         Rectangle usbShape1 = new Rectangle(54, 20);
         usbShape1.setStyle("-fx-fill: #383838");
-        usbShape1.setTranslateX(200);
+        usbShape1.setTranslateX(260);
         usbShape1.setTranslateY(-40);
 
         Rectangle usbShape2 = new Rectangle(40, 5);
         usbShape2.setStyle("-fx-fill: #a8a8a8");
-        usbShape2.setTranslateX(201);
+        usbShape2.setTranslateX(261);
         usbShape2.setTranslateY(-42);
 
         Rectangle usbBackground = new Rectangle(130, 50);
         usbBackground.setId("display");
-        usbBackground.setTranslateX(178);
+        usbBackground.setTranslateX(238);
         usbBackground.setTranslateY(-40);
 
         Label usbLabel = new Label();
         usbLabel.setText("USB");
         usbLabel.setId("screen-text");
-        usbLabel.setTranslateX(142);
+        usbLabel.setTranslateX(202);
         usbLabel.setTranslateY(-40);
+
+        final ListView<String> list1 = new ListView<>();
+        ObservableList<String> items1 = FXCollections.observableArrayList (
+                "EYE" , "GATE" , "PAD");
+
+        list1.setMaxSize(120,220);
+        list1.setItems(items1);
+        list1.setTranslateX(-390);
+        list1.setTranslateY(0);
+        rearPanel.getChildren().add(list1);
+        list1.setVisible(false);
+
+        final ListView<String> list2 = new ListView<>();
+        ObservableList<String> items2 = FXCollections.observableArrayList (
+                "EYE" , "GATE" , "PAD");
+
+        list2.setMaxSize(120,220);
+        list2.setItems(items2);
+        list2.setTranslateX(-390);
+        list2.setTranslateY(0);
+        rearPanel.getChildren().add(list2);
+        list2.setVisible(false);
+
+        final ListView<String> list3 = new ListView<>();
+        ObservableList<String> items = FXCollections.observableArrayList (
+                "EYE" , "GATE" , "PAD");
+
+        list3.setMaxSize(120,220);
+        list3.setItems(items);
+        list3.setTranslateX(-390);
+        list3.setTranslateY(0);
+        rearPanel.getChildren().add(list3);
+        list3.setVisible(false);
+
+        final ListView<String> list4 = new ListView<>();
+        ObservableList<String> items4 = FXCollections.observableArrayList (
+                "EYE" , "GATE" , "PAD");
+
+        list4.setMaxSize(120,220);
+        list4.setItems(items);
+        list4.setTranslateX(-390);
+        list4.setTranslateY(0);
+        rearPanel.getChildren().add(list4);
+        list4.setVisible(false);
+
+        final ListView<String> list5 = new ListView<>();
+        ObservableList<String> items5 = FXCollections.observableArrayList (
+                "EYE" , "GATE" , "PAD");
+
+        list5.setMaxSize(120,220);
+        list5.setItems(items);
+        list5.setTranslateX(-390);
+        list5.setTranslateY(0);
+        rearPanel.getChildren().add(list5);
+        list5.setVisible(false);
+
+        final ListView<String> list6 = new ListView<>();
+        ObservableList<String> items6 = FXCollections.observableArrayList (
+                "EYE" , "GATE" , "PAD");
+
+        list6.setMaxSize(120,220);
+        list6.setItems(items);
+        list6.setTranslateX(-390);
+        list6.setTranslateY(0);
+        rearPanel.getChildren().add(list6);
+        list6.setVisible(false);
+
+        final ListView<String> list7 = new ListView<>();
+        ObservableList<String> items7 = FXCollections.observableArrayList (
+                "EYE" , "GATE" , "PAD");
+
+        list7.setMaxSize(120,220);
+        list7.setItems(items);
+        list7.setTranslateX(-390);
+        list7.setTranslateY(0);
+        rearPanel.getChildren().add(list7);
+        list7.setVisible(false);
+
+        final ListView<String> list8 = new ListView<>();
+        ObservableList<String> items8 = FXCollections.observableArrayList (
+                "EYE" , "GATE" , "PAD");
+
+        list8.setMaxSize(120,220);
+        list8.setItems(items);
+        list8.setTranslateX(-390);
+        list8.setTranslateY(0);
+        rearPanel.getChildren().add(list8);
+        list8.setVisible(false);
+
+        cn1.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                if(cn1.isSelected()) {
+                    list1.setVisible(true);
+                }
+                else
+                    list1.setVisible(false);
+            }
+        });
+        cn2.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                if(cn2.isSelected()) {
+                    list2.setVisible(true);
+                }
+                else
+                    list2.setVisible(false);
+            }
+        });
+        cn3.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                if(cn3.isSelected()) {
+                    list3.setVisible(true);
+                }
+                else
+                    list3.setVisible(false);
+            }
+        });
+        cn4.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                if(cn4.isSelected()) {
+                    list4.setVisible(true);
+                }
+                else
+                    list4.setVisible(false);
+            }
+        });
+        cn5.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                if(cn5.isSelected()) {
+                    list5.setVisible(true);
+                }
+                else
+                    list5.setVisible(false);
+            }
+        });
+        cn6.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                if(cn6.isSelected()) {
+                    list6.setVisible(true);
+                }
+                else
+                    list6.setVisible(false);
+            }
+        });
+        cn7.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                if(cn7.isSelected()) {
+                    list7.setVisible(true);
+                }
+                else
+                    list7.setVisible(false);
+            }
+        });
+        cn8.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                if(cn8.isSelected()) {
+                    list8.setVisible(true);
+                }
+                else
+                    list8.setVisible(false);
+            }
+        });
 
         rearPanel.getChildren().add(usbBackground);
         rearPanel.getChildren().add(usbLabel);
@@ -145,12 +316,14 @@ public class Main extends Application {
 
 
 
+
         final StackPane root = new StackPane();
         root.getStylesheets().addAll(this.getClass().getResource("style.css").toExternalForm());
         primaryStage.setTitle("ChronoTimer 3.00");
         final ChronoTimer timer = new ChronoTimer();
         final String[] state = new String[1];
         state[0] = "BASE";
+        final boolean[] printerIsOn = {false};
         final int[] lastCmdLength = {0};
 
         // Title
@@ -165,24 +338,12 @@ public class Main extends Application {
         swapButton.setTranslateX(-314);
         swapButton.setTranslateY(200);
         swapButton.setOnAction(new EventHandler<ActionEvent>() {
-
             @Override
             public void handle(ActionEvent event) {
                 timer.swap();
             }
         });
 
-        // Printer Power Button
-        Button printerButton = new Button();
-        printerButton.setText("PRINTER");
-        printerButton.setTranslateX(310);
-        printerButton.setTranslateY(-254);
-        printerButton.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent actionEvent) {
-                System.out.println("Printer Pwr Click");
-            }
-        });
 
         // Display Label
         Label displayLabel = new Label();
@@ -219,9 +380,9 @@ public class Main extends Application {
         final ScrollPane printScroll = new ScrollPane();
         printScroll.setTranslateX(312);
         printScroll.setTranslateY(-120);
-        printScroll.setMaxSize(130, 140);
+        printScroll.setMaxSize(132, 140);
         printScroll.setStyle("-fx-background-color: #f2ead7");
-        Scene printerScene = new Scene(printScroll, 120, 140);
+        Scene printerScene = new Scene(printScroll, 128, 140);
         printerOut.wrappingWidthProperty().bind(printerScene.widthProperty());
         printScroll.setFitToWidth(true);
         printScroll.setContent(printBox);
@@ -229,6 +390,25 @@ public class Main extends Application {
             @Override
             public void changed(ObservableValue observable, Object oldvalue, Object newValue) {
                 printScroll.setVvalue((Double) newValue);
+            }
+        });
+
+        // Printer Power
+        Button printerButton = new Button();
+        printerButton.setText("PRINTER");
+        printerButton.setTranslateX(310);
+        printerButton.setTranslateY(-254);
+        printerButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                if(printerIsOn[0]) {
+                    printerIsOn[0] = false;
+                    printerOut.setText("POWERING OFF.");
+                }
+                else {
+                    printerIsOn[0] = true;
+                    printerOut.setText("THERMAL RECEIPT PRINTER STARTED");
+                }
             }
         });
 
@@ -293,7 +473,7 @@ public class Main extends Application {
                         break;
                     case "ADD RACERS":
                         state[0] = "ADD";
-                        screen.setText(screen.getText() + "\n" + "Use num pad to input bib numbers \n('*' to enter id, '#' to finish adding)\n#");
+                        screen.setText(screen.getText() + "\n" + "Use num pad to input bib numbers \n('*' to enter new id, press # to finish.)\n#");
                         theList.isCmd = false;
                         break;
                     case "SET TIME":
@@ -308,14 +488,17 @@ public class Main extends Application {
                         timer.endRun();
                         break;
                     case "EXPORT" :
-                        //timer.export();
+                        timer.export();
                         break;
                     case "PRINT":
-                        timer.print();
+                        System.out.println(timer.print());
                         printerOut.setText(timer.print());
                         break;
                     case "RESET" :
                         timer.reset();
+                        break;
+                    case "CANCEL" :
+                        screen.setText(screen.getText() + "\n" + timer.mode.format());
                         break;
                     default:
                         break;
@@ -588,6 +771,9 @@ public class Main extends Application {
             @Override
             public void handle(ActionEvent event) {
                 state[0] = "BASE";
+                screen.setText(screen.getText() + " Done adding.");
+                screen.setText(screen.getText() + "\n" + timer.mode.format());
+
             }
         });
 
