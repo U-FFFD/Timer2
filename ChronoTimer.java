@@ -22,11 +22,7 @@ public class ChronoTimer{
 
     protected int[]               lastTrig        = new int[2];
     protected boolean[]           channels        = new boolean[8];       // tracks whether channels are enabled
-    protected Queue<Racer> 		waitingQueue 	= new LinkedList<Racer>();
-    protected Queue<Racer> 		racingQueue     = new LinkedList<Racer>();
-    protected ArrayList<Racer> 	finishedList    = new ArrayList<Racer>();
-
-
+ 
     public ChronoTimer(){
 
     }
@@ -103,13 +99,10 @@ public class ChronoTimer{
     }
 
     protected void reset() {
-        running = false;
         theTimer = new Time();
         mode = new IndMode(theTimer);
         channels = new boolean[8];
-        waitingQueue = new LinkedList<Racer>();
-        racingQueue = new LinkedList<Racer>();
-        finishedList = new ArrayList<Racer>();
+        newRun();
         theTimer.stop();
         theTimer.start();
 
