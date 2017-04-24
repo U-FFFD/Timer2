@@ -153,7 +153,7 @@ class GrpMode implements RaceMode{
 
 
   public String format() {
-    String s = "";
+    String s = "\n\n---------------\n";
 
     // prints currently racing
     if (!racingQueue.isEmpty()){
@@ -170,6 +170,12 @@ class GrpMode implements RaceMode{
     }
     return s;
   }
+
+
+  public boolean allFinished(){
+    return (waitingQueue.isEmpty() && racingQueue.isEmpty());
+  }
+
 
   public void export(){
     // merge all together
