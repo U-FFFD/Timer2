@@ -127,14 +127,20 @@ class IndMode implements RaceMode{
     }
 
     public void endRun(){
-        export();
-        ++runNum;
+        // Put on server here
+        if(!finishedList.isEmpty()) {
+            for (Racer r : finishedList) {
+                RacerData data = new RacerData("", r.id + "", "nameHere", Time.timeConversion(r.raceTime), "Ind");
+                Gson g = new Gson();
+                String jsonRaceData = g.toJson(data);
+                ChronoTimer.sendDataToServer(jsonRaceData);
+            }
+            export();
+        }
         // ends the run, clearing memory n stuff
         waitingQueue    = new LinkedList<Racer>();
         racingQueue     = new LinkedList<Racer>();
         finishedList    = new ArrayList<Racer>();
-
-
     }
 
     public void export(){
@@ -143,6 +149,7 @@ class IndMode implements RaceMode{
         String out = g.toJson(finishedList);
 
         Path file = Paths.get(("RUN00" + runNum + ".txt"));
+        ++runNum;
         try {
             Files.write(file, out.getBytes("UTF-8"));
         } catch (IOException e) {
@@ -151,7 +158,7 @@ class IndMode implements RaceMode{
     }
 
     public String format() {
-        String output = "Racers: ";
+        String output = "";
         if (!waitingQueue.isEmpty()) {
             Object[] objects = waitingQueue.toArray();
             Racer[] racers = new Racer[objects.length];
@@ -178,13 +185,13 @@ class IndMode implements RaceMode{
             for (Racer r : curRacers) {
                 BigDecimal bd = new BigDecimal((theTimer.getTime() - r.startTime));
                 bd = bd.setScale(2, RoundingMode.HALF_UP);
-                output += "\n" + r.id + "               " + theTimer.timeConversion(bd.doubleValue()) + "    R";
+                output += "\n" + r.id + "               " + Time.timeConversion(bd.doubleValue()) + "    R";
             }
         }
 
         // Now just the last racer to finish. "
         if(!finishedList.isEmpty())
-            output += "\n\n" + finishedList.get(finishedList.size()-1) .id + "              " + finishedList.get(finishedList.size()-1).raceTime + "   F";
+            output += "\n\n" + finishedList.get(finishedList.size()-1).id + "              " + finishedList.get(finishedList.size()-1).raceTime + "   F\n";
 
         return output;
     }

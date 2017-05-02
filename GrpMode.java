@@ -122,8 +122,17 @@ class GrpMode implements RaceMode{
     }
 
     public void endRun(){
-        export();
-        ++runNum;
+        // Put on server here
+        int place = 0;
+        if(!finishedNumbered.isEmpty()) {
+            for (Racer r : finishedNumbered) {
+                RacerData data = new RacerData(++place + "", r.id + "", "nameHere", Time.timeConversion(r.raceTime), "Group");
+                Gson g = new Gson();
+                String jsonRaceData = g.toJson(data);
+                ChronoTimer.sendDataToServer(jsonRaceData);
+            }
+            export();
+        }
         finishedCount = 1;
         waitingQueue = new LinkedList<Racer>();
         racingQueue = new LinkedList<Racer>();
@@ -194,6 +203,7 @@ class GrpMode implements RaceMode{
         String out = g.toJson(merged);
 
         Path file = Paths.get(("RUN00" + runNum + ".txt"));
+        runNum++;
         try{
             Files.write(file, out.getBytes("UTF-8"));
         } catch (IOException e) {

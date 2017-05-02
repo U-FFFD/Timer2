@@ -330,6 +330,8 @@ public class Main extends Application {
         final int[] place = {0};
         final boolean[] printerIsOn = {false};
         final int[] lastCmdLength = {0};
+        final String[] racer = {""};
+        final String[] time = {""};
 
         // Title
         final Text sceneTitle = new Text("Chrono Timer");
@@ -473,37 +475,58 @@ public class Main extends Application {
                         break;
                     case "GROUP":
                         timer.setMode("GRP");
+                        place[0] = 0;
                         screen.setText(screen.getText() + "\n" + "Mode set to GRP");
                         theList.isCmd = false;
                         theList.setMode("BASE");
                         break;
                     case "ADD RACERS":
                         state[0] = "ADD";
-                        screen.setText(screen.getText() + "\n" + "Use num pad to input bib numbers \n('*' to add and continue, press # to finish.)\n#");
+                        screen.setText(screen.getText() + "\n" + "Use num pad to input bib numbers \n('*' to add and continue, press # to add and finish.)\n#");
                         theList.isCmd = false;
                         break;
                     case "SET TIME":
                         state[0] = "TIME_SET";
-                        screen.setText(screen.getText() + "\n" + "Use num pad to enter time as hh:mm:ss \n('*' to set)");
+                        screen.setText(screen.getText() + "\n" + "Use num pad to enter time as hh:mm:ss \n('*' to set)" +
+                                "\nPress # to clear the entry.");
                         theList.isCmd = false;
                         break;
                     case "NEW RUN":
+                        place[0] = 0;
+                        racer[0] = "";
                         timer.newRun();
                         break;
                     case "END RUN":
                         timer.endRun();
+                        screen.setText(screen.getText() + "\n--- Race Results have been uploaded ---");
+                        racer[0] = "";
+                        place[0] = 0;
                         break;
                     case "EXPORT" :
                         timer.export();
+                        break;
+                    case "DNF" :
+                        timer.dnfRacer();
+                        screen.setText(screen.getText() + "\n" + timer.mode.format());
                         break;
                     case "PRINT":
                         System.out.println(timer.print());
                         printerOut.setText(timer.print());
                         break;
                     case "RESET" :
+                        state[0] = "BASE";
+                        time[0] = "";
+                        timer.setTime("00:00:00");
+                        theList.state = "BASE";
+                        final int[] lastCmdLength = {0};
+                        screen.setText("");
+                        theList.isCmd = false;
+                        theList.i = -1;
+                        place[0] = 0;
                         timer.reset();
                         break;
                     case "CANCEL" :
+                        timer.mode.cancel();
                         screen.setText(screen.getText() + "\n" + timer.mode.format());
                         break;
                     default:
@@ -575,9 +598,6 @@ public class Main extends Application {
         final Button keyStar = new Button();
         final Button keyPound = new Button();
 
-        final String[] racer = {""};
-        final String[] time = new String[1];
-        time[0] = "";
         key1.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
@@ -837,14 +857,20 @@ public class Main extends Application {
                     if ((!racer[0].contains("^[0-9]+$")) && !racer[0].equals("")) {
                         int i = Integer.parseInt(racer[0]);
                         timer.addRacer(i);
+                        screen.setText(screen.getText() + " \nDone adding.");
                     }
                     racer[0] = "";
-                    screen.setText(screen.getText() + "\n#");
+                    state[0] = "BASE";
+                    screen.setText(screen.getText() + "\n" + timer.mode.format());
                 }
-                state[0] = "BASE";
-                screen.setText(screen.getText() + " Done adding.");
-                screen.setText(screen.getText() + "\n" + timer.mode.format());
-
+                else if(state[0].equals("ASSIGN")) { //  erase function while assigning racers.
+                    screen.setText(screen.getText().substring(0, screen.getText().length() - racer[0].length())); // go back length of racer
+                    racer[0] = "";
+                }
+                else if (state[0].equals("TIME_SET")) {
+                    screen.setText(screen.getText().substring(0, screen.getText().length() - time[0].length())); // go back length of racer
+                    time[0] = "";
+                }
             }
         });
 
@@ -1035,7 +1061,8 @@ public class Main extends Application {
                 screen.setText(screen.getText() + timer.mode.format());
 
                 if( (timer.mode instanceof GrpMode ) && ((GrpMode)timer.mode).allFinished() ) {
-                    screen.setText(screen.getText() + "All racers have finished. \nEnter the bib number for each racer\n Press * for next racer.");
+                    screen.setText(screen.getText() + "All racers have finished. \nEnter the bib number for each racer\n Press * for next racer." +
+                            "\nUse the # key to clear current number.");
                     state[0] = "ASSIGN";
                     place[0] = (place[0] + 1);
                     screen.setText(screen.getText() + "\nPosition " + place[0] + ":    #");
@@ -1204,7 +1231,7 @@ public class Main extends Application {
                     case DIGIT8 :                        key8.fire();                        break;
                     case DIGIT9 :                        key9.fire();                        break;
                     case NUMPAD0 :                       key0.fire();                        break;
-                    case NUMPAD1:                        key1.fire();                        break;
+                    case NUMPAD1 :                       key1.fire();                        break;
                     case NUMPAD2 :                       key2.fire();                        break;
                     case NUMPAD3 :                       key3.fire();                        break;
                     case NUMPAD4 :                       key4.fire();                        break;
@@ -1213,8 +1240,8 @@ public class Main extends Application {
                     case NUMPAD7 :                       key7.fire();                        break;
                     case NUMPAD8 :                       key8.fire();                        break;
                     case NUMPAD9 :                       key9.fire();                        break;
-                    case STAR :                          keyStar.fire();                     break;
-                    case POUND :                         keyPound.fire();                    break;
+                    case ASTERISK:                       keyStar.fire();                     break;
+                    case NUMBER_SIGN:                    keyPound.fire();                    break;
                 }
                 ke.consume(); // <-- stops passing the event to next node
             }

@@ -9,6 +9,11 @@
   * Owen
 */
 
+import java.io.DataOutputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
+
 public class ChronoTimer{
 
     protected boolean running = false;
@@ -153,6 +158,54 @@ public class ChronoTimer{
         }
     }
 
+    public static void sendDataToServer(String input){
+        try {
+            // set up URL to connect
+            URL site = new URL("http://localhost:8000/sendresults");
+            HttpURLConnection conn = (HttpURLConnection) site.openConnection();
+
+            // create POST request
+            conn.setRequestMethod("POST");
+            conn.setDoOutput(true);
+            conn.setDoInput(true);
+            DataOutputStream out = new DataOutputStream(conn.getOutputStream());
+
+
+            String send = "";
+            switch (input){
+                case "CLEAR":
+                    send = "CLEAR";
+                    break;
+                case "PRINT":
+                    send = "PRINT";
+                    break;
+                default:
+                    send = "ADD " + input;
+                    System.out.println("json: " + input);
+                    break;
+            }
+
+            out.writeBytes(send);
+            out.flush();
+            out.close();
+
+            System.out.println("JSON sent to server");
+
+            InputStreamReader inputStr = new InputStreamReader(conn.getInputStream());
+
+            StringBuilder sb = new StringBuilder();
+
+            int nextChar;
+            while((nextChar = inputStr.read()) > -1) {
+                sb = sb.append((char) nextChar);
+            }
+
+            System.out.println("Return: " + sb);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+
     protected void export(){
         mode.export();
     }
@@ -163,7 +216,6 @@ public class ChronoTimer{
             ((IndMode)mode).swap();
         }
     }
-
 
     protected void start(){
         mode.start();

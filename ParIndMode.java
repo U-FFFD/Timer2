@@ -200,6 +200,7 @@ class ParIndMode implements RaceMode{
         String out = g.toJson(finishedList);
 
         Path file = Paths.get(("RUN00" + runNum + ".txt"));
+        runNum++;
         try {
             Files.write(file, out.getBytes("UTF-8"));
         } catch (IOException e) {
@@ -216,18 +217,17 @@ class ParIndMode implements RaceMode{
     }
 
     public void endRun(){
-        // SAVE HERE
-        ++runNum;
-        Gson g = new Gson();
-        String out = g.toJson(finishedList);
-
-        Path file = Paths.get(("RUN00" + runNum + ".txt"));
-        try {
-            Files.write(file, out.getBytes("UTF-8"));
-        } catch (IOException e) {
-            e.printStackTrace();
+        // Put on server here
+        if(!finishedList.isEmpty()) {
+            int place = 0;
+            for (Racer r : finishedList) {
+                RacerData data = new RacerData(++place + "", r.id + "", "nameHere", Time.timeConversion(r.raceTime), "Par Ind");
+                Gson g = new Gson();
+                String jsonRaceData = g.toJson(data);
+                ChronoTimer.sendDataToServer(jsonRaceData);
+            }
+            export();
         }
-
         // ends the run, clearing memory n stuff
         waitingQueue    = new LinkedList<Racer>();
         racingQueue1    = new LinkedList<Racer>();
