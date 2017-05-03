@@ -79,7 +79,22 @@ class ParGrpMode implements RaceMode{
     }
 
     public void finishLane(int lane){
+      // check that racer exists
+      if (lane < numRacers){
+        Racer tmp = racerLanes[lane];
+        // check that racer has not finished yet
+        if (tmp.endTime == 0.0){
+          tmp.endTime = theTimer.getTime();
+          tmp.endStamp = theTimer.timeStamp();
 
+          tmp.calcRaceTime();
+
+          BigDecimal bd = new BigDecimal(tmp.raceTime);
+          bd = bd.setScale(2, RoundingMode.HALF_UP);
+          finished.raceTime = bd.doubleValue();
+        }
+
+      }
     }
 
     public void dnf(){
