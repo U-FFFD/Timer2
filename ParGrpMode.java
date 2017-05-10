@@ -79,7 +79,7 @@ class ParGrpMode implements RaceMode{
 
     /** Triggers a finish event */
     public void finish(){
-
+        
     }
 
     public void finishLane(int lane){
@@ -151,9 +151,6 @@ class ParGrpMode implements RaceMode{
         // SAVE HERE
         Gson g = new Gson();
         String out = g.toJson(finishedList);
-        
-    
-
         Path file = Paths.get(("RUN00" + runNum + ".txt"));
         ++runNum;
         try {
