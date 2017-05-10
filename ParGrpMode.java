@@ -38,6 +38,7 @@ class ParGrpMode implements RaceMode{
     public void addRacer(int id){
       if (numRacers < 8){
         racerLanes[numRacers] = new Racer(id);
+        numRacers++;
       }
     }
 
@@ -80,7 +81,7 @@ class ParGrpMode implements RaceMode{
     public void finishLane(int lane){
       // check that racer exists
       if (lane < numRacers){
-        Racer tmp = racerLanes[lane];
+        Racer tmp = racerLanes[lane - 1];
         // check that racer has not finished yet
         if (tmp.endTime == 0.0){
           tmp.endTime = theTimer.getTime();
@@ -110,7 +111,7 @@ class ParGrpMode implements RaceMode{
 
     public String print(){
       String s = "";
-      for (int i = 0; i < 8; i++){
+      for (int i = 0; i < numRacers; i++){
         if (racerLanes[i] != null){
           s += racerLanes[i].toString();
           s += "\n";
@@ -125,13 +126,13 @@ class ParGrpMode implements RaceMode{
     public String format() {
         String s = "\n\n---------------\n";
 
-        for (int i = 0; i < 8; i++){
+        for (int i = 0; i < numRacers; i++){
           if (racerLanes[i] != null){
             Racer tmp = racerLanes[i];
             if (tmp.endTime == 0){
-              s += "Lane " + (i + 1) + "still racing\n";
+              s += "Lane " + (i + 1) + " Racer " + tmp.id + " still racing\n";
             } else {
-              s += "Lane " + (i + 1) + "time: " + tmp.raceTime + "\n";
+              s += "Lane " + (i + 1) + " Racer " + tmp.id + " time: " + tmp.raceTime + "\n";
             }
           }
         }
