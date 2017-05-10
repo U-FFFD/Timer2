@@ -126,7 +126,8 @@ public class ChronoTimer{
                     System.out.println("mode set GRP");
                     break;
                 case "PARGRP":
-                    //mode = new ParGrpMode();
+                    mode = new ParGrpMode(theTimer);
+
             }
         }
     }
