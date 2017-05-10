@@ -80,7 +80,7 @@ class ParGrpMode implements RaceMode{
 
     public void finishLane(int lane){
       // check that racer exists
-      if (lane < numRacers){
+      if (lane <= numRacers){
         Racer tmp = racerLanes[lane - 1];
         // check that racer has not finished yet
         if (tmp.endTime == 0.0){
