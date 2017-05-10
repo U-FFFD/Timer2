@@ -27,7 +27,7 @@ public class Main extends Application {
         final StackPane rearPanel = new StackPane();
         Scene scene2 = new Scene(rearPanel, 900, 200);
         final Stage stage = new Stage();
-        stage.setTitle("New Rear View");
+        stage.setTitle("Sensor Connections");
         stage.setScene(scene2);
         rearPanel.getStylesheets().addAll(this.getClass().getResource("style.css").toExternalForm());
         rearPanel.setStyle("-fx-background-color:#1565C0");
@@ -480,6 +480,13 @@ public class Main extends Application {
                         theList.isCmd = false;
                         theList.setMode("BASE");
                         break;
+                    case "PAR GROUP":
+                        timer.setMode("PARGRP");
+                        place[0] = 0;
+                        screen.setText(screen.getText() + "\n" + "Mode set to Par Group");
+                        theList.isCmd = false;
+                        theList.setMode("BASE");
+                        break;
                     case "ADD RACERS":
                         state[0] = "ADD";
                         screen.setText(screen.getText() + "\n" + "Use num pad to input bib numbers \n('*' to add and continue, press # to add and finish.)\n#");
@@ -498,7 +505,7 @@ public class Main extends Application {
                         break;
                     case "END RUN":
                         timer.endRun();
-                        screen.setText(screen.getText() + "\n--- Race Results have been uploaded ---");
+                        screen.setText(screen.getText() + "\n--- Race Results have been uploaded --- \n");
                         racer[0] = "";
                         place[0] = 0;
                         break;
@@ -830,6 +837,7 @@ public class Main extends Application {
                     screen.setText(screen.getText() + "\n#");
                 } else if (state[0].equals("TIME_SET")) {
                     timer.setTime(time[0]);
+                    screen.setText(screen.getText() + "\nTime set successfully");
                 }
 
                 else if (state[0].equals("ASSIGN")) {

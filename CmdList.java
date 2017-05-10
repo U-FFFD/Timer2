@@ -19,7 +19,6 @@ public class CmdList {
         cmds.add("DNF");
         cmds.add("PRINT");
         cmds.add("EXPORT");
-        cmds.add("FILE");
         cmds.add("RESET");
         cmds.add("CANCEL");
     }
@@ -55,6 +54,7 @@ public class CmdList {
             cmds.add("GROUP");
             cmds.add("IND");
             cmds.add("PAR IND");
+            cmds.add("PAR GROUP");
         } else if(s.equals("BASE")) {
             state = "BASE";
             cmds.add("EVENT");
@@ -65,7 +65,6 @@ public class CmdList {
             cmds.add("DNF");
             cmds.add("PRINT");
             cmds.add("EXPORT");
-            cmds.add("FILE");
             cmds.add("RESET");
             cmds.add("CANCEL");
         } else{}

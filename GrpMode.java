@@ -125,11 +125,34 @@ class GrpMode implements RaceMode{
         // Put on server here
         int place = 0;
         if(!finishedNumbered.isEmpty()) {
+            int i = 0;
             for (Racer r : finishedNumbered) {
-                RacerData data = new RacerData(++place + "", r.id + "", "nameHere", Time.timeConversion(r.raceTime), "Group");
                 Gson g = new Gson();
-                String jsonRaceData = g.toJson(data);
-                ChronoTimer.sendDataToServer(jsonRaceData);
+                if(i == 0) {
+                    RacerData data = new RacerData(++place + "", r.id + "", "Jeev Sobs", Time.timeConversion(r.raceTime), "Group");
+                    ChronoTimer.sendDataToServer(g.toJson(data));
+                    i++;
+                }
+                else if(i == 1) {
+                    RacerData data = new RacerData(++place + "", r.id + "", "Gill Bates", Time.timeConversion(r.raceTime), "Group");
+                    ChronoTimer.sendDataToServer(g.toJson(data));
+                    i++;
+                }
+                else if(i == 2) {
+                    RacerData data = new RacerData(++place + "", r.id + "", "Tinus Lorvalds", Time.timeConversion(r.raceTime), "Group");
+                    ChronoTimer.sendDataToServer(g.toJson(data));
+                    i++;
+                }
+                else if(i == 3) {
+                    RacerData data = new RacerData(++place + "", r.id + "", "Rennis Ditchie", Time.timeConversion(r.raceTime), "Group");
+                    ChronoTimer.sendDataToServer(g.toJson(data));
+                    i++;
+                }
+                else {
+                    RacerData data = new RacerData(++place + "", r.id + "", "", Time.timeConversion(r.raceTime), "Group");
+                    ChronoTimer.sendDataToServer(g.toJson(data));
+                    i++;
+                }
             }
             export();
         }

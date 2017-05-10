@@ -129,11 +129,29 @@ class IndMode implements RaceMode{
     public void endRun(){
         // Put on server here
         if(!finishedList.isEmpty()) {
+            int i = 0;
             for (Racer r : finishedList) {
-                RacerData data = new RacerData("", r.id + "", "nameHere", Time.timeConversion(r.raceTime), "Ind");
                 Gson g = new Gson();
-                String jsonRaceData = g.toJson(data);
-                ChronoTimer.sendDataToServer(jsonRaceData);
+                if(i == 0) {
+                    RacerData data = new RacerData("", r.id + "", "Jeev Sobs", Time.timeConversion(r.raceTime), "Ind");
+                    ChronoTimer.sendDataToServer(g.toJson(data));
+                }
+                else if (i == 1) {
+                    RacerData data = new RacerData("", r.id + "", "Gill Bates", Time.timeConversion(r.raceTime), "Ind");
+                    ChronoTimer.sendDataToServer(g.toJson(data));
+                }
+                else if (i == 2) {
+                    RacerData data = new RacerData("", r.id + "", "Tinus Lorvalds", Time.timeConversion(r.raceTime), "Ind");
+                    ChronoTimer.sendDataToServer(g.toJson(data));
+                } else if (i == 3) {
+                    RacerData data = new RacerData("", r.id + "", "Rennis Ditchie" , Time.timeConversion(r.raceTime), "Ind");
+                    ChronoTimer.sendDataToServer(g.toJson(data));
+                }
+                else {
+                    RacerData data = new RacerData("", r.id + "", "", Time.timeConversion(r.raceTime), "Ind");
+                    ChronoTimer.sendDataToServer(g.toJson(data));
+                }
+                i++;
             }
             export();
         }
