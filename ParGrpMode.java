@@ -131,7 +131,7 @@ class ParGrpMode implements RaceMode{
             Racer tmp = racerLanes[i];
             if (tmp.endTime == 0){
               if (!racing){
-                "Lane " + (i + 1) + " Racer " + tmp.id + " waiting to race\n";
+                s += "Lane " + (i + 1) + " Racer " + tmp.id + " waiting to race\n";
               } else {
                 s += "Lane " + (i + 1) + " Racer " + tmp.id + " still racing\n";
               }
