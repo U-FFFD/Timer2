@@ -22,6 +22,8 @@ class ParGrpMode implements RaceMode{
 
     // This array keeps up to 8 racing racers
     Racer[] racerLanes = new Racer[8];
+    // finished list for exported file
+    protected ArrayList<Racer> finishedList = new ArrayList<Racer>();
     // Tracks how many initialized racers
     int numRacers = 0;
     boolean racing = false;
@@ -94,6 +96,7 @@ class ParGrpMode implements RaceMode{
           BigDecimal bd = new BigDecimal(tmp.raceTime);
           bd = bd.setScale(2, RoundingMode.HALF_UP);
           tmp.raceTime = bd.doubleValue();
+          finishedList.add(tmp);
         }
 
       }
@@ -144,7 +147,19 @@ class ParGrpMode implements RaceMode{
     }
 
 
-    public void export(){
+     public void export(){
+        // SAVE HERE
+        Gson g = new Gson();
+        String out = g.toJson(finishedList);
+        
+    
 
+        Path file = Paths.get(("RUN00" + runNum + ".txt"));
+        ++runNum;
+        try {
+            Files.write(file, out.getBytes("UTF-8"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
