@@ -37,8 +37,7 @@ class ParGrpMode implements RaceMode{
     /** Add a racer to the waiting queue */
     public void addRacer(int id){
       if (numRacers < 8){
-        racerLanes[numRacers].id = id;
-        numRacers++;
+        racerLanes[numRacers] = new Racer(id);
       }
     }
 
@@ -112,8 +111,10 @@ class ParGrpMode implements RaceMode{
     public String print(){
       String s = "";
       for (int i = 0; i < 8; i++){
-        s += racerLanes[i].toString();
-        s += "\n";
+        if (racerLanes[i] != null){
+          s += racerLanes[i].toString();
+          s += "\n";
+        }
       }
       return s;
     }
@@ -125,11 +126,13 @@ class ParGrpMode implements RaceMode{
         String s = "\n\n---------------\n";
 
         for (int i = 0; i < 8; i++){
-          Racer tmp = racerLanes[i];
-          if (tmp.endTime == 0){
-            s += "Lane " + (i + 1) + "still racing\n";
-          } else {
-            s += "Lane " + (i + 1) + "time: " + tmp.raceTime + "\n";
+          if (racerLanes[i] != null){
+            Racer tmp = racerLanes[i];
+            if (tmp.endTime == 0){
+              s += "Lane " + (i + 1) + "still racing\n";
+            } else {
+              s += "Lane " + (i + 1) + "time: " + tmp.raceTime + "\n";
+            }
           }
         }
 
