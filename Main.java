@@ -447,6 +447,218 @@ public class Main extends Application {
         leftArrow.setTranslateY(100);
         rightArrow.setTranslateY(101);
 
+        /*////////////////////////////////////////////////////////
+                        CHANNEL GRID
+         *///////////////////////////////////////////////////////
+        final boolean[] isArmed = new boolean[8];
+        GridPane channelGrid = new GridPane();
+        channelGrid.setAlignment(Pos.CENTER);
+        channelGrid.setHgap(12);
+        channelGrid.setVgap(6);
+        channelGrid.setMaxSize(300, 206);
+        channelGrid.setTranslateX(0);
+        channelGrid.setTranslateY(-124);
+        channelGrid.setStyle("-fx-background-color: #3c7cc4;");
+
+        final ToggleButton ch1 = new ToggleButton();
+        final ToggleButton ch2 = new ToggleButton();
+        final ToggleButton ch3 = new ToggleButton();
+        final ToggleButton ch4 = new ToggleButton();
+        final ToggleButton ch5 = new ToggleButton();
+        final ToggleButton ch6 = new ToggleButton();
+        final ToggleButton ch7 = new ToggleButton();
+        final ToggleButton ch8 = new ToggleButton();
+
+        final RadioButton rb1 = new RadioButton();
+        final RadioButton rb2 = new RadioButton();
+        final RadioButton rb3 = new RadioButton();
+        final RadioButton rb4 = new RadioButton();
+        final RadioButton rb5 = new RadioButton();
+        final RadioButton rb6 = new RadioButton();
+        final RadioButton rb7 = new RadioButton();
+        final RadioButton rb8 = new RadioButton();
+
+        Label armLabel = new Label("Enable/Disable");
+        Label armLabel2 = new Label("Enable/Disable");
+        Label startText = new Label("Start");
+        Label finishText = new Label("Finish");
+        Label lCh1 = new Label("  1");
+        Label lCh2 = new Label("  2");
+        Label lCh3 = new Label("  3");
+        Label lCh4 = new Label("  4");
+        Label lCh5 = new Label("  5");
+        Label lCh6 = new Label("  6");
+        Label lCh7 = new Label("  7");
+        Label lCh8 = new Label("  8");
+
+        lCh1.setId("label-bright");
+        lCh2.setId("label-bright");
+        lCh3.setId("label-bright");
+        lCh4.setId("label-bright");
+        lCh5.setId("label-bright");
+        lCh6.setId("label-bright");
+        lCh7.setId("label-bright");
+        lCh8.setId("label-bright");
+
+        ch1.setId("start-toggle-button");
+        ch3.setId("start-toggle-button");
+        ch5.setId("start-toggle-button");
+        ch7.setId("start-toggle-button");
+        ch2.setId("finish-toggle-button");
+        ch4.setId("finish-toggle-button");
+        ch6.setId("finish-toggle-button");
+        ch8.setId("finish-toggle-button");
+
+        channelGrid.add(lCh1, 1, 0);
+        channelGrid.add(lCh3, 2, 0);
+        channelGrid.add(lCh5, 3, 0);
+        channelGrid.add(lCh7, 4, 0);
+
+        channelGrid.add(startText, 0, 1);
+        channelGrid.add(ch1, 1, 1);
+        channelGrid.add(ch3, 2, 1);
+        channelGrid.add(ch5, 3, 1);
+        channelGrid.add(ch7, 4, 1);
+
+        channelGrid.add(armLabel, 0, 2);
+        channelGrid.add(rb1, 1, 2);
+        channelGrid.add(rb3, 2, 2);
+        channelGrid.add(rb5, 3, 2);
+        channelGrid.add(rb7, 4, 2);
+
+        channelGrid.add(lCh2, 1, 3);
+        channelGrid.add(lCh4, 2, 3);
+        channelGrid.add(lCh6, 3, 3);
+        channelGrid.add(lCh8, 4, 3);
+
+        channelGrid.add(finishText, 0, 4);
+        channelGrid.add(ch2, 1, 4);
+        channelGrid.add(ch4, 2, 4);
+        channelGrid.add(ch6, 3, 4);
+        channelGrid.add(ch8, 4, 4);
+
+        channelGrid.add(armLabel2, 0, 5);
+        channelGrid.add(rb2, 1, 5);
+        channelGrid.add(rb4, 2, 5);
+        channelGrid.add(rb6, 3, 5);
+        channelGrid.add(rb8, 4, 5);
+
+        /////////////////     LISTENERS     ////////////////////////
+        rb1.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                timer.toggleChannel("1");
+            }
+        });
+        rb2.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                timer.toggleChannel("2");
+            }
+        });
+        rb3.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                timer.toggleChannel("3");
+            }
+        });
+        rb4.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                timer.toggleChannel("4");
+            }
+        });
+        rb5.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                timer.toggleChannel("5");
+            }
+        });
+        rb6.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                timer.toggleChannel("6");
+            }
+        });
+        rb7.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                timer.toggleChannel("7");
+            }
+        });
+        rb8.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                timer.toggleChannel("8");
+            }
+        });
+
+        ch1.setOnAction(new EventHandler<ActionEvent>() { //WORKS
+            @Override
+            public void handle(ActionEvent event) {
+                timer.triggerChannel("1");
+                screen.setText(screen.getText() + timer.mode.format());
+            }
+        });
+        ch2.setOnAction(new EventHandler<ActionEvent>() { //WORKS
+            @Override
+            public void handle(ActionEvent event) {
+                timer.triggerChannel("2");
+                screen.setText(screen.getText() + timer.mode.format());
+
+                if( (timer.mode instanceof GrpMode ) && ((GrpMode)timer.mode).allFinished() ) {
+                    screen.setText(screen.getText() + "All racers have finished. \nEnter the bib number for each racer\n Press * for next racer." +
+                            "\nUse the # key to clear current number.");
+                    state[0] = "ASSIGN";
+                    place[0] = (place[0] + 1);
+                    screen.setText(screen.getText() + "\nPosition " + place[0] + ":    #");
+                }
+            }
+        });
+        ch3.setOnAction(new EventHandler<ActionEvent>() { //WORKS
+            @Override
+            public void handle(ActionEvent event) {
+                timer.triggerChannel("3");
+                screen.setText(screen.getText() + timer.mode.format());
+            }
+        });
+        ch4.setOnAction(new EventHandler<ActionEvent>() { //WORKS
+            @Override
+            public void handle(ActionEvent event) {
+                timer.triggerChannel("4");
+                screen.setText(screen.getText() + timer.mode.format());
+            }
+        });
+        ch5.setOnAction(new EventHandler<ActionEvent>() { //WORKS
+            @Override
+            public void handle(ActionEvent event) {
+                timer.triggerChannel("5");
+                screen.setText(screen.getText() + timer.mode.format());
+            }
+        });
+        ch6.setOnAction(new EventHandler<ActionEvent>() { //WORKS
+            @Override
+            public void handle(ActionEvent event) {
+                timer.triggerChannel("6");
+                screen.setText(screen.getText() + timer.mode.format());
+            }
+        });
+        ch7.setOnAction(new EventHandler<ActionEvent>() { //WORKS
+            @Override
+            public void handle(ActionEvent event) {
+                timer.triggerChannel("7");
+                screen.setText(screen.getText() + timer.mode.format());
+            }
+        });
+        ch8.setOnAction(new EventHandler<ActionEvent>() { //WORKS
+            @Override
+            public void handle(ActionEvent event) {
+                timer.triggerChannel("8");
+                screen.setText(screen.getText() + timer.mode.format());
+            }
+        });
+        ////////    END CHANNEL GRID ///////////////////
+
         // Listeners
         final CmdList theList = new CmdList();
         fnButton.setOnAction(new EventHandler<ActionEvent>() {
@@ -499,6 +711,14 @@ public class Main extends Application {
                         theList.isCmd = false;
                         break;
                     case "NEW RUN":
+                        rb1.setSelected(false);
+                        rb2.setSelected(false);
+                        rb3.setSelected(false);
+                        rb4.setSelected(false);
+                        rb5.setSelected(false);
+                        rb6.setSelected(false);
+                        rb7.setSelected(false);
+                        rb8.setSelected(false);
                         place[0] = 0;
                         racer[0] = "";
                         timer.newRun();
@@ -522,15 +742,24 @@ public class Main extends Application {
                         break;
                     case "RESET" :
                         state[0] = "BASE";
-                        time[0] = "";
+                        timer.reset();
                         timer.setTime("00:00:00");
-                        theList.state = "BASE";
-                        final int[] lastCmdLength = {0};
+                        racer[0] = "";
                         screen.setText("");
+                        time[0] = "";
+                        theList.state = "BASE";
+                        lastCmdLength[0] = 0;
                         theList.isCmd = false;
                         theList.i = -1;
                         place[0] = 0;
-                        timer.reset();
+                        rb1.setSelected(false);
+                        rb2.setSelected(false);
+                        rb3.setSelected(false);
+                        rb4.setSelected(false);
+                        rb5.setSelected(false);
+                        rb6.setSelected(false);
+                        rb7.setSelected(false);
+                        rb8.setSelected(false);
                         break;
                     case "CANCEL" :
                         timer.mode.cancel();
@@ -909,217 +1138,6 @@ public class Main extends Application {
         grid.add(keyPound, 2, 3);
         //////////////////// END BUTTON GRID ////////////////////
 
-        /*////////////////////////////////////////////////////////
-                        CHANNEL GRID
-         *///////////////////////////////////////////////////////
-        final boolean[] isArmed = new boolean[8];
-        GridPane channelGrid = new GridPane();
-        channelGrid.setAlignment(Pos.CENTER);
-        channelGrid.setHgap(12);
-        channelGrid.setVgap(6);
-        channelGrid.setMaxSize(300, 206);
-        channelGrid.setTranslateX(0);
-        channelGrid.setTranslateY(-124);
-        channelGrid.setStyle("-fx-background-color: #3c7cc4;");
-
-        final ToggleButton ch1 = new ToggleButton();
-        final ToggleButton ch2 = new ToggleButton();
-        final ToggleButton ch3 = new ToggleButton();
-        final ToggleButton ch4 = new ToggleButton();
-        final ToggleButton ch5 = new ToggleButton();
-        final ToggleButton ch6 = new ToggleButton();
-        final ToggleButton ch7 = new ToggleButton();
-        final ToggleButton ch8 = new ToggleButton();
-
-        final RadioButton rb1 = new RadioButton();
-        final RadioButton rb2 = new RadioButton();
-        final RadioButton rb3 = new RadioButton();
-        final RadioButton rb4 = new RadioButton();
-        final RadioButton rb5 = new RadioButton();
-        final RadioButton rb6 = new RadioButton();
-        final RadioButton rb7 = new RadioButton();
-        final RadioButton rb8 = new RadioButton();
-
-        Label armLabel = new Label("Enable/Disable");
-        Label armLabel2 = new Label("Enable/Disable");
-        Label startText = new Label("Start");
-        Label finishText = new Label("Finish");
-        Label lCh1 = new Label("  1");
-        Label lCh2 = new Label("  2");
-        Label lCh3 = new Label("  3");
-        Label lCh4 = new Label("  4");
-        Label lCh5 = new Label("  5");
-        Label lCh6 = new Label("  6");
-        Label lCh7 = new Label("  7");
-        Label lCh8 = new Label("  8");
-
-        lCh1.setId("label-bright");
-        lCh2.setId("label-bright");
-        lCh3.setId("label-bright");
-        lCh4.setId("label-bright");
-        lCh5.setId("label-bright");
-        lCh6.setId("label-bright");
-        lCh7.setId("label-bright");
-        lCh8.setId("label-bright");
-
-        ch1.setId("start-toggle-button");
-        ch3.setId("start-toggle-button");
-        ch5.setId("start-toggle-button");
-        ch7.setId("start-toggle-button");
-        ch2.setId("finish-toggle-button");
-        ch4.setId("finish-toggle-button");
-        ch6.setId("finish-toggle-button");
-        ch8.setId("finish-toggle-button");
-
-        channelGrid.add(lCh1, 1, 0);
-        channelGrid.add(lCh3, 2, 0);
-        channelGrid.add(lCh5, 3, 0);
-        channelGrid.add(lCh7, 4, 0);
-
-        channelGrid.add(startText, 0, 1);
-        channelGrid.add(ch1, 1, 1);
-        channelGrid.add(ch3, 2, 1);
-        channelGrid.add(ch5, 3, 1);
-        channelGrid.add(ch7, 4, 1);
-
-        channelGrid.add(armLabel, 0, 2);
-        channelGrid.add(rb1, 1, 2);
-        channelGrid.add(rb3, 2, 2);
-        channelGrid.add(rb5, 3, 2);
-        channelGrid.add(rb7, 4, 2);
-
-        channelGrid.add(lCh2, 1, 3);
-        channelGrid.add(lCh4, 2, 3);
-        channelGrid.add(lCh6, 3, 3);
-        channelGrid.add(lCh8, 4, 3);
-
-        channelGrid.add(finishText, 0, 4);
-        channelGrid.add(ch2, 1, 4);
-        channelGrid.add(ch4, 2, 4);
-        channelGrid.add(ch6, 3, 4);
-        channelGrid.add(ch8, 4, 4);
-
-        channelGrid.add(armLabel2, 0, 5);
-        channelGrid.add(rb2, 1, 5);
-        channelGrid.add(rb4, 2, 5);
-        channelGrid.add(rb6, 3, 5);
-        channelGrid.add(rb8, 4, 5);
-
-        /////////////////     LISTENERS     ////////////////////////
-        rb1.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                timer.toggleChannel("1");
-            }
-        });
-        rb2.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                timer.toggleChannel("2");
-            }
-        });
-        rb3.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                timer.toggleChannel("3");
-            }
-        });
-        rb4.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                timer.toggleChannel("4");
-            }
-        });
-        rb5.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                timer.toggleChannel("5");
-            }
-        });
-        rb6.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                timer.toggleChannel("6");
-            }
-        });
-        rb7.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                timer.toggleChannel("7");
-            }
-        });
-        rb8.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                timer.toggleChannel("8");
-            }
-        });
-
-        ch1.setOnAction(new EventHandler<ActionEvent>() { //WORKS
-            @Override
-            public void handle(ActionEvent event) {
-                timer.triggerChannel("1");
-                screen.setText(screen.getText() + timer.mode.format());
-            }
-        });
-        ch2.setOnAction(new EventHandler<ActionEvent>() { //WORKS
-            @Override
-            public void handle(ActionEvent event) {
-                timer.triggerChannel("2");
-                screen.setText(screen.getText() + timer.mode.format());
-
-                if( (timer.mode instanceof GrpMode ) && ((GrpMode)timer.mode).allFinished() ) {
-                    screen.setText(screen.getText() + "All racers have finished. \nEnter the bib number for each racer\n Press * for next racer." +
-                            "\nUse the # key to clear current number.");
-                    state[0] = "ASSIGN";
-                    place[0] = (place[0] + 1);
-                    screen.setText(screen.getText() + "\nPosition " + place[0] + ":    #");
-                }
-            }
-        });
-        ch3.setOnAction(new EventHandler<ActionEvent>() { //WORKS
-            @Override
-            public void handle(ActionEvent event) {
-                timer.triggerChannel("3");
-                screen.setText(screen.getText() + timer.mode.format());
-            }
-        });
-        ch4.setOnAction(new EventHandler<ActionEvent>() { //WORKS
-            @Override
-            public void handle(ActionEvent event) {
-                timer.triggerChannel("4");
-                screen.setText(screen.getText() + timer.mode.format());
-            }
-        });
-        ch5.setOnAction(new EventHandler<ActionEvent>() { //WORKS
-            @Override
-            public void handle(ActionEvent event) {
-                timer.triggerChannel("5");
-                screen.setText(screen.getText() + timer.mode.format());
-            }
-        });
-        ch6.setOnAction(new EventHandler<ActionEvent>() { //WORKS
-            @Override
-            public void handle(ActionEvent event) {
-                timer.triggerChannel("6");
-                screen.setText(screen.getText() + timer.mode.format());
-            }
-        });
-        ch7.setOnAction(new EventHandler<ActionEvent>() { //WORKS
-            @Override
-            public void handle(ActionEvent event) {
-                timer.triggerChannel("7");
-                screen.setText(screen.getText() + timer.mode.format());
-            }
-        });
-        ch8.setOnAction(new EventHandler<ActionEvent>() { //WORKS
-            @Override
-            public void handle(ActionEvent event) {
-                timer.triggerChannel("8");
-                screen.setText(screen.getText() + timer.mode.format());
-            }
-        });
-        ////////    END CHANNEL GRID ///////////////////
 
         //////////////  SHAPES /////////////////////////////
         Rectangle display = new Rectangle(308, 260);
@@ -1209,6 +1227,14 @@ public class Main extends Application {
                     stage.show();
                     isOn[0] = true;
                 } else {
+                    rb1.setSelected(false);
+                    rb2.setSelected(false);
+                    rb3.setSelected(false);
+                    rb4.setSelected(false);
+                    rb5.setSelected(false);
+                    rb6.setSelected(false);
+                    rb7.setSelected(false);
+                    rb8.setSelected(false);
                     pwrButton.setId("waiting-button");
                     root.getChildren().add(18, cover);
                     rt.setToValue(1.0);
