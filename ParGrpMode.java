@@ -24,7 +24,7 @@ class ParGrpMode implements RaceMode{
     Racer[] racerLanes = new Racer[8];
     // Tracks how many initialized racers
     int numRacers = 0;
-    bool racing = false;
+    boolean racing = false;
 
     public ParGrpMode(Time t){
         theTimer = t;
@@ -91,7 +91,7 @@ class ParGrpMode implements RaceMode{
 
           BigDecimal bd = new BigDecimal(tmp.raceTime);
           bd = bd.setScale(2, RoundingMode.HALF_UP);
-          finished.raceTime = bd.doubleValue();
+          tmp.raceTime = bd.doubleValue();
         }
 
       }
@@ -110,7 +110,12 @@ class ParGrpMode implements RaceMode{
     }
 
     public String print(){
-
+      String s = "";
+      for (int i = 0; i < 8; i++){
+        s += racerLanes[i].toString();
+        s += "\n";
+      }
+      return s;
     }
 
     public void swap() { }
@@ -118,6 +123,15 @@ class ParGrpMode implements RaceMode{
 
     public String format() {
         String s = "\n\n---------------\n";
+
+        for (int i = 0; i < 8; i++){
+          Racer tmp = racerLanes[i];
+          if (tmp.endTime == 0){
+            s += "Lane " + (i + 1) + "still racing\n";
+          } else {
+            s += "Lane " + (i + 1) + "time: " + tmp.raceTime + "\n";
+          }
+        }
 
         return s;
     }
