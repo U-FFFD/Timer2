@@ -57,9 +57,11 @@ class ParGrpMode implements RaceMode{
 
 
     }
-    /** Returns all currently racing to the waiting queue */
-    public void cancel(){
-
+    /** Returns all currently racing back to starting line */
+     public void cancel(){
+    	racing = false;
+    	 for (int i = 0; i < numRacers; i++){
+    	        racerLanes[i].endTime = 0.0;
     }
 
     /** Triggers a start event */
@@ -119,9 +121,6 @@ class ParGrpMode implements RaceMode{
       }
       return s;
     }
-
-    public void swap() { }
-
 
     public String format() {
         String s = "\n\n---------------\n";
