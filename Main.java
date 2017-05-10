@@ -368,7 +368,7 @@ public class Main extends Application {
         scroll.setMaxSize(260, 212);
         Scene scene = new Scene(scroll, 252, 212);
         scroll.setTranslateY(120);
-        scroll.setStyle("-fx-background-color: #7faae2");
+        scroll.setStyle("-fx-background-color: #6b98d3");
         screen.wrappingWidthProperty().bind(scene.widthProperty());
         scroll.setFitToWidth(true);
         scroll.setContent(vBox);
@@ -1146,7 +1146,7 @@ public class Main extends Application {
         display.setTranslateY(130);
 
         Rectangle innerDisplay = new Rectangle(272, 216);
-        innerDisplay.setStyle("-fx-fill: #7faae2");
+        innerDisplay.setStyle("-fx-fill: #6b98d3");
         innerDisplay.setTranslateX(0);
         innerDisplay.setTranslateY(120);
 
