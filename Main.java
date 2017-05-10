@@ -725,7 +725,8 @@ public class Main extends Application {
                         break;
                     case "END RUN":
                         timer.endRun();
-                        screen.setText(screen.getText() + "\n--- Race Results have been uploaded --- \n");
+                        screen.setText(screen.getText() + "\n-Race Results have been uploaded-");
+                        theList.isCmd = false;
                         racer[0] = "";
                         place[0] = 0;
                         break;

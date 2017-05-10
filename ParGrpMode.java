@@ -112,8 +112,8 @@ class ParGrpMode implements RaceMode{
     private Racer[] sort(Racer[] racers) {
         Racer[] sorted = racers.clone();
         for (int i = 0; i < sorted.length; i++) {
-            for ( int j = 0; j < sorted.length; j++) {
-                if((sorted[i].endTime < sorted[j].endTime) && (sorted[i].endTime != sorted[j].endTime)) {
+            for ( int j = i; j < sorted.length; j++) {
+                if((sorted[i] != null) && (sorted[j] != null) && (sorted[i].endTime < sorted[j].endTime) && (sorted[i].endTime != sorted[j].endTime)) {
                     Racer temp = sorted[j];
                     sorted[j] = sorted[i];
                     sorted[i] = temp;
@@ -128,7 +128,7 @@ class ParGrpMode implements RaceMode{
         racerLanes = sort(racerLanes);
         ArrayList<Racer> racerList = new ArrayList<Racer>();
         for (Racer r : racerLanes) {
-            if (!(r.endTime == 0)) {
+            if (r != null && r.endTime != 0) {
                 racerList.add(r);
             }
         }
